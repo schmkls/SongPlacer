@@ -76,6 +76,9 @@ const Nav = (props) => {
                                 <a href={pages.nearme.fullUrl}>Near me</a>
                             </li>
                             <li>
+                                <a href={pages.searchUser.fullUrl}>Search</a>
+                            </li>
+                            <li>
                                 <a href={pages.logout.fullUrl}>Logout</a>
                             </li>
                         </ul>

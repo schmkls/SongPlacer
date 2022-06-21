@@ -62,6 +62,10 @@ export default function App() {
                 pages.nearme.element
               }/>
 
+              <Route path={pages.searchUser.fullUrl} element={
+                pages.searchUser.element
+              }/>
+
               <Route path={pages.notfound.fullUrl} element={
                 pages.notfound.element
               }/>

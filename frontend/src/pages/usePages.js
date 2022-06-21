@@ -3,10 +3,11 @@ import PlaylistCreate from "./library/PlaylistCreate";
 import Playlist from "./library/Playlist";
 import SongPlaceCreate from "./library/SongplaceCreate";
 import Logout from "./handleUser/Logout";
+import SearchUser from "./explore/SearchUser";
 import NoPage from "./NoPage";
 
 import { useState } from 'react';
-import NearMe from "./nearMe/NearMe";
+import NearMe from "./explore/NearMe";
 
 
 /**
@@ -51,6 +52,12 @@ export default function usePages(){
             urlEnding: "/near-me", 
             name: "Near me", 
             element: <NearMe/>
+        },
+        searchUser: {
+            fullUrl: "/search-user", 
+            urlEnding: "/search-user", 
+            name: "Search for user", 
+            element: <SearchUser/>
         },
         notfound: {
             fullUrl: '*', 

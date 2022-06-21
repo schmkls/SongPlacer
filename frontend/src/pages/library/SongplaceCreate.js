@@ -95,7 +95,7 @@ const SongPlaceCreate = () => {
           <input
             required
             type="number"
-            min="0"
+            min="-90"
             max="90"
             step="0.01"
             onChange={(e) => setLatitude(e.target.value)}
@@ -106,7 +106,7 @@ const SongPlaceCreate = () => {
           <input
             required
             type="number"
-            min="0"
+            min="-180"
             max="180"
             step="0.01"
             onChange={(e) => setLongitude(e.target.value)}
