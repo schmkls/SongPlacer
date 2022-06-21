@@ -67,3 +67,9 @@ Contributions are much appreciated! You can contribute by:
 - Giving feedback to mickels.martin@gmail.com
 - Creating feature branches and developing features
 - Writing your ideas in [ideas.MD](https://github.com/schmkls/GeoMusica/blob/dev/ideas.MD) followed by a parenthesis with your name, like: `My idea (Myname Mynamesson)`
+
+## Todos
+* View other users
+* Map
+* Connect to Spotify
+* Safe login
