@@ -2,6 +2,8 @@ import {React, useState, useEffect} from 'react';
 import Axios from 'axios';
 import Globals from '../../globals/Globals.css'
 
+const ERROR = 1;
+
 const SearchUser = (props) => {
 
     //all users, set once at page load
@@ -9,6 +11,8 @@ const SearchUser = (props) => {
 
     //users to be displayed when searching
     const [displayUsers, setDisplayUsers] = useState([]);
+    
+    const [status, setStatus] = useState();
 
     /**
      * Search for users and set users to display. 
@@ -19,7 +23,8 @@ const SearchUser = (props) => {
         const searchStr = str.toLowerCase();
 
         if (searchStr === '') {
-            setDisplayUsers(users);
+            setDisplayUsers([]);
+            return;
         }
 
         users = users.filter(user => {
@@ -39,13 +44,13 @@ const SearchUser = (props) => {
     useEffect(() => {
         Axios.get("http://localhost:3001/get-users")
         .then((response) => {
-            const users = response.data;
-            setAllUsers(users);
-            setDisplayUsers(users);
+            setAllUsers(response.data);
         }).catch((err) => {
+            setStatus(ERROR);
             console.log(err);
         });
     }, []);
+
 
     return (
         <div className='margin-top'>
@@ -54,6 +59,12 @@ const SearchUser = (props) => {
                 displayUsers.map((data, index) => (
                     <h2 key={index}>{data.username}</h2>
                 ))
+            }
+            {
+                status === ERROR ? 
+                        <h2>Error: users could not be retrieved</h2>
+                    :   
+                        <></>
             }
         </div>
     )
