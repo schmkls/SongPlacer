@@ -2,6 +2,26 @@
 Explore songs through places
 
 ## User guide
+Requierements:
+* node 
+* npm
+* MYSQL
+
+Start the server 
+<code>
+    cd server
+    node index.js
+</code>
+
+Start the client/frontend
+<code>
+    cd frontend
+    npm install
+    npm start
+</code>
+
+Go to <code>http://localhost:3000/</code> and the application should appear. 
+
 
 ## Prototype
 [Prototype in Figma with Spotify](https://www.figma.com/proto/GMXkqlo1kXkc7yVs8LngPi/SongPlacer?node-id=268%3A661&scaling=scale-down&page-id=0%3A1&starting-point-node-id=268%3A661&show-proto-sidebar=1)
