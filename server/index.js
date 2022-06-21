@@ -84,7 +84,17 @@ const db = mysql.createConnection({
         });
 });
 
+app.get('/get-users', (req, res) => {
+    db.query("SELECT * FROM users", (err, result) => {
+        if (err) {
+            return res.status(500).json({
+                message: "Could not get users"
+            });
+        }
 
+        return res.status(200).json(result);
+    });
+});
 
 
 /**

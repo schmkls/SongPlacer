@@ -1,9 +1,10 @@
 import {React, useState, useEffect} from 'react';
+import Axios from 'axios';
 import Globals from '../../globals/Globals.css'
 
 const SearchUser = (props) => {
 
-    //all users
+    //all users, set once at page load
     const [allUsers, setAllUsers] = useState([]);
 
     //users to be displayed when searching
@@ -22,16 +23,13 @@ const SearchUser = (props) => {
         }
 
         users = users.filter(user => {
-            if (user.str.includes(searchStr)) {
-                console.log(user.str + " includes " + searchStr);
+            const username = user.username.toLowerCase();
+            if (username.includes(searchStr)) {
                 return true;
             }
         })
 
         setDisplayUsers(users);
-        
-        users.map((user) => console.log(user.str));
-
     }
 
 
@@ -39,9 +37,14 @@ const SearchUser = (props) => {
      * Fetch all users
      */
     useEffect(() => {
-        const users = [{str: 'aaa'}, {str: 'bbb'}];
-        setAllUsers(users);
-        setDisplayUsers(users);
+        Axios.get("http://localhost:3001/get-users")
+        .then((response) => {
+            const users = response.data;
+            setAllUsers(users);
+            setDisplayUsers(users);
+        }).catch((err) => {
+            console.log(err);
+        });
     }, []);
 
     return (
@@ -49,7 +52,7 @@ const SearchUser = (props) => {
             <input placeholder='Search users' onChange={(e) => searchUsers(e.target.value)}/>
             {
                 displayUsers.map((data, index) => (
-                    <h2 key={index}>{data.str}</h2>
+                    <h2 key={index}>{data.username}</h2>
                 ))
             }
         </div>
