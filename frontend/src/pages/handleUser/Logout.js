@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import Globals from '../../globals/Globals.css'
 
 
 const Logout = () => {
 
-    const navigate = useNavigate();
 
     const logout = () => {
         localStorage.clear();
@@ -12,7 +10,7 @@ const Logout = () => {
     }
 
     const goBack = () => {
-        navigate(-1);
+        window.history.go(-1);
     }
 
     return (

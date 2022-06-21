@@ -58,7 +58,6 @@ const db = mysql.createConnection({
     const userId = req.body.userId;
     const playlistId = req.body.playlistId;
 
-    console.log("checking if " + userId + " owns " + playlistId);
     const checkQuery = "SELECT * FROM playlists " + 
                         "WHERE user_id = ? AND id = ?";
     db.query(checkQuery, 
@@ -69,8 +68,6 @@ const db = mysql.createConnection({
                     message: "Could not verify playlist ownership"
                 });
             }
-
-            console.log("")
 
             if (result.length > 0) {
                 return res.status(200).json({

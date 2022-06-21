@@ -1,11 +1,10 @@
 import './Nav.css';
 import '../../globals/Globals.css';
-import { useState } from 'react';
-import {useNavigate} from "react-router-dom";
-import React from 'react';
+import { React, useState, useContext} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faClose } from '@fortawesome/free-solid-svg-icons';
 import usePages from '../../pages/usePages';
+import { UserContext } from '../../context';
 
 /**
  * Nav bar for app. Shows sidebar on click from < 2 steps in, else 
@@ -16,7 +15,10 @@ const Nav = (props) => {
     //name for and links to pages
     const pagesObj = usePages();
     const pages = pagesObj.pages;
-    
+
+    const context = useContext(UserContext);
+    const currUserId = context.userId;
+
     const getDepth = () => {
         return window.location.href.split("/").length - 2;
     } 
@@ -39,11 +41,10 @@ const Nav = (props) => {
     const [depth, setDepth] = useState(getDepth());
     const [pageTitle, setPageTitle] = useState(getPageTitle());
 
-    const navigate = useNavigate();
    
     const toggle = () => {
         if (depth > 2) {
-            navigate(-1);
+            window.history.go(-1);
             setMenuOpen(false);
         }  else {
             setMenuOpen(!menuOpen);
@@ -70,7 +71,7 @@ const Nav = (props) => {
                     <div className='side-menu'> 
                         <ul>
                             <li>
-                                <a href={pages.library.fullUrl}>Library</a>
+                                <a href={pages.myLibrary.fullUrl}>Library</a>
                             </li>
                             <li>
                                 <a href={pages.nearme.fullUrl}>Near me</a>

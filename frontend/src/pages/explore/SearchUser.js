@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import Axios from 'axios';
 import Globals from '../../globals/Globals.css'
+import ListedUser from '../../components/common/ListedUser';
 
 const ERROR = 1;
 
@@ -18,7 +19,6 @@ const SearchUser = (props) => {
      * Search for users and set users to display. 
      */
     const searchUsers = (str) => {
-        console.log("searching for user: " + str);
         let users = allUsers;
         const searchStr = str.toLowerCase();
 
@@ -56,8 +56,8 @@ const SearchUser = (props) => {
         <div className='margin-top'>
             <input placeholder='Search users' onChange={(e) => searchUsers(e.target.value)}/>
             {
-                displayUsers.map((data, index) => (
-                    <h2 key={index}>{data.username}</h2>
+                displayUsers.map((user, index) => (
+                    <ListedUser user={user} key={index}/>
                 ))
             }
             {

@@ -7,8 +7,10 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import Globals from '../../globals/Globals.css';
 import ListedPlaylist from '../../components/common/ListedPlaylist'
 
-
-const MyPlaylists = () => {
+/**
+ * @returns library of given owner
+ */
+const Library = () => {
 
     const userContext = useContext(UserContext);
     const userId = userContext.userId;
@@ -23,7 +25,6 @@ const MyPlaylists = () => {
      * Fetches playlists after render 
      */
      useEffect(()=> {
-        console.log("userId is " + userContext.userId);
 
         //notice backticks ` 
         const getURL = `http://localhost:3001/library/${userId}`;
@@ -54,13 +55,16 @@ const MyPlaylists = () => {
                             <ListedPlaylist playlist={playlist} key={index}></ListedPlaylist>
                         ))
             }
-
+     
+                
             <a href={window.location.href + pages.addplaylist.urlEnding}>
-            <FontAwesomeIcon icon={faCirclePlus} size='4x' className='icon add-button'/>
+                <FontAwesomeIcon icon={faCirclePlus} size='4x' className='icon add-button'/>
             </a>
+              
+            
         </div>
     );
 
 }
 
-export default MyPlaylists;
+export default Library;

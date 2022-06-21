@@ -7,6 +7,8 @@ const NoPage = () => {
     const pagesObj = usePages();
     const pages = pagesObj.pages;
 
+
+
     return (
         <div className='margin-top'>
             <h2>Not a page</h2>

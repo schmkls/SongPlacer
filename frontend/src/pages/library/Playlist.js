@@ -125,7 +125,7 @@ const Playlist = () => {
                 ))
             }
             
-            <a href={window.location.href + pages.addsongplace.urlEnding}>
+            <a href={window.location.href + pages.addsongplace.urlEnding}>  
             <FontAwesomeIcon icon={faCirclePlus} size='4x' className='icon add-button'/>
             </a>
             

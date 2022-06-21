@@ -1,10 +1,11 @@
-import MyPlaylists from "./library/MyPlaylists";
+import Library from "./library/Library";
 import PlaylistCreate from "./library/PlaylistCreate";
 import Playlist from "./library/Playlist";
 import SongPlaceCreate from "./library/SongplaceCreate";
 import Logout from "./handleUser/Logout";
 import SearchUser from "./explore/SearchUser";
 import NoPage from "./NoPage";
+import Nav from "../components/navigation/Nav";
 
 import { useState } from 'react';
 import NearMe from "./explore/NearMe";
@@ -17,51 +18,52 @@ import NearMe from "./explore/NearMe";
 export default function usePages(){
     
     const pages = {
-        library: {
-            fullUrl: '/library',
-            urlEnding: '/library', 
+        navbar: {
+            fullUrl: 'all',
+            element: <Nav/>
+        },
+        myLibrary: {
+            fullUrl: new URL('http://localhost:3000/library'),
             name: 'My library',
-            element: <MyPlaylists/>
+            element: <Library/>
+        },
+        library: {
+            fullUrl: new URL('http://localhost:3000/library'),
+            name: 'Library of some user wihu',
+            element: <Library/>
         },
         addsongplace: {
-            fullUrl: '/library/playlist-view/:playlistName/:playlistId/add-songplace',
-            urlEnding: '/add-songplace', 
+            fullUrl: new URL('http://localhost:3000/library/add-songplace'),
             name: 'Add a songplace', 
             element: <SongPlaceCreate/>
         }, 
         addplaylist: {
-            fullUrl: '/library/create-playlist',  
+            fullUrl: new URL('http://localhost:3000/library/add-playlist'),  
             urlEnding: '/create-playlist', 
             name: 'Add a playlist', 
             element: <PlaylistCreate/>
         }, 
         specificplaylist: {
-            fullUrl: '/library/playlist-view/:playlistName/:playlistId',
-            urlEnding: '/playlist-view',
+            fullUrl: new URL('http://localhost:3000/library/playlist-view'),
             name: 'Playlist', 
             element: <Playlist/>
         },
         logout: {
-            fullUrl: '/handle-user/logout', 
-            urlEnding: '/handle-user/logout', 
+            fullUrl: new URL('http://localhost:3000/logout-user'), 
             name: 'Logout', 
             element: <Logout/>
         },
         nearme: {
-            fullUrl: "/near-me", 
-            urlEnding: "/near-me", 
+            fullUrl: new URL("http://localhost:3000/near-me"), 
             name: "Near me", 
             element: <NearMe/>
         },
         searchUser: {
-            fullUrl: "/search-user", 
-            urlEnding: "/search-user", 
+            fullUrl: new URL("http://localhost:3000/search-user"), 
             name: "Search for user", 
             element: <SearchUser/>
         },
         notfound: {
-            fullUrl: '*', 
-            urlEnding: '*', 
             name: 'Page not found', 
             element: <NoPage/>
         }
