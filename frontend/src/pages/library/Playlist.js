@@ -4,27 +4,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import '../../globals/Globals.css';
 import './Library.css';
-import { UserContext } from "../../context";
+import { UserContext } from '../../context';
 import usePages from '../usePages';
 import ListedSongPlace from '../../components/common/ListedSongplace';
-import { useParams } from 'react-router-dom';
 import EditPlaylist from '../../components/common/EditPlaylist';
 
 const Playlist = () => {
 
-    const pagesObj = usePages();
-    const pages = pagesObj.pages;
+    const pagesHelp = usePages();
+    const pages = pagesHelp.pages;
     
     const context = useContext(UserContext);
     const userId = context.userId;
 
     const currUrl = new URL(window.location.href);
-    const playlistId = currUrl.searchParams.get('id');
+    const playlistId = currUrl.searchParams.get('playlist-id');
+    console.log('pl id: ' + playlistId);
 
 
     const [songplaces, setSongplaces] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [plName, setPlaylistName] = useState("spellistenamn wihu");
+    const [plName, setPlaylistName] = useState('spellistenamn wihu');
     const [showEdit, setShowEdit] = useState(false);
 
     const [isOwned, setIsOwned] = useState(false);
@@ -38,17 +38,9 @@ const Playlist = () => {
         .then((response) => {
             setSongplaces(response.data);
         }).catch((err) => {
-            console.log("get songplaces error");
+            console.log('get songplaces error');
         });
 
-    }
-
-    const deleteSongplaces = (ids) => {
-
-    }
-
-    const deletePlaylistdetails = (ids) => {
-        
     }
 
     /**
@@ -61,20 +53,37 @@ const Playlist = () => {
 
         Axios.delete(deleteUrl).then((response) => {
             if (!response.status == 200) {
-                console.log("playlist could not be deleted, status = " + response.status);
+                console.log('playlist could not be deleted, status = ' + response.status);
             } else {
-                window.location.href = pages.library.fullUrl;
+                window.history.go(-1);
             }
         }).catch((err) => {
-            console.log("playlist could not be deleted");
+            console.log('playlist could not be deleted');
         });
     }
  
     const handleDeleteClick = () => {
-        if (window.confirm("Delete playlist?")) {
+        if (window.confirm('Delete playlist?')) {
             deletePlaylist();
         }
     }
+
+    const getAddClickLocation = () => {
+        let url = pagesHelp.getURL(pages.addsongplace);
+        url.searchParams.set('playlist-id', playlistId);
+        url.searchParams.set('playlist-name', plName);
+        return url;
+    }
+
+
+    /**
+     * Sets loading to false if data has been fetched
+     */
+     useEffect(() => {
+        if (songplaces !== null && songplaces !== undefined) {
+            setLoading(false);
+        }
+    }, [songplaces]);
 
 
     /**
@@ -84,31 +93,46 @@ const Playlist = () => {
         getSongPlaces();
     }, []);
 
-  
+
     /**
-     * Might set loading to false (if data has been fetched), after render
+     * Sets playlist name
      */
-    useEffect(() => {
-        if (songplaces !== null && songplaces !== undefined) {
-            setLoading(false);
-        }
-    }, [songplaces]);
+     useEffect(()=> {
+        Axios.get(`http://localhost:3001/get-playlist/${playlistId}`).then((response) => {
+            if (response.status == 200) {
+                console.log("get name data: " + JSON.stringify(response.data[0].name));
+                setPlaylistName(response.data[0].name)
+            } else {
+                console.log("get playlist name error: ");
+            }
+        }).catch((err) => console.log("get playlist name error: " + err));
+    }, []);
+
+    /**
+     * Sets isOwned to true if user owns playlist
+     */
+     useEffect(()=> {
+        getSongPlaces();
+    }, []);
+
+  
+    
 
     /**
      * Check if user owns playlist and sets variable 'isOwned'
      */
      useEffect(() => {
-        Axios.post("http://localhost:3001/verify-playlist-ownership", {
+        Axios.post('http://localhost:3001/verify-playlist-ownership', {
             playlistId: playlistId, 
             userId: userId
         }).then((response) => {
             if (response.status != 200) {
-                console.log("Could not verify playlist ownership");
+                console.log('Could not verify playlist ownership');
                 setIsOwned(false);
             }
             setIsOwned(response.data.ownership);
         }).catch((err) => {
-            console.log("Could not verify playlist ownership");
+            console.log('Could not verify playlist ownership');
             setIsOwned(false);
         }); 
     }, []);
@@ -126,7 +150,7 @@ const Playlist = () => {
                 ))
             }
             
-            <a href={window.location.href + pages.addsongplace.urlEnding}>  
+            <a href={getAddClickLocation()}>  
             <FontAwesomeIcon icon={faCirclePlus} size='4x' className='icon add-button'/>
             </a>
             

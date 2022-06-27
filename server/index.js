@@ -15,7 +15,13 @@ const db = mysql.createConnection({
 
 
 
-/*---------ROUTES-------------------------------------------------------*/
+/*-----------------------------------------------------
+
+    ROUTES 
+
+
+
+-------------------------------------------------------*/
 
 
 /**
@@ -117,7 +123,7 @@ app.get('/get-users', (req, res) => {
             message: "Password can not be empty"
         });
     }
-    /* 
+     
     //check that username is unique
     db.query('SELECT * FROM users WHERE username = ?', 
         [userName], (err, result) => {
@@ -133,7 +139,7 @@ app.get('/get-users', (req, res) => {
                 });
             }
             
-        }); */
+        }); 
     
 
     //post the user
@@ -268,6 +274,24 @@ app.put("/library/:userId/update-playlist/:playlistId", (req, res) => {
             if (err) {
                 return res.status(500).json({
                     message: "Get playlists error"
+                });
+            } 
+
+            return res.status(200).json(result);
+        });
+});
+
+/**
+ * Get playlist by id. 
+ */
+app.get('/get-playlist/:playlistId', (req, res) => {
+    const playlistId = req.params.playlistId;
+
+    db.query('SELECT name FROM playlists WHERE id = ?', 
+        [playlistId], (err, result) => {
+            if (err) {
+                return res.status(500).json({
+                    message: "Get playlist error"
                 });
             } 
 

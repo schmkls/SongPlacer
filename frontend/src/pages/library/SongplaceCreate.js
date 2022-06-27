@@ -23,8 +23,11 @@ const SongPlaceCreate = () => {
   //success of connecting songplace to playlist
   const [connectStatus, setConnectStatus] = useState(UNKNOWN);
 
-  const { playlistId } = useParams();
-  const { playlistName } = useParams();
+  const currUrl = new URL(window.location.href);
+  const playlistId = currUrl.searchParams.get('playlist-id');
+  const playlistName = currUrl.searchParams.get('playlist-name');
+
+
 
   /**
    * Posts songplace and returns id.

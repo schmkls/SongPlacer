@@ -26,14 +26,9 @@ export default function usePages() {
             path: 'all',
             element: <Nav/>
         },
-        myLibrary: {
-            path: '/library',
-            name: 'My library',
-            element: <Library/>
-        },
         library: {
             path: '/library',
-            name: 'Library of some user wihu',
+            name: 'Library',
             element: <Library/>
         },
         addsongplace: {

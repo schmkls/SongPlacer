@@ -16,7 +16,7 @@ import { useSearchParams } from "react-router-dom";
 
     const openPlaylist = () => {
         let url = pagesHelp.getURL(pages.specificplaylist);
-        url.searchParams.set('id', playlistId);
+        url.searchParams.set('playlist-id', playlistId);
         window.location.href = url;
     }
 

@@ -38,10 +38,8 @@ export default function App() {
       
       var page = pages[key];      
 
-      console.log("checking if " + window.location.pathname + " equals " + page.path);
       // eslint-disable-next-line eqeqeq  
       if (window.location.pathname == page.path || page.path === 'all') {
-        console.log("adding " + page.name)
         result.push(page.element);
       }
     }
