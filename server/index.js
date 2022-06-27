@@ -89,6 +89,9 @@ const db = mysql.createConnection({
         });
 });
 
+/**
+ * Get all users
+ */
 app.get('/get-users', (req, res) => {
     db.query("SELECT * FROM users", (err, result) => {
         if (err) {
@@ -100,6 +103,27 @@ app.get('/get-users', (req, res) => {
         return res.status(200).json(result);
     });
 });
+
+
+/**
+ * Get username by id
+ */
+ app.get('/get-username/:userId', (req, res) => {
+
+    const userId = req.params.userId;
+
+    db.query("SELECT username FROM users WHERE id = ?", [userId], (err, result) => {
+        if (err) {
+            return res.status(500).json({
+                message: "Could not get users"
+            });
+        }
+
+        return res.status(200).json(result);
+    });
+});
+
+
 
 
 /**

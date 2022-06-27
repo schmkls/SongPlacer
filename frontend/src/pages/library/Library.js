@@ -18,6 +18,7 @@ const Library = () => {
     const pagesHelp= usePages();
     const pages = pagesHelp.pages;
 
+    const [username, setUsername] = useState();
     const [playlists, setPlaylists] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
@@ -25,7 +26,6 @@ const Library = () => {
      * Fetches playlists after render 
      */
      useEffect(()=> {
-
         //notice backticks ` 
         const getURL = `http://localhost:3001/library/${userId}`;
         
@@ -44,8 +44,19 @@ const Library = () => {
     }
     }, [playlists]);
 
+
+    /**
+     * Sets username
+     */
+     useEffect(() => {
+        Axios.get(`http://localhost:3001/get-username/${userId}`).then((response) => {
+        setUsername(response.data[0].username);
+        }).catch((err) => console.log("get username error: " + err))
+    }, []);
+
     return (
         <div className='library-outmost margin-top'>
+            <h4>{username}'s library</h4>
             {console.log("returning my library")}
             {
                 isLoading ? 

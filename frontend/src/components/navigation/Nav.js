@@ -19,6 +19,10 @@ const Nav = (props) => {
     const context = useContext(UserContext);
     const currUserId = context.userId;
 
+    //library url with user-id param
+    let libraryUrl = pagesHelp.getURL(pages.library);
+    libraryUrl.searchParams.set('userId', currUserId);
+
     const getDepth = () => {
         return window.location.href.split("/").length - 2;
     } 
@@ -40,6 +44,7 @@ const Nav = (props) => {
             setMenuOpen(!menuOpen);
         }
     }
+
     
     return (
         <div className='nav-bar'>
@@ -61,7 +66,7 @@ const Nav = (props) => {
                     <div className='side-menu'> 
                         <ul>
                             <li>
-                                <a href={pagesHelp.getURL(pages.library)}>Library</a>
+                                <a href={libraryUrl}>Library</a>
                             </li>
                             <li>
                                 <a href={pagesHelp.getURL(pages.nearme)}>Near me</a>

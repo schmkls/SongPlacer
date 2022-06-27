@@ -42,7 +42,7 @@ export default function usePages() {
             element: <PlaylistCreate/>
         }, 
         specificplaylist: {
-            path: '/playlist-view',
+            path: '/playlist',
             name: 'Playlist', 
             element: <Playlist/>
         },
