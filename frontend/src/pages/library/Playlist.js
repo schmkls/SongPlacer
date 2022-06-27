@@ -18,12 +18,13 @@ const Playlist = () => {
     const context = useContext(UserContext);
     const userId = context.userId;
 
-    const { playlistName } = useParams();
-    const { playlistId } = useParams();
+    const currUrl = new URL(window.location.href);
+    const playlistId = currUrl.searchParams.get('id');
+
 
     const [songplaces, setSongplaces] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [plName, setPlaylistName] = useState(playlistName);
+    const [plName, setPlaylistName] = useState("spellistenamn wihu");
     const [showEdit, setShowEdit] = useState(false);
 
     const [isOwned, setIsOwned] = useState(false);
@@ -94,7 +95,7 @@ const Playlist = () => {
     }, [songplaces]);
 
     /**
-     * Check if user owns playlist and sets variable 'usersPlaylist'
+     * Check if user owns playlist and sets variable 'isOwned'
      */
      useEffect(() => {
         Axios.post("http://localhost:3001/verify-playlist-ownership", {
