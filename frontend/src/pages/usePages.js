@@ -31,6 +31,11 @@ export default function usePages() {
             name: 'Library',
             element: <Library/>
         },
+        otherUserLibrary: {
+            path: '/search/library',
+            name: 'Search user',
+            element: <Library/>
+        },
         addsongplace: {
             path: '/library/add-songplace',
             name: 'Add a songplace', 
