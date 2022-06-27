@@ -25,7 +25,8 @@ const Library = () => {
     const [username, setUsername] = useState();
     const [playlists, setPlaylists] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [isOwned, setIsOwned] = useState(currUser == userId);
+    const isOwned = (currUser == userId);
+
 
     /**
      * Fetches playlists after render 
