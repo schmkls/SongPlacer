@@ -21,7 +21,7 @@ const Nav = (props) => {
 
     //library url with user-id param
     let libraryUrl = pagesHelp.getURL(pages.library);
-    libraryUrl.searchParams.set('userId', currUserId);
+    libraryUrl.searchParams.set('user-id', currUserId);
 
     const getDepth = () => {
         return window.location.href.split("/").length - 2;

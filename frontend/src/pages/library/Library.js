@@ -13,7 +13,11 @@ import ListedPlaylist from '../../components/common/ListedPlaylist'
 const Library = () => {
 
     const userContext = useContext(UserContext);
-    const userId = userContext.userId;
+    const currUser = userContext.userId;
+
+    //owner of library
+    const currUrl = new URL(window.location.href);
+    const userId = currUrl.searchParams.get('user-id');
 
     const pagesHelp= usePages();
     const pages = pagesHelp.pages;
@@ -21,6 +25,7 @@ const Library = () => {
     const [username, setUsername] = useState();
     const [playlists, setPlaylists] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const [isOwned, setIsOwned] = useState(currUser == userId);
 
     /**
      * Fetches playlists after render 
@@ -54,6 +59,7 @@ const Library = () => {
         }).catch((err) => console.log("get username error: " + err))
     }, []);
 
+
     return (
         <div className='library-outmost margin-top'>
             <h4>{username}'s library</h4>
@@ -67,12 +73,14 @@ const Library = () => {
                         ))
             }
      
-                
-            <a href={pagesHelp.getURL(pages.addplaylist)}>
-                <FontAwesomeIcon icon={faCirclePlus} size='4x' className='icon add-button'/>
-            </a>
-              
-            
+            {
+                isOwned ? 
+                    <a href={pagesHelp.getURL(pages.addplaylist)}>
+                        <FontAwesomeIcon icon={faCirclePlus} size='4x' className='icon add-button'/>
+                    </a>
+                :
+                    <></>
+            }
         </div>
     );
 
