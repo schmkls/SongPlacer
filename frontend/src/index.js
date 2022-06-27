@@ -29,17 +29,18 @@ export default function App() {
     const result = [];
 
     console.log("getting elements");
+
     for (var key in pages) {
+
       if (!pages.hasOwnProperty(key))  {
         continue;
       }
-
+      
       var page = pages[key];      
 
-      console.log("checking if " + window.location.href + " equals " + page.fullUrl)
-
-      // eslint-disable-next-line eqeqeq
-      if (window.location.href == page.fullUrl || page.fullUrl === 'all') {
+      console.log("checking if " + window.location.pathname + " equals " + page.path);
+      // eslint-disable-next-line eqeqeq  
+      if (window.location.pathname == page.path || page.path === 'all') {
         console.log("adding " + page.name)
         result.push(page.element);
       }

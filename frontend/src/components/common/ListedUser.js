@@ -16,13 +16,12 @@ const ListedUser = (props) => {
 
     const isCurrentUser = (currUserId === user.id);
 
-    const pages = usePages().pages;
+    const pagesHelp = usePages();
+    const pages = pagesHelp.pages;
 
     const openUser = (userId) => {
         console.log("opening user " + userId);
-        window.location.href = pages.library.fullUrl;
 
-        //todo redir till library med prop indk om äger
     }
 
     return (

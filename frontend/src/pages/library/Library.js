@@ -15,8 +15,8 @@ const Library = () => {
     const userContext = useContext(UserContext);
     const userId = userContext.userId;
 
-    const pagesObj = usePages();
-    const pages = pagesObj.pages;
+    const pagesHelp= usePages();
+    const pages = pagesHelp.pages;
 
     const [playlists, setPlaylists] = useState([]);
     const [isLoading, setLoading] = useState(true);
@@ -57,7 +57,7 @@ const Library = () => {
             }
      
                 
-            <a href={window.location.href + pages.addplaylist.urlEnding}>
+            <a href={pagesHelp.getURL(pages.addplaylist)}>
                 <FontAwesomeIcon icon={faCirclePlus} size='4x' className='icon add-button'/>
             </a>
               

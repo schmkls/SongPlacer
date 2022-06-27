@@ -8,10 +8,12 @@ app.use(express.json());
 
 const db = mysql.createConnection({
     user: 'root', 
-    password: '', 
+    password: '',
     host: 'localhost', 
     database: 'songplacer', 
 });
+
+
 
 /*---------ROUTES-------------------------------------------------------*/
 
@@ -115,7 +117,7 @@ app.get('/get-users', (req, res) => {
             message: "Password can not be empty"
         });
     }
-
+    /* 
     //check that username is unique
     db.query('SELECT * FROM users WHERE username = ?', 
         [userName], (err, result) => {
@@ -131,13 +133,14 @@ app.get('/get-users', (req, res) => {
                 });
             }
             
-        });
+        }); */
     
 
     //post the user
     db.query('INSERT INTO users (username, password) VALUES (?,?)', 
         [userName, password], (err, result) => {
             if (err) {
+                console.log("create user error: " + err);
                 return res.status(500).json({
                     message: "Create user error"
                 });

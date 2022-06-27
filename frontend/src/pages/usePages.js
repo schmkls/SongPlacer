@@ -1,66 +1,69 @@
-import Library from "./library/Library";
-import PlaylistCreate from "./library/PlaylistCreate";
-import Playlist from "./library/Playlist";
-import SongPlaceCreate from "./library/SongplaceCreate";
-import Logout from "./handleUser/Logout";
-import SearchUser from "./explore/SearchUser";
-import NoPage from "./NoPage";
-import Nav from "../components/navigation/Nav";
+import Library from './library/Library';
+import PlaylistCreate from './library/PlaylistCreate';
+import Playlist from './library/Playlist';
+import SongPlaceCreate from './library/SongplaceCreate';
+import Logout from './handleUser/Logout';
+import SearchUser from './explore/SearchUser';
+import NoPage from './NoPage';
+import Nav from '../components/navigation/Nav';
 
 import { useState } from 'react';
-import NearMe from "./explore/NearMe";
+import NearMe from './explore/NearMe';
 
 
 /**
-   * Have routes and name of page that user should see. Pages with 1 or more '/'-signs will be will have a go-back-option
-   * instead of open/close-navbar-option.   
-   */
-export default function usePages(){
-    
+ * Knows urls and associated elements.
+ * Has functionality to get name (to display in navbar for example) for a route, 
+ * URL or URLSearchParams for route.  
+ *  
+ */
+export default function usePages() {
+
+    const urlBeginning = 'http://localhost:3000';
+
     const pages = {
         navbar: {
-            fullUrl: 'all',
+            path: 'all',
             element: <Nav/>
         },
         myLibrary: {
-            fullUrl: new URL('http://localhost:3000/library'),
+            path: '/library',
             name: 'My library',
             element: <Library/>
         },
         library: {
-            fullUrl: new URL('http://localhost:3000/library'),
+            path: '/library',
             name: 'Library of some user wihu',
             element: <Library/>
         },
         addsongplace: {
-            fullUrl: new URL('http://localhost:3000/library/add-songplace'),
+            path: '/library/add-songplace',
             name: 'Add a songplace', 
             element: <SongPlaceCreate/>
         }, 
         addplaylist: {
-            fullUrl: new URL('http://localhost:3000/library/add-playlist'),  
-            urlEnding: '/create-playlist', 
+            path: '/library/add-playlist',  
             name: 'Add a playlist', 
             element: <PlaylistCreate/>
         }, 
         specificplaylist: {
-            fullUrl: new URL('http://localhost:3000/library/playlist-view'),
+            path: '/playlist-view',
             name: 'Playlist', 
             element: <Playlist/>
         },
         logout: {
-            fullUrl: new URL('http://localhost:3000/logout-user'), 
+            path: '/logout-user', 
             name: 'Logout', 
             element: <Logout/>
         },
         nearme: {
-            fullUrl: new URL("http://localhost:3000/near-me"), 
-            name: "Near me", 
+            path: '/near-me', 
+            name: 'Near me', 
             element: <NearMe/>
         },
         searchUser: {
-            fullUrl: new URL("http://localhost:3000/search-user"), 
-            name: "Search for user", 
+            path: '/search-user', 
+            name: 'Search for user', 
             element: <SearchUser/>
         },
         notfound: {
@@ -69,12 +72,33 @@ export default function usePages(){
         }
     }
 
-    const getEnding = (page) => {
-        return window.location.href;
+    /** 
+     * @param page amongst the pages
+     * @returns url associated to page
+     */
+    const getURL = (page) => {
+        return new URL(urlBeginning + page.path);
+    }
+
+
+    /**
+     * Return name for current location
+     * 
+     * @param pathName last part of location, like for example: '/library' 
+     */
+    const getName = (pathName) => {
+        for (var key in pages) {
+            if (pages[key].path === pathName) {
+                return pages[key].name;
+            }
+        }
+
+        console.log("could not associated name for path: " + pathName);
     }
 
     return {
         pages, 
-        getEnding
+        getURL, 
+        getName
     }
 }

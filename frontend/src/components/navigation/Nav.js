@@ -13,8 +13,8 @@ import { UserContext } from '../../context';
 const Nav = (props) => {
 
     //name for and links to pages
-    const pagesObj = usePages();
-    const pages = pagesObj.pages;
+    const pagesHelp = usePages();
+    const pages = pagesHelp.pages;
 
     const context = useContext(UserContext);
     const currUserId = context.userId;
@@ -24,17 +24,7 @@ const Nav = (props) => {
     } 
 
     const getPageTitle = () => {
-        let currentLocation = window.location.pathname;
-
-        for (let pair in pages) {
-            if (!pages.hasOwnProperty(pair)) continue;
-
-            let obj = pages[pair];
-            let urlEnding = obj['urlEnding'];
-            if (urlEnding === currentLocation) {
-                return obj['name'];
-            }
-        }
+        return pagesHelp.getName(window.location.pathname);
     }
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -71,16 +61,16 @@ const Nav = (props) => {
                     <div className='side-menu'> 
                         <ul>
                             <li>
-                                <a href={pages.myLibrary.fullUrl}>Library</a>
+                                <a href={pagesHelp.getURL(pages.library)}>Library</a>
                             </li>
                             <li>
-                                <a href={pages.nearme.fullUrl}>Near me</a>
+                                <a href={pagesHelp.getURL(pages.nearme)}>Near me</a>
                             </li>
                             <li>
-                                <a href={pages.searchUser.fullUrl}>Search</a>
+                                <a href={pagesHelp.getURL(pages.searchUser)}>Search</a>
                             </li>
                             <li>
-                                <a href={pages.logout.fullUrl}>Logout</a>
+                                <a href={pagesHelp.getURL(pages.logout)}>Logout</a>
                             </li>
                         </ul>
                     </div>
