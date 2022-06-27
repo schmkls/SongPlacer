@@ -50,11 +50,33 @@ const NearMe = () => {
     }, []);
 
 
-    //calculates distance between two points a and b
-    const calcDistance = (aLat, aLong, bLat, bLong) => {
-        let vert = aLat - bLat;
-        let horz = aLong - bLong;
-        return Math.sqrt(vert * vert + horz * horz);
+    /**
+     * Calculate distance between two points a and b of lat and long. 
+     * Taken fromn: https://www.movable-type.co.uk/scripts/latlong.html
+     * @param aLat point a latitude
+     * @param aLong point a longitude
+     * @param bLat point b latitude
+     * @param bLong point b longitude
+     * @returns distance between given points
+     */
+    const calcDistance = (lat1, lon1, lat2, lon2) => {
+
+        const R = 6371e3; // metres
+        const φ1 = lat1 * Math.PI/180; // φ, λ in radians
+        const φ2 = lat2 * Math.PI/180;
+        const Δφ = (lat2-lat1) * Math.PI/180;
+        const Δλ = (lon2-lon1) * Math.PI/180;
+
+        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        const distance = R * c; // in metres
+
+        console.log("distance: " + distance);
+        
+        return distance;
     }
 
 
@@ -97,7 +119,7 @@ const NearMe = () => {
                     <input
                         required
                         type="number"
-                        min="0"
+                        min="-90"
                         max="90"
                         step="0.01"
                         onChange={(e) => setLat(e.target.value)}
@@ -108,7 +130,7 @@ const NearMe = () => {
                     <input
                         required
                         type="number"
-                        min="0"
+                        min="-180"
                         max="180"
                         step="0.01"
                         onChange={(e) => setLong(e.target.value)}

@@ -1,5 +1,4 @@
 import { React, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
 import { UserContext } from "../../context";
 import Globals from "../../globals/Globals.css";
 import Axios from "axios";
