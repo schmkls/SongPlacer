@@ -3,11 +3,17 @@ import { UserContext } from '../../context';
 import Axios from 'axios';
 import Globals from '../../globals/Globals.css';
 import ListedSongPlace from '../../components/common/ListedSongplace';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons'
 
 const SUCCESS = 0;
 const FAIL = 1;
 const LOADING = 2;
 const UNKNOWN = 3;
+
+const AUTOON = 4;
+const PAUSED = 5;
+const UNSUPPORTED = 6;
 
 
 
@@ -22,20 +28,22 @@ const NearMe = () => {
     //used to make page render
     const [updSwitch, setUpdSwitch] = useState(false);
 
-
     //used to store/set user position
     const [lat, setLat] = useState();
     const [long, setLong] = useState();
 
+    //get songplaces status
     const [retrieveStatus, setRetrieveStatus] = useState(UNKNOWN);
 
+    //get user position status
+    const [posStatus, setPosStatus] = useState(UNKNOWN);
 
     const setCoordinates = (position) => {
 
     }
 
     const getCoordinatesErrorHandle = () => {
-        
+
     }
 
     /**
@@ -43,6 +51,12 @@ const NearMe = () => {
      */
        useEffect(()=> {
         //https://www.codeunderscored.com/how-to-get-a-user-location-using-html-and-javascript/
+
+        if (navigator.geolocation) {
+            setPosStatus(PAUSED);
+        } else {
+            setPosStatus(UNSUPPORTED);
+        }
     }, []);
 
 
@@ -124,37 +138,48 @@ const NearMe = () => {
         setUpdSwitch(!updSwitch);
     }
 
+    const pauseAutoPlay = () => {
+        setPosStatus(PAUSED);
+    }
+
+    const startAutoPlay = () => {
+        setPosStatus(AUTOON);
+    }
+
+    const toggleAutoPlay = () => {
+        if (posStatus === AUTOON) {
+            pauseAutoPlay();
+        } 
+
+        if (posStatus === PAUSED) {
+            startAutoPlay();
+        }
+    }
+
     //todo default ens position
     return (
         <div className="margin-top">
-            <form onSubmit={(e) => orderByNearest(e)}>
-                <label>
-                    <p>Latitude</p>
-                    <input
-                        required
-                        type="number"
-                        min="-90"
-                        max="90"
-                        step="0.01"
-                        onChange={(e) => setLat(e.target.value)}
-                    />
-                </label>
-                <label>
-                    <p>Longitude</p>
-                    <input
-                        required
-                        type="number"
-                        min="-180"
-                        max="180"
-                        step="0.01"
-                        onChange={(e) => setLong(e.target.value)}
-                    />
-                </label>
-            
-                <button type="submit">Get nearest music</button>
-            </form>
-            <button onClick={() => window.location.reload()}>Clear</button>
+            {
+                posStatus === UNSUPPORTED ? 
+                        <h5>Auto play not supported in browser</h5>
+                    :
 
+                    posStatus === AUTOON ? 
+                            <div>
+                                <h5>Stop auto play</h5>
+                                <button onClick={() => toggleAutoPlay()}>
+                                    <FontAwesomeIcon icon={faCirclePause} size='2x'/>
+                                </button>
+                            </div>
+                        :
+                            <div>
+                                <h5>Auto play nearest music</h5>
+                                <button onClick={() => toggleAutoPlay()}>
+                                    <FontAwesomeIcon icon={faCirclePlay} size='2x'/>
+                                </button>
+                            </div>
+                    
+            }
             <hr/>
             {
                 retrieveStatus === LOADING ? 
@@ -172,13 +197,11 @@ const NearMe = () => {
                 //return songplaces if they are retrieved
                 retrieveStatus === SUCCESS ? 
                     songplaces.map((songplace, index) => (
-                        <div>
-                            <ListedSongPlace songplace={songplace} key={index} isOwned={false} playlistId={-1}/>
-                        </div>   
+                        <ListedSongPlace songplace={songplace} key={index} isOwned={false} playlistId={-1}/>
                     ))
                 :
                     <></>
-            }                
+            }           
         </div>
     )
 }
