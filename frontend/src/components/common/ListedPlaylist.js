@@ -8,7 +8,6 @@ import { useSearchParams } from "react-router-dom";
  const ListedSongPlace = (props) => {
 
     const playlist = props.playlist;
-    const playlistId = playlist.id;
 
     const pagesHelp = usePages();
     const pages = pagesHelp.pages;
@@ -16,7 +15,7 @@ import { useSearchParams } from "react-router-dom";
 
     const openPlaylist = () => {
         let url = pagesHelp.getURL(pages.specificplaylist);
-        url.searchParams.set('playlist-id', playlistId);
+        url.searchParams.set('playlist-id', playlist.id);
         window.location.href = url;
     }
 

@@ -311,7 +311,7 @@ app.put("/library/:userId/update-playlist/:playlistId", (req, res) => {
 app.get('/get-playlist/:playlistId', (req, res) => {
     const playlistId = req.params.playlistId;
 
-    db.query('SELECT name FROM playlists WHERE id = ?', 
+    db.query('SELECT * FROM playlists WHERE id = ?', 
         [playlistId], (err, result) => {
             if (err) {
                 return res.status(500).json({

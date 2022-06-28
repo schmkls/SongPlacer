@@ -19,8 +19,8 @@ const NearMe = () => {
      //used to store/set songplaces 
      const [songplaces, setSongplaces] = useState();
 
-    //used to store/set songplaces ordered by proximity
-    const [sorted, setSorted] = useState(false);
+    //used to make page render
+    const [updSwitch, setUpdSwitch] = useState(false);
 
 
     //used to store/set user position
@@ -40,7 +40,7 @@ const NearMe = () => {
                 setRetrieveStatus(FAIL);
                 return;
             }   
-
+            console.log("get songplaces response: " + JSON.stringify(response));
             setSongplaces(response.data);
             setRetrieveStatus(SUCCESS);
         }).catch((err) => {
@@ -84,12 +84,6 @@ const NearMe = () => {
      * Orders songplaces by proximity to given position and sets the variable: 'nearest'. 
      */
     const orderByNearest = (e) => {
-        
-        //reset if songplaces already sorted
-        if (sorted) {
-            window.location.reload(true);
-        }
-
         e.preventDefault();     //in order not to reload page
 
         if (lat == null || long == null) {
@@ -99,8 +93,8 @@ const NearMe = () => {
         if (songplaces == null) {
             setRetrieveStatus(FAIL);
             return;
-        }
-
+        }   
+        
         songplaces.sort(function(songplaceA, songplaceB) {
             let aDistance = calcDistance(songplaceA.latitude, songplaceA.longitude, lat, long);
             let bDistance = calcDistance(songplaceB.latitude, songplaceB.longitude, lat, long);
@@ -108,7 +102,7 @@ const NearMe = () => {
             return aDistance - bDistance;
         });
 
-        setSorted(true);
+        setUpdSwitch(!updSwitch);
     }
 
     return (
@@ -136,19 +130,11 @@ const NearMe = () => {
                         onChange={(e) => setLong(e.target.value)}
                     />
                 </label>
-                {
-                    sorted ?
-                            <div>
-                                <button type="submit">Reset</button>
-                            </div>
-                        :
-                            <div>
-                                <button type="submit">Get nearest music</button>
-                            </div>
-
-                }
-                
+            
+                <button type="submit">Get nearest music</button>
             </form>
+            <button onClick={() => window.location.reload()}>Clear</button>
+
             <hr/>
             {
                 retrieveStatus === LOADING ? 
@@ -163,8 +149,8 @@ const NearMe = () => {
                         <></>
             }
             {
-                //return songplaces if they are retrieved and sorted
-                retrieveStatus === SUCCESS && sorted ? 
+                //return songplaces if they are retrieved
+                retrieveStatus === SUCCESS ? 
                     songplaces.map((songplace, index) => (
                         <div>
                             <ListedSongPlace songplace={songplace} key={index} isOwned={false} playlistId={-1}/>

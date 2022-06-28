@@ -33,7 +33,7 @@ export default function usePages() {
         },
         otherUserLibrary: {
             path: '/search/library',
-            name: 'Search user',
+            name: 'Search',
             element: <Library/>
         },
         addsongplace: {
@@ -48,7 +48,7 @@ export default function usePages() {
         }, 
         specificplaylist: {
             path: '/playlist',
-            name: 'Playlist', 
+            name: 'Library', 
             element: <Playlist/>
         },
         logout: {
