@@ -38,13 +38,27 @@ const NearMe = () => {
     //get user position status
     const [posStatus, setPosStatus] = useState(UNSUPPORTED);
 
+
+    /**
+     * Keep updating songplaces if auto play is on. 
+     */
+    const interval = setInterval(function() {
+        if (!posStatus === AUTOON) {
+            return;
+        }
+
+      }, 20000);    //every 20 seconds
+
+
     const setCoordinates = (position) => {
         setLat(position.coords.latitude);
         setLong(position.coords.longitude);
     }
 
     const getCoordinatesErrorHandle = () => {
-
+        setLat();
+        setLong();
+        setPosStatus(FAIL);
     }
 
     /**
@@ -58,10 +72,8 @@ const NearMe = () => {
             return;
         } 
 
-        
         navigator.geolocation.getCurrentPosition(setCoordinates, getCoordinatesErrorHandle);
         setPosStatus(PAUSED);
-
         
     }, []);
 
@@ -116,6 +128,9 @@ const NearMe = () => {
         return distance;
     }
 
+
+
+    //todo: ska vara useEffect som sorterar om när pos ändras??
     
     /**
      * Orders songplaces by proximity to given position and sets the variable: 'nearest'. 
@@ -168,20 +183,28 @@ const NearMe = () => {
         )
     } 
 
+    if (posStatus === FAIL) {
+        return (
+            <div className="margin-top">
+                <h2>Could not get position :(</h2>
+                <button onClick={() => window.location.reload()}>Try again</button>
+            </div>
+        )
+    }
+
     return (
         <div className="margin-top">
             {
                 posStatus === AUTOON ? 
                         <div>
-                            <h5>Current position: (  {lat}, {long} )</h5>
-                            <h5>Stop auto play</h5>
+                            <h5>Playing music from: (  {lat}, {long} )</h5>
                             <button onClick={() => toggleAutoPlay()}>
                                 <FontAwesomeIcon icon={faCirclePause} size='2x'/>
                             </button>
                         </div>
                     :
                         <div>
-                            <h5>Auto play nearest music</h5>
+                            <h5>Play local music</h5>
                             <button onClick={() => toggleAutoPlay()}>
                                 <FontAwesomeIcon icon={faCirclePlay} size='2x'/>
                             </button>
