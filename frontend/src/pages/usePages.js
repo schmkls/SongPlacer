@@ -31,7 +31,7 @@ export default function usePages() {
             name: 'Library',
             element: <Library/>
         },
-        otherUserLibrary: {
+        searchedLibrary: {
             path: '/search/library',
             name: 'Search',
             element: <Library/>
@@ -46,9 +46,14 @@ export default function usePages() {
             name: 'Add a playlist', 
             element: <PlaylistCreate/>
         }, 
-        specificplaylist: {
-            path: '/playlist',
+        playlist: {
+            path: '/library/playlist',
             name: 'Library', 
+            element: <Playlist/>
+        },
+        searchedPlaylist: {
+            path: '/search/playlist',
+            name: 'Search', 
             element: <Playlist/>
         },
         logout: {
@@ -63,7 +68,7 @@ export default function usePages() {
         },
         searchUser: {
             path: '/search-user', 
-            name: 'Search for user', 
+            name: 'Search', 
             element: <SearchUser/>
         },
         notfound: {

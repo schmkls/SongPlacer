@@ -1,5 +1,6 @@
 import usePages from "../../pages/usePages";
-import { useSearchParams } from "react-router-dom";
+import { useContext, React } from "react";
+import { UserContext } from "../../context";
 
 /**
  * @param {*} playlist object
@@ -11,12 +12,22 @@ import { useSearchParams } from "react-router-dom";
 
     const pagesHelp = usePages();
     const pages = pagesHelp.pages;
-    
 
+    const context = useContext(UserContext);
+    const currUser = context.userId;
+
+    const isOwned = (playlist.user_id === currUser);
+    
     const openPlaylist = () => {
-        let url = pagesHelp.getURL(pages.specificplaylist);
-        url.searchParams.set('playlist-id', playlist.id);
-        window.location.href = url;
+        if (isOwned) {
+            let url = pagesHelp.getURL(pages.playlist);
+            url.searchParams.set('playlist-id', playlist.id);
+            window.location.href = url;
+        } else {
+            let url = pagesHelp.getURL(pages.searchedPlaylist);
+            url.searchParams.set('playlist-id', playlist.id);
+            window.location.href = url;
+        }
     }
 
     return (

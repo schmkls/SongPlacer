@@ -21,7 +21,7 @@ const ListedUser = (props) => {
 
     const openUser = (userId) => {
         console.log("opening user " + userId);
-        let url = pagesHelp.getURL(pages.otherUserLibrary);
+        let url = pagesHelp.getURL(pages.searchedLibrary);
         url.searchParams.set('user-id', userId);
         window.location.href = url;
     }
