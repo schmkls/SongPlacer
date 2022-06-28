@@ -11,7 +11,7 @@ const FAIL = 1;
 const LOADING = 2;
 const UNKNOWN = 3;
 
-const AUTOON = 4;
+const PLAYING = 4;
 const PAUSED = 5;
 const UNSUPPORTED = 6;
 
@@ -22,9 +22,6 @@ const NearMe = () => {
     const userContext = useContext(UserContext);
     const userId = userContext.userId;
 
-     //used to store/set songplaces 
-     const [songplaces, setSongplaces] = useState();
-
     //used to make page render
     const [updSwitch, setUpdSwitch] = useState(false);
 
@@ -32,76 +29,31 @@ const NearMe = () => {
     const [lat, setLat] = useState();
     const [long, setLong] = useState();
 
-    //get songplaces status
-    const [retrieveStatus, setRetrieveStatus] = useState(UNKNOWN);
+    //play, paused, or failed
+    const [play, setPlay] = useState(PAUSED);
 
-    //get user position status
-    const [posStatus, setPosStatus] = useState(UNSUPPORTED);
+    //the songplaces that are retrieved once
+    var songplaces = null;
 
-
-    /**
-     * Keep updating songplaces if auto play is on. 
-     */
-    const interval = setInterval(function() {
-        if (!posStatus === AUTOON) {
-            return;
-        }
-
-      }, 20000);    //every 20 seconds
+    //the songplaces to display, sorted by proximity
+    const [displaySongplaces, setDisplaySongplaces] = useState([]);
 
 
-    const setCoordinates = (position) => {
-        setLat(position.coords.latitude);
-        setLong(position.coords.longitude);
-    }
-
-    const getCoordinatesErrorHandle = () => {
-        setLat();
-        setLong();
-        setPosStatus(FAIL);
-    }
+  
 
     /**
-     * Get user position 
+     * Toggling play has the effect of making songplaces order by location 
      */
-       useEffect(()=> {
-        //https://www.codeunderscored.com/how-to-get-a-user-location-using-html-and-javascript/
-
-        if (!navigator.geolocation) {
-            setPosStatus(UNSUPPORTED);
-            return;
-        } 
-
-        navigator.geolocation.getCurrentPosition(setCoordinates, getCoordinatesErrorHandle);
-        setPosStatus(PAUSED);
-        
-    }, []);
+      useEffect(()=> {
+        console.log("useEffect of toggling play")
+        autoPlay();
+    }, [play]);
 
 
-
-    /**
-     * Fetches songplaces after render 
-     */
-    useEffect(()=> {
-        Axios.get("http://localhost:3001/get-songplaces").then((response) => {
-            if (response.status != 200) {
-                console.log("get songplaces response: " + response);
-                setRetrieveStatus(FAIL);
-                return;
-            }   
-            console.log("get songplaces response: " + JSON.stringify(response));
-            setSongplaces(response.data);
-            setRetrieveStatus(SUCCESS);
-        }).catch((err) => {
-            console.log("get songplaces error");
-            setRetrieveStatus(FAIL);
-        });
-    }, []);
-
-
+    
     /**
      * Calculate distance between two points a and b of lat and long. 
-     * Taken fromn: https://www.movable-type.co.uk/scripts/latlong.html
+     * Taken from: https://www.movable-type.co.uk/scripts/latlong.html
      * @param aLat point a latitude
      * @param aLong point a longitude
      * @param bLat point b latitude
@@ -123,59 +75,100 @@ const NearMe = () => {
 
         const distance = R * c; // in metres
 
-        console.log("distance: " + distance);
-        
         return distance;
     }
 
-
-
-    //todo: ska vara useEffect som sorterar om när pos ändras??
-    
     /**
-     * Orders songplaces by proximity to given position and sets the variable: 'nearest'. 
+     * @returns a promise with songplaces
      */
-    const orderByNearest = (e) => {
-        e.preventDefault();     //in order not to reload page
+     const getSongplaces = async() => {
+        return new Promise((res, rej) => {
+            if (songplaces != null) {
+                res(songplaces);
+            }
+    
+            Axios.get("http://localhost:3001/get-songplaces").then((response) => {
+                if (response.status != 200) {
+                    console.log("get songplaces failed, response: " + response);
+                    res(null);
+                }   
+                songplaces = response.data;
+                res(response.data);
+            }).catch((err) => {
+                res(null);
+            });
+        });
+    }
 
-        if (lat == null || long == null) {
+    /**
+     * Gets users current position and then calls function to order songplaces by position
+     */
+    const getUserPosition = () => {
+        if (!navigator.geolocation) {
+            setPlay(UNSUPPORTED);
+            return new Promise();
+        }
+
+        navigator.geolocation.getCurrentPosition(orderByPosition, () => setPlay(FAIL));
+    }
+
+
+    /**
+     * Orders songplaces by proximity to given position 
+     * @param position GeoLocationPosition (from navigator.geolocation.getCurrentPosition)
+     */
+     const orderByPosition = (position) => {
+        const lat = position.coords.latitude;
+        const long = position.coords.longitude;
+
+        setLat(lat);
+        setLong(long);
+
+        console.log("ordering by current position");
+
+        getSongplaces().then((sps) => {
+            if (sps == null) {
+                setPlay(FAIL);
+                return;
+            }
+
+            sps.sort(function(songplaceA, songplaceB) {
+                let aDistance = calcDistance(songplaceA.latitude, songplaceA.longitude, lat, long);
+                let bDistance = calcDistance(songplaceB.latitude, songplaceB.longitude, lat, long);
+                return aDistance - bDistance;
+            });
+            setDisplaySongplaces(sps);
+        }).catch((err) => setPlay(FAIL));
+    }
+
+    /**
+     * Plays (sorts songplaces) while autoplay is on. 
+     * 
+     * Gets user position. 
+     */
+    const autoPlay = () => {
+        if (play === UNSUPPORTED || play === FAIL) {
+            console.log("cannot order")
             return;
         }
 
-        if (songplaces == null) {
-            setRetrieveStatus(FAIL);
-            return;
-        }   
+        getUserPosition();  //function calls function to order songplaces
         
-        songplaces.sort(function(songplaceA, songplaceB) {
-            let aDistance = calcDistance(songplaceA.latitude, songplaceA.longitude, lat, long);
-            let bDistance = calcDistance(songplaceB.latitude, songplaceB.longitude, lat, long);
-
-            return aDistance - bDistance;
-        });
-
-        setUpdSwitch(!updSwitch);
-    }
-
-    const pauseAutoPlay = () => {
-        setPosStatus(PAUSED);
-    }
-
-    const startAutoPlay = () => {
-        setPosStatus(AUTOON);
+        if (PLAYING) {
+            setTimeout(autoPlay, 20000);  //20 seconds
+        }
     }
 
     const toggleAutoPlay = () => {
-        if (posStatus === AUTOON) {
-            pauseAutoPlay();
-        } 
-
-        if (posStatus === PAUSED) {
-            startAutoPlay();
+        if (play === PLAYING) {
+            setPlay(PAUSED);
+        } else {
+            setPlay(PLAYING);
         }
     }
 
-    if (posStatus === UNSUPPORTED) {
+
+    if (play === UNSUPPORTED) {
         return (
             <div className="margin-top">
                 <h2>Auto play not supported in browser :(</h2>
@@ -183,11 +176,11 @@ const NearMe = () => {
         )
     } 
 
-    if (posStatus === FAIL) {
+    if (play === FAIL) {
         return (
             <div className="margin-top">
-                <h2>Could not get position :(</h2>
-                <button onClick={() => window.location.reload()}>Try again</button>
+                <h2>Could not get music by location :(</h2>
+                <button onClick={() => window.location.reload(false)}>Try again</button>
             </div>
         )
     }
@@ -195,7 +188,7 @@ const NearMe = () => {
     return (
         <div className="margin-top">
             {
-                posStatus === AUTOON ? 
+                play === PLAYING ? 
                         <div>
                             <h5>Playing music from: (  {lat}, {long} )</h5>
                             <button onClick={() => toggleAutoPlay()}>
@@ -212,27 +205,14 @@ const NearMe = () => {
                     
             }
             <hr/>
-            {
-                retrieveStatus === LOADING ? 
-                        <h2>Loading...</h2>
+             {
+                play === PLAYING ?
+                        displaySongplaces.map((songplace, index) => (
+                            <ListedSongPlace songplace={songplace} key={index} isOwned={false} playlistId={-1}/>
+                        ))
                     :
                         <></>
-            }
-            {
-                retrieveStatus === FAIL ? 
-                        <h2>Could not get songplaces</h2>
-                    :
-                        <></>
-            }
-            {
-                //return songplaces if they are retrieved
-                retrieveStatus === SUCCESS ? 
-                    songplaces.map((songplace, index) => (
-                        <ListedSongPlace songplace={songplace} key={index} isOwned={false} playlistId={-1}/>
-                    ))
-                :
-                    <></>
-            }           
+             }         
         </div>
     )
     
