@@ -36,10 +36,11 @@ const NearMe = () => {
     const [retrieveStatus, setRetrieveStatus] = useState(UNKNOWN);
 
     //get user position status
-    const [posStatus, setPosStatus] = useState(UNKNOWN);
+    const [posStatus, setPosStatus] = useState(UNSUPPORTED);
 
     const setCoordinates = (position) => {
-
+        setLat(position.coords.latitude);
+        setLong(position.coords.longitude);
     }
 
     const getCoordinatesErrorHandle = () => {
@@ -52,11 +53,16 @@ const NearMe = () => {
        useEffect(()=> {
         //https://www.codeunderscored.com/how-to-get-a-user-location-using-html-and-javascript/
 
-        if (navigator.geolocation) {
-            setPosStatus(PAUSED);
-        } else {
+        if (!navigator.geolocation) {
             setPosStatus(UNSUPPORTED);
-        }
+            return;
+        } 
+
+        
+        navigator.geolocation.getCurrentPosition(setCoordinates, getCoordinatesErrorHandle);
+        setPosStatus(PAUSED);
+
+        
     }, []);
 
 
@@ -111,8 +117,6 @@ const NearMe = () => {
     }
 
     
-
-
     /**
      * Orders songplaces by proximity to given position and sets the variable: 'nearest'. 
      */
@@ -156,28 +160,32 @@ const NearMe = () => {
         }
     }
 
-    //todo default ens position
+    if (posStatus === UNSUPPORTED) {
+        return (
+            <div className="margin-top">
+                <h2>Auto play not supported in browser :(</h2>
+            </div>
+        )
+    } 
+
     return (
         <div className="margin-top">
             {
-                posStatus === UNSUPPORTED ? 
-                        <h5>Auto play not supported in browser</h5>
+                posStatus === AUTOON ? 
+                        <div>
+                            <h5>Current position: (  {lat}, {long} )</h5>
+                            <h5>Stop auto play</h5>
+                            <button onClick={() => toggleAutoPlay()}>
+                                <FontAwesomeIcon icon={faCirclePause} size='2x'/>
+                            </button>
+                        </div>
                     :
-
-                    posStatus === AUTOON ? 
-                            <div>
-                                <h5>Stop auto play</h5>
-                                <button onClick={() => toggleAutoPlay()}>
-                                    <FontAwesomeIcon icon={faCirclePause} size='2x'/>
-                                </button>
-                            </div>
-                        :
-                            <div>
-                                <h5>Auto play nearest music</h5>
-                                <button onClick={() => toggleAutoPlay()}>
-                                    <FontAwesomeIcon icon={faCirclePlay} size='2x'/>
-                                </button>
-                            </div>
+                        <div>
+                            <h5>Auto play nearest music</h5>
+                            <button onClick={() => toggleAutoPlay()}>
+                                <FontAwesomeIcon icon={faCirclePlay} size='2x'/>
+                            </button>
+                        </div>
                     
             }
             <hr/>
@@ -204,6 +212,9 @@ const NearMe = () => {
             }           
         </div>
     )
+    
+
+    
 }
 
 export default NearMe;
