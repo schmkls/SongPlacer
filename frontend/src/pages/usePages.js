@@ -23,7 +23,7 @@ export default function usePages() {
 
     const pages = {
         navbar: {
-            path: 'all',
+            path: 'all', //indicator to display element on all routes
             element: <Nav/>
         },
         library: {

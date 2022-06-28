@@ -30,6 +30,23 @@ const NearMe = () => {
     const [retrieveStatus, setRetrieveStatus] = useState(UNKNOWN);
 
 
+    const setCoordinates = (position) => {
+
+    }
+
+    const getCoordinatesErrorHandle = () => {
+        
+    }
+
+    /**
+     * Get user position 
+     */
+       useEffect(()=> {
+        //https://www.codeunderscored.com/how-to-get-a-user-location-using-html-and-javascript/
+    }, []);
+
+
+
     /**
      * Fetches songplaces after render 
      */
@@ -79,6 +96,8 @@ const NearMe = () => {
         return distance;
     }
 
+    
+
 
     /**
      * Orders songplaces by proximity to given position and sets the variable: 'nearest'. 
@@ -105,6 +124,7 @@ const NearMe = () => {
         setUpdSwitch(!updSwitch);
     }
 
+    //todo default ens position
     return (
         <div className="margin-top">
             <form onSubmit={(e) => orderByNearest(e)}>
