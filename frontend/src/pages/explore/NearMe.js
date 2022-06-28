@@ -137,6 +137,7 @@ const NearMe = () => {
                 let bDistance = calcDistance(songplaceB.latitude, songplaceB.longitude, lat, long);
                 return aDistance - bDistance;
             });
+
             setDisplaySongplaces(sps);
         }).catch((err) => setPlay(FAIL));
     }
@@ -211,7 +212,7 @@ const NearMe = () => {
                             <ListedSongPlace songplace={songplace} key={index} isOwned={false} playlistId={-1}/>
                         ))
                     :
-                        <></>
+                        <h5>Press play to get songplaces from nearby</h5>
              }         
         </div>
     )
