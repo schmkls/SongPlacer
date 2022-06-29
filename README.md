@@ -24,7 +24,7 @@ Go to <code>http://localhost:3000/</code> and the application should appear.
 
 
 ## Prototype
-[Prototype in Figma with Spotify](https://www.figma.com/proto/GMXkqlo1kXkc7yVs8LngPi/SongPlacer?node-id=268%3A661&scaling=scale-down&page-id=0%3A1&starting-point-node-id=268%3A661&show-proto-sidebar=1)
+[Prototype in Figma](https://www.figma.com/proto/GMXkqlo1kXkc7yVs8LngPi/SongPlacer?node-id=268%3A661&scaling=scale-down&page-id=0%3A1&starting-point-node-id=268%3A661&show-proto-sidebar=1)
 
 
 ## Vision
