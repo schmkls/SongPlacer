@@ -6,14 +6,11 @@ import ListedSongPlace from '../../components/common/ListedSongplace';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons'
 
-const SUCCESS = 0;
 const FAIL = 1;
-const LOADING = 2;
-const UNKNOWN = 3;
-
 const PLAYING = 4;
 const PAUSED = 5;
 const UNSUPPORTED = 6;
+const NONALLOWED = 7;
 
 
 
@@ -40,7 +37,6 @@ const NearMe = () => {
 
 
   
-
     /**
      * Toggling play has the effect of making songplaces order by location 
      */
@@ -100,16 +96,26 @@ const NearMe = () => {
         });
     }
 
+    const handleGeolocationFail = (error) => {
+        if (error.code == error.PERMISSION_DENIED) {
+            setPlay(NONALLOWED);
+        } else {
+            setPlay(FAIL);
+        }
+    }
+
     /**
      * Gets users current position and then calls function to order songplaces by position
      */
     const getUserPosition = () => {
+        console.log("getting user pos");
         if (!navigator.geolocation) {
+            console.log("setting play to UNSUPPORTED")
             setPlay(UNSUPPORTED);
             return new Promise();
         }
 
-        navigator.geolocation.getCurrentPosition(orderByPosition, () => setPlay(FAIL));
+        navigator.geolocation.getCurrentPosition(orderByPosition, handleGeolocationFail);
     }
 
 
@@ -149,7 +155,7 @@ const NearMe = () => {
      */
     const autoPlay = () => {
         if (play === UNSUPPORTED || play === FAIL) {
-            console.log("cannot order")
+            console.log("cannot autoplay")
             return;
         }
 
@@ -160,6 +166,10 @@ const NearMe = () => {
         }
     }
 
+    const tryAgain = () => {
+        window.location.reload();
+    }
+
     const toggleAutoPlay = () => {
         if (play === PLAYING) {
             setPlay(PAUSED);
@@ -168,11 +178,19 @@ const NearMe = () => {
         }
     }
 
+    if (play === NONALLOWED){
+        return (
+            <div className="margin-top">
+                <h2>Location access must be allowed in browser</h2>
+                <button onClick={() => tryAgain()}> Try again </button>
+            </div>
+        )
+    }
 
     if (play === UNSUPPORTED) {
         return (
             <div className="margin-top">
-                <h2>Auto play not supported in browser :(</h2>
+                <h2>Browser does not support location</h2>
             </div>
         )
     } 
@@ -180,8 +198,8 @@ const NearMe = () => {
     if (play === FAIL) {
         return (
             <div className="margin-top">
-                <h2>Could not get music by location :(</h2>
-                <button onClick={() => window.location.reload(false)}>Try again</button>
+                <h2>Sorry, could not get music by location.</h2>
+                <button onClick={() => tryAgain()}> Try again </button>
             </div>
         )
     }
