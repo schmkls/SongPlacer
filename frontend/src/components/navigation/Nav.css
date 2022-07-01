@@ -1,0 +1,58 @@
+:root {
+    --top-height: 44px;
+    --color: lightgrey;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: var(--top-height);
+    width: var(--top-height);
+    cursor: pointer;
+}
+
+.nav-btn:active {
+    background-color: darkgrey;
+}
+
+
+.nav-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: var(--top-height);
+    background-color: var(--color);
+    margin-bottom: 2px;
+    text-align: center;
+    justify-content: center;
+}
+
+.nav-bar-transparent {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: var(--top-height);
+    background-color: var(--color);
+    z-index: 0;
+    opacity: 1;
+}
+
+.side-menu {
+    position: fixed;
+    top: var(--top-height);
+    bottom: 0px;
+    left: 0px;
+    width: 130px;
+    background-color: var(--color);
+    font-size: larger;
+}
+
+.page-title {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);;
+}
