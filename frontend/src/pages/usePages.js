@@ -6,10 +6,9 @@ import Logout from './handleUser/Logout';
 import SearchUser from './explore/SearchUser';
 import NoPage from './NoPage';
 import Nav from '../components/navigation/Nav';
-
-import { useState } from 'react';
+import LoginCallback from './handleUser/LoginCallback';
 import NearMe from './explore/NearMe';
-
+import CreateUser from './handleUser/CreateUser';
 
 /**
  * Knows urls and associated elements.
@@ -74,6 +73,19 @@ export default function usePages() {
         notfound: {
             name: 'Page not found', 
             element: <NoPage/>
+        }, 
+        spotifyLoginCallback: {
+            path: '/login-callback',
+            name: 'Spotify login status',
+            element: <LoginCallback/>
+        }, 
+        createUser: {
+            path: '/create-user',
+            name: 'Create user',
+            element: <CreateUser/>
+        }, 
+        authorize: {
+            path: 'https://accounts.spotify.com/en/authorize?client_id=00ec5f716a774d7ba0fd58833ec22323&response_type=code&redirect_uri=http://localhost:3000/login-callback&scope=streaming%20user-read-email%20user-read-private%20user-modify-playback-state'
         }
     }
 

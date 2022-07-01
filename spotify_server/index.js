@@ -6,45 +6,52 @@ const app = express();
 app.use(express.json());
 const cors = require('cors');
 app.use(cors());
+const querystring = require("querystring");
+var SpotifyWebApi = require('spotify-web-api-node');
 
 
 const makeRandomString = (length) => {
     var result           = '';
     const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
+
     return result;
 }
 
-
-//environment variables
-//https://medium.com/codait/environment-variables-or-keeping-your-secrets-secret-in-a-node-js-app-99019dfff716
-//https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
-const client_id = process.env.SONGPLACER_CLIENT_ID;
-const client_secret = process.env.SONGPLACER_CLIENT_SECRET;
-
 const redirect_uri = "http://localhost:3000/near-me";
+console.log("client id = " + process.env.SONGPLACER_CLIENT_ID);
 
 app.listen(3002, () => {
     console.log("Spotify server running on port 3002");
 });
 
 
-app.get('/login', function(req, res) {
+app.post('/login', (req, res) => {
+    const code = req.body.code;
+    console.log("login code is " + code);
 
-    console.log("trying to login");
-
-    var state = makeRandomString(16);
-    var scope = 'user-read-private user-read-email';
+    const spotifyApi = new SpotifyWebApi({
+      redirectUri: 'http://localhost:3000/login-callback',
+      clientId: process.env.SONGPLACER_CLIENT_ID,
+      clientSecret: process.env.SONGPLACER_CLIENT_SECRET
+    })
   
-    res.redirect('https://accounts.spotify.com/authorize?' +
-      querystring.stringify({
-        response_type: 'code',
-        client_id: client_id,
-        scope: scope,
-        redirect_uri: redirect_uri,
-        state: state
-      }));
-  });
+    spotifyApi
+      .authorizationCodeGrant(code)
+      .then(data => {
+        res.json({
+          accessToken: data.body.access_token,
+          refreshToken: data.body.refresh_token,
+          expiresIn: data.body.expires_in
+        })
+      })
+      .catch(err => {
+        console.log("login error: " + err);
+        console.log(JSON.stringify(err));
+        res.sendStatus(400)
+      })
+  })
