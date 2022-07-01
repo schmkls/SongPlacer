@@ -8,7 +8,9 @@ const NoPage = () => {
 
   
     const getToken = () => {
-     
+        Axios.get('http://localhost:3002/login')
+        .then((response) => console.log("login response: " + JSON.stringify(response)))
+        .catch((err) => console.log("error: " + err));
     }
 
 
