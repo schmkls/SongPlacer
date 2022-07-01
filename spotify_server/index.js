@@ -32,7 +32,7 @@ app.listen(3002, () => {
 
 app.post('/login', (req, res) => {
     const code = req.body.code;
-    console.log("login code is " + code);
+    console.log("login code is: " + code);
 
     const spotifyApi = new SpotifyWebApi({
       redirectUri: 'http://localhost:3000/login-callback',
