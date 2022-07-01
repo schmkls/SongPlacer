@@ -2,10 +2,8 @@ import './index.css';
 
 import {React, useState, useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserContext } from "./context"
 import useToken from './useToken';
-import Nav from './components/navigation/Nav';
 import Login from './pages/handleUser/Login';
 import usePages from './pages/usePages';
 
@@ -42,6 +40,11 @@ export default function App() {
       if (window.location.pathname == page.path || page.path === 'all') {
         result.push(page.element);
       }
+    }
+
+    //if only one element was found for route (Nav is always found): display 'Not found'-page     
+    if (result.length === 1) {
+      result.push(pages.notfound.element);
     }
 
     return result;

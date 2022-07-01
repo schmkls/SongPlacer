@@ -13,13 +13,15 @@ const db = mysql.createConnection({
     database: 'songplacer', 
 });
 
+app.listen(3001, () => {
+    console.log("Server running on port 3001");
+});
+
 
 
 /*-----------------------------------------------------
 
     ROUTES 
-
-
 
 -------------------------------------------------------*/
 
@@ -442,6 +444,3 @@ app.delete('/library/:userId/:playlistId/:songplaceId/delete-songplace', (req, r
     });
 });
 
-app.listen(3001, () => {
-    console.log("Server running on port 3001");
-});
