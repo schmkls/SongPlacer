@@ -71,7 +71,7 @@ const Nav = (props) => {
                                 <a href={libraryUrl}>Library</a>
                             </li>
                             <li>
-                                <a href={pagesObj.getURL(pages.nearme)}>Near me</a>
+                                <a href={pagesObj.getURL(pages.nearMe)}>Near me</a>
                             </li>
                             <li>
                                 <a href={pagesObj.getURL(pages.searchUser)}>Search</a>

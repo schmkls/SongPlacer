@@ -21,7 +21,7 @@ import useAuth from '../useAuth';
  *  
  * 
  */
-export default function pagesHelp(accessToken) {
+export default function pagesHelp() {
 
     const urlBeginning = 'http://localhost:3000';
 
@@ -41,7 +41,7 @@ export default function pagesHelp(accessToken) {
             name: 'Search',
             element: <Library/>
         },
-        addsongplace: {
+        addSongplace: {
             path: '/library/add-songplace',
             name: 'Add a songplace', 
             element: <SongPlaceCreate/>
@@ -71,7 +71,7 @@ export default function pagesHelp(accessToken) {
             name: 'Logout', 
             element: <Logout/>
         },
-        nearme: {
+        nearMe: {
             path: '/near-me', 
             name: 'Near me', 
             element: <NearMe/>
@@ -81,7 +81,7 @@ export default function pagesHelp(accessToken) {
             name: 'Search', 
             element: <SearchUser/>
         },
-        notfound: {
+        notFound: {
             name: 'Page not found', 
             element: <NoPage/>
         }, 
@@ -121,8 +121,6 @@ export default function pagesHelp(accessToken) {
      * @returns the elements that should be displayed for current location
      */
     const getElements = () => {
-
-
         const result = [];
  
         for (var key in pages) {
@@ -138,6 +136,7 @@ export default function pagesHelp(accessToken) {
         }
 
         if (result.length === 1) { //Nav is always found
+            console.log("no elements found for: " + window.location.pathname);
             result.push(pages.notfound.element);
         }
 

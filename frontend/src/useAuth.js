@@ -22,11 +22,9 @@ export default function useAuth(code) {
                 setAccessToken(res.data.accessToken)
                 setRefreshToken(res.data.refreshToken)
                 setExpiresIn(res.data.expiresIn)
-                localStorage.setItem("access_token", res.data.accessToken);
-                window.history.pushState({}, null, "/")
             })
-            .catch(() => {
-                window.location = "/"
+            .catch((err) => {
+                console.log("logging in error: " + err)
             })
     }, [code])
 
@@ -41,8 +39,8 @@ export default function useAuth(code) {
                     setAccessToken(res.data.accessToken)
                     setExpiresIn(res.data.expiresIn)
                 })
-                .catch(() => {
-                    window.location = "/"
+                .catch((err) => {
+                    console.log("refresh token error: " + err)
                 })
         }, (expiresIn - 60) * 1000)
 

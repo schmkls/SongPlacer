@@ -33,12 +33,15 @@ const Login = (props) => {
     }
 
     const code = new URLSearchParams(window.location.search).get("code");
-    useAuth(code);
-    if (code) {
-        //login(code);
+    const accessToken = useAuth(code);
+    localStorage.setItem("access_token", accessToken);
+
+    if (accessToken) {
+        window.location.href = pages.getURL(pages.pages.nearMe);
     }
 
     return (
+        
         <div>
             <h2>Welcome to SongPlacer!</h2>
             <h6>(use at own risk)</h6>

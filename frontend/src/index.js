@@ -11,21 +11,16 @@ import useAuth from './useAuth';
  */
 export default function App() {
 
-    const code = new URLSearchParams(window.location.search).get("code");
     const accessToken = localStorage.getItem("access_token");
 
-    console.log("accessToken i localStorage: " + accessToken);
+    console.log("accessToken in localStorage: " + accessToken);
     
     if (!accessToken) {        
         return <Login/>
     }
 
-    console.log("returning app, accessToken: " + accessToken);
+    const pages = pagesHelp();
 
-    const pages = pagesHelp(accessToken);
-
-
-    //todo: user = userId + username + spotify-account
     return (
         <>
                 {
