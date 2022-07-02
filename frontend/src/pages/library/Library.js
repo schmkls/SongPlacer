@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useContext } from 'react';
 import { UserContext } from "../../context";
-import usePages from '../usePages';
+import usePages from '../pagesHelp';
 import Axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'

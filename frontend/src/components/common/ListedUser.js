@@ -2,7 +2,7 @@ import {React, useState, useContext} from 'react';
 import Axios from 'axios';
 import Globals from '../../globals/Globals.css'
 import { UserContext } from '../../context';
-import usePages from '../../pages/usePages';
+import usePages from '../../pages/pagesHelp';
 
 /**
  * @param {*} user object

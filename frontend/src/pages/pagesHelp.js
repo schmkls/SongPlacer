@@ -6,20 +6,26 @@ import Logout from './handleUser/Logout';
 import SearchUser from './explore/SearchUser';
 import NoPage from './NoPage';
 import Nav from '../components/navigation/Nav';
-import LoginCallback from './handleUser/LoginCallback';
 import NearMe from './explore/NearMe';
 import CreateUser from './handleUser/CreateUser';
+import Login from './handleUser/Login';
+import useAuth from '../useAuth';
+
 
 /**
  * Knows urls and associated elements.
- * Has functionality to get name (to display in navbar for example) for a route, 
- * URL or URLSearchParams for route.  
+ * Has functionality to 
+ *  get name (to display in navbar for example) for a route, 
+ *  get URL for a route, 
+ *  get elements associated with a route  
  *  
+ * 
  */
-export default function usePages() {
+export default function pagesHelp(accessToken) {
 
     const urlBeginning = 'http://localhost:3000';
 
+    
     const pages = {
         navbar: {
             path: 'all', //indicator to display element on all routes
@@ -55,6 +61,11 @@ export default function usePages() {
             name: 'Search', 
             element: <Playlist/>
         },
+        login: {
+            path: '/login', 
+            name: 'Login', 
+            element: <Login/>
+        },
         logout: {
             path: '/logout-user', 
             name: 'Logout', 
@@ -74,19 +85,11 @@ export default function usePages() {
             name: 'Page not found', 
             element: <NoPage/>
         }, 
-        spotifyLoginCallback: {
-            path: '/login-callback',
-            name: 'Spotify login status',
-            element: <LoginCallback/>
-        }, 
         createUser: {
             path: '/create-user',
             name: 'Create user',
             element: <CreateUser/>
         }, 
-        authorize: {
-            path: 'https://accounts.spotify.com/en/authorize?client_id=00ec5f716a774d7ba0fd58833ec22323&response_type=code&redirect_uri=http://localhost:3000/login-callback&scope=streaming%20user-read-email%20user-read-private%20user-modify-playback-state'
-        }
     }
 
     /** 
@@ -113,9 +116,41 @@ export default function usePages() {
         console.log("could not associated name for path: " + pathName);
     }
 
+
+    /**
+     * @returns the elements that should be displayed for current location
+     */
+    const getElements = () => {
+
+
+        const result = [];
+ 
+        for (var key in pages) {
+            if (!pages.hasOwnProperty(key)) {
+                continue;
+            }
+            var page = pages[key];
+
+            // eslint-disable-next-line eqeqeq  
+            if (window.location.pathname == page.path || page.path === 'all') {
+                result.push(page.element);
+            }
+        }
+
+        if (result.length === 1) { //Nav is always found
+            result.push(pages.notfound.element);
+        }
+
+        return result;
+    }
+
+
+
+
     return {
         pages, 
         getURL, 
-        getName
+        getName, 
+        getElements, 
     }
 }

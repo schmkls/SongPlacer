@@ -3,7 +3,7 @@ import '../../globals/Globals.css';
 import { React, useState, useContext} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faClose } from '@fortawesome/free-solid-svg-icons';
-import usePages from '../../pages/usePages';
+import pagesHelp from '../../pages/pagesHelp';
 import { UserContext } from '../../context';
 
 /**
@@ -12,15 +12,17 @@ import { UserContext } from '../../context';
  */
 const Nav = (props) => {
 
+    const accessToken = props.accessToken;
+
     //name for and links to pages
-    const pagesHelp = usePages();
-    const pages = pagesHelp.pages;
+    const pagesObj = pagesHelp(accessToken);
+    const pages = pagesObj.pages;
 
     const context = useContext(UserContext);
     const currUserId = context.userId;
 
     //library url with user-id param
-    let libraryUrl = pagesHelp.getURL(pages.library);
+    let libraryUrl = pagesObj.getURL(pages.library);
     libraryUrl.searchParams.set('user-id', currUserId);
 
     const getDepth = () => {
@@ -28,7 +30,7 @@ const Nav = (props) => {
     } 
 
     const getPageTitle = () => {
-        return pagesHelp.getName(window.location.pathname);
+        return pagesObj.getName(window.location.pathname);
     }
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -69,13 +71,13 @@ const Nav = (props) => {
                                 <a href={libraryUrl}>Library</a>
                             </li>
                             <li>
-                                <a href={pagesHelp.getURL(pages.nearme)}>Near me</a>
+                                <a href={pagesObj.getURL(pages.nearme)}>Near me</a>
                             </li>
                             <li>
-                                <a href={pagesHelp.getURL(pages.searchUser)}>Search</a>
+                                <a href={pagesObj.getURL(pages.searchUser)}>Search</a>
                             </li>
                             <li>
-                                <a href={pagesHelp.getURL(pages.logout)}>Logout</a>
+                                <a href={pagesObj.getURL(pages.logout)}>Logout</a>
                             </li>
                         </ul>
                     </div>
