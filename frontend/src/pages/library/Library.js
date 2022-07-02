@@ -1,23 +1,23 @@
-import { React, useState, useEffect, useContext } from 'react';
-import { UserContext } from "../../context";
+import { React, useState, useEffect } from 'react';
 import usePages from '../pagesHelp';
-import Axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import Globals from '../../globals/Globals.css';
 import ListedPlaylist from '../../components/common/ListedPlaylist'
+import axios from 'axios';
 
 /**
  * @returns library of given owner
  */
 const Library = () => {
 
-    const userContext = useContext(UserContext);
-    const currUser = userContext.userId;
+    const access_token = localStorage.getItem('access_token');
+    const currUser = localStorage.getItem('user_id');
+    console.log("library sees current user-id: " + currUser);
+
 
     //owner of library
-    const currUrl = new URL(window.location.href);
-    const userId = currUrl.searchParams.get('user-id');
+    const userId = new URL(window.location.href).searchParams.get('user-id');
 
     const pagesHelp= usePages();
     const pages = pagesHelp.pages;
@@ -32,13 +32,7 @@ const Library = () => {
      * Fetches playlists after render 
      */
      useEffect(()=> {
-        //notice backticks ` 
-        const getURL = `http://localhost:3001/library/${userId}`;
-        
-        Axios.get(getURL).then((response) => {
-            console.log("libr response: " + JSON.stringify(response.data));
-            setPlaylists(response.data);
-        }).catch((err) => console.log("get playlists error: " + err));
+       
     }, []);
 
     /**
@@ -55,16 +49,32 @@ const Library = () => {
      * Sets username
      */
      useEffect(() => {
-        Axios.get(`http://localhost:3001/get-username/${userId}`).then((response) => {
-        setUsername(response.data[0].username);
-        }).catch((err) => console.log("get username error: " + err))
+        axios.get('https://api.spotify.com/v1/me', {
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+            }
+        }).then((response) => {
+            console.log("get user info response: " + JSON.stringify(response));
+            setUsername(response.data.display_name);
+        }).catch((err) => console.log("get user info error: " + err)); 
     }, []);
 
+
+    const getUserInfo = () => {
+        axios.get('https://api.spotify.com/v1/me', {
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+            }
+        }).then((response) => {
+            console.log("get user info response: " + JSON.stringify(response));
+        }).catch((err) => console.log("get user info error: " + err));
+    }
 
     return (
         <div className='library-outmost margin-top'>
             <h4>{username}'s library</h4>
             {console.log("returning my library")}
+            <button onClick={() => getUserInfo()}>Get user info</button>
             {
                 isLoading ? 
                         <h2>Loading...</h2>

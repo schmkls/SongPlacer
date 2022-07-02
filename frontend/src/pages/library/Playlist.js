@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import '../../globals/Globals.css';
 import './Library.css';
-import { UserContext } from '../../context';
 import usePages from '../pagesHelp';
 import ListedSongPlace from '../../components/common/ListedSongplace';
 import EditPlaylist from '../../components/common/EditPlaylist';
@@ -14,8 +13,7 @@ const Playlist = () => {
     const pagesHelp = usePages();
     const pages = pagesHelp.pages;
     
-    const context = useContext(UserContext);
-    const userId = context.userId;
+    const currUser = localStorage.getItem('user_id');
 
     const currUrl = new URL(window.location.href);
     const playlistId = currUrl.searchParams.get('playlist-id');
@@ -32,7 +30,7 @@ const Playlist = () => {
    
     const getSongPlaces = () => {
         //notice backticks ` 
-        const getUrl = `http://localhost:3001/library/${userId}/${playlistId}/songplaces`; 
+        const getUrl = `http://localhost:3001/library/${currUser}/${playlistId}/songplaces`; 
 
         Axios.get(getUrl)
         .then((response) => {
@@ -48,7 +46,7 @@ const Playlist = () => {
      */
     const deletePlaylist = () => {
         //notice backticks ` 
-        const deleteUrl = `http://localhost:3001/library/${userId}/delete-playlist/${playlistId}`; 
+        const deleteUrl = `http://localhost:3001/library/${currUser}/delete-playlist/${playlistId}`; 
 
         Axios.delete(deleteUrl).then((response) => {
             if (!response.status == 200) {
@@ -101,10 +99,10 @@ const Playlist = () => {
             if (response.status == 200) {
                 console.log("get name data: " + JSON.stringify(response.data[0].name));
                 setPlaylistName(response.data[0].name);
-                setIsOwned(response.data[0].user_id == userId);
+                setIsOwned(response.data[0].user_id == currUser);
                 console.log(JSON.stringify(response));
-                console.log("userId = " + userId + ", user_id = " + response.data[0].user_id);
-                console.log("setting is owned to " + (response.data[0].user_id == userId));
+                console.log("currUser = " + currUser + ", user_id = " + response.data[0].user_id);
+                console.log("setting is owned to " + (response.data[0].user_id == currUser));
             } else {
                 console.log("get playlist name error: ");
             }

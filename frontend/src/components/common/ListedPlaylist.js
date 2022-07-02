@@ -1,6 +1,6 @@
 import usePages from "../../pages/pagesHelp";
-import { useContext, React } from "react";
-import { UserContext } from "../../context";
+import { React } from "react";
+
 
 /**
  * @param {*} playlist object
@@ -13,8 +13,8 @@ import { UserContext } from "../../context";
     const pagesHelp = usePages();
     const pages = pagesHelp.pages;
 
-    const context = useContext(UserContext);
-    const currUser = context.userId;
+    const currUser = localStorage.getItem('user_id');
+
 
     const isOwned = (playlist.user_id === currUser);
     

@@ -7,7 +7,6 @@ import SearchUser from './explore/SearchUser';
 import NoPage from './NoPage';
 import Nav from '../components/navigation/Nav';
 import NearMe from './explore/NearMe';
-import CreateUser from './handleUser/CreateUser';
 import Login from './handleUser/Login';
 import useAuth from '../useAuth';
 
@@ -84,12 +83,7 @@ export default function pagesHelp() {
         notFound: {
             name: 'Page not found', 
             element: <NoPage/>
-        }, 
-        createUser: {
-            path: '/create-user',
-            name: 'Create user',
-            element: <CreateUser/>
-        }, 
+        }
     }
 
     /** 

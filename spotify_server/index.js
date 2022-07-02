@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 const cors = require('cors');
 app.use(cors());
-const querystring = require("querystring");
+const querystring = require('querystring');
 var SpotifyWebApi = require('spotify-web-api-node');
 
 
@@ -24,7 +24,7 @@ const makeRandomString = (length) => {
 
 
 app.listen(3002, () => {
-    console.log("Spotify server running on port 3002");
+    console.log('Spotify server running on port 3002');
 });
 
 
@@ -47,14 +47,14 @@ app.post('/login', (req, res) => {
             })
         })
         .catch(err => {
-            console.log("login error: " + err);
+            console.log('login error: ' + err);
             console.log(JSON.stringify(err));
             res.sendStatus(400)
         })
 })
 
 
-app.post("/refresh", (req, res) => {
+app.post('/refresh', (req, res) => {
     const refreshToken = req.body.refreshToken
     const spotifyApi = new SpotifyWebApi({
         redirectUri: process.env.REDIRECT_URI,
@@ -72,7 +72,13 @@ app.post("/refresh", (req, res) => {
             })
         })
         .catch(err => {
-            console.log("refresh token error: " + err)
+            console.log('refresh token error: ' + err)
             res.sendStatus(400)
         })
+})
+
+
+
+app.get('/get-user-data', (req, res) => {
+    
 })

@@ -1,6 +1,5 @@
 import { React, useState, useContext } from "react";
 import Axios from "axios";
-import { UserContext } from "../../context";
 
 
 /**
@@ -8,8 +7,8 @@ import { UserContext } from "../../context";
  */
 const EditPlaylist = (props) => {
     
-    const userContext = useContext(UserContext);
-    const userId = userContext.userId;
+    const currUser = localStorage.getItem('user_id');
+
 
     const playlistId = props.playlistId;
     const originalName = props.playlistName;
@@ -19,7 +18,7 @@ const EditPlaylist = (props) => {
     const changeName = (e) => {
         e.preventDefault();     //in order not to reload
 
-        const putUrl = `http://localhost:3001/library/${userId}/update-playlist/${playlistId}`;
+        const putUrl = `http://localhost:3001/library/${currUser}/update-playlist/${playlistId}`;
 
         Axios.put(putUrl, {
             playlistId: playlistId, 

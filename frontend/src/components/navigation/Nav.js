@@ -1,10 +1,9 @@
 import './Nav.css';
 import '../../globals/Globals.css';
-import { React, useState, useContext} from 'react';
+import { React, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faClose } from '@fortawesome/free-solid-svg-icons';
 import pagesHelp from '../../pages/pagesHelp';
-import { UserContext } from '../../context';
 
 /**
  * Nav bar for app. Shows sidebar on click from < 2 steps in, else 
@@ -18,12 +17,12 @@ const Nav = (props) => {
     const pagesObj = pagesHelp(accessToken);
     const pages = pagesObj.pages;
 
-    const context = useContext(UserContext);
-    const currUserId = context.userId;
+    const currUser = localStorage.getItem('user_id');
+
 
     //library url with user-id param
     let libraryUrl = pagesObj.getURL(pages.library);
-    libraryUrl.searchParams.set('user-id', currUserId);
+    libraryUrl.searchParams.set('user-id', currUser);
 
     const getDepth = () => {
         return window.location.href.split("/").length - 2;

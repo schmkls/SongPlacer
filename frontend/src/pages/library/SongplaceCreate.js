@@ -1,5 +1,4 @@
-import { React, useContext, useState } from "react";
-import { UserContext } from "../../context";
+import { React, useState } from "react";
 import Globals from "../../globals/Globals.css";
 import Axios from "axios";
 
@@ -9,8 +8,6 @@ const UNKNOWN = 2;
 
 const SongPlaceCreate = () => {
   
-  const userContext = useContext(UserContext);
-  const userId = userContext.userId;
 
   const [song, setSong] = useState();
   const [lat, setLatitude] = useState();
@@ -33,46 +30,22 @@ const SongPlaceCreate = () => {
    * @returns id of songplace that was posted (will be null if posting failed)
    */
   const postSongPlace = async () => {
-    let songplacePosted = null;
-
-    console.log("posting songplace: " + 
-      "\nplaylistId = " + playlistId +  
-      "\nuserId = " + userId + 
-      "\nsongplace = " + song
-    );
-
-    //notice backticks ` 
-    const postUrl = `http://localhost:3001/library/${userId}/${playlistId}/create-songplace`;
-
-    Axios.post(postUrl, {
-      songplaceName: song,
-      latitude: lat,
-      longitude: long,
-    })
-    .then((response) => {
-      //200 = OK, anything else indicates error
-      if (response.status === 200) {
-        setPostStatus(SUCCESS);
-      } else {
-        setPostStatus(FAIL);
-      }
-    })
-    .catch((err) => {
-      setPostStatus(FAIL);
-    });
+    
   };
 
   /**
    * Connects songplace that was posted to a playlis
    * @param id id of songplace
    */
-  const connectSongplaceToPlayList = async (songplaceId) => {};
+  const connectSongplaceToPlayList = async (songplaceId) => {
+
+  };
 
   /**
    * Adds song
    */
   const addSongPlace = () => {
-    postSongPlace().then((id) => connectSongplaceToPlayList(id));
+
   };
 
   const handleSubmit = (e) => {

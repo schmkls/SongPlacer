@@ -1,7 +1,6 @@
-import {React, useState} from "react";
+import {React} from "react";
 import pagesHelp from "../pagesHelp";
 import axios from 'axios';
-import CreateUser from "./CreateUser";
 import useAuth from "../../useAuth";
 
 
@@ -16,32 +15,42 @@ const Login = (props) => {
     const redirectUrl = pages.getURL(pages.pages.login);
 
     const AUTH_URL = `https://accounts.spotify.com/en/authorize?client_id=00ec5f716a774d7ba0fd58833ec22323&response_type=code&redirect_uri=${redirectUrl}&scope=streaming%20user-read-email%20user-read-private%20user-modify-playback-state`;
-    
-    const login = (code) => {
-        if (!code)  return;
-        console.log("logging in with code: " + code);
-        axios
-            .post("http://localhost:3002/login", {
-                code,
-            })
-            .then(res => {
-                localStorage.setItem("access_token", res.data.accessToken);
-            })
-            .catch((err) => {
-                console.log("login error: " + err);
-            })
-    }
 
     const code = new URLSearchParams(window.location.search).get("code");
     const accessToken = useAuth(code);
     localStorage.setItem("access_token", accessToken);
 
+    /**
+     * @returns current users spotify id 
+     */
+    const getUserId = async() => {
+        return new Promise((res, rej) => {
+            axios.get('https://api.spotify.com/v1/me', {
+            headers: {
+                Authorization: 'Bearer ' + accessToken,
+            }
+            }).then((response) => {
+                res(response.data.id);
+            }).catch((err) => {
+                rej(err);
+            });
+
+        })
+    }
+
+    //store user id and redirect if access token has been retrieved
     if (accessToken) {
+        getUserId()
+        .then(
+            (userId) => localStorage.setItem('user_id', userId),
+            (err) => console.log("get user id error: " + err)
+        );
+        
         window.location.href = pages.getURL(pages.pages.nearMe);
     }
 
+
     return (
-        
         <div>
             <h2>Welcome to SongPlacer!</h2>
             <h6>(use at own risk)</h6>

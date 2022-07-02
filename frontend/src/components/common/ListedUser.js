@@ -1,7 +1,6 @@
-import {React, useState, useContext} from 'react';
+import {React} from 'react';
 import Axios from 'axios';
 import Globals from '../../globals/Globals.css'
-import { UserContext } from '../../context';
 import usePages from '../../pages/pagesHelp';
 
 /**
@@ -11,10 +10,10 @@ import usePages from '../../pages/pagesHelp';
 const ListedUser = (props) => {
 
     const user = props.user;
-    const context = useContext(UserContext);
-    const currUserId = context.userId;
+    const currUser = localStorage.getItem('user_id');
 
-    const isCurrentUser = (currUserId === user.id);
+
+    const isCurrentUser = (currUser === user.id);
 
     const pagesHelp = usePages();
     const pages = pagesHelp.pages;

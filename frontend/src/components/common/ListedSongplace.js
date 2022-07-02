@@ -1,7 +1,6 @@
-import {React, useState, useContext} from 'react';
+import {React} from 'react';
 import Axios from 'axios';
 import Globals from '../../globals/Globals.css'
-import { UserContext } from '../../context';
 
 /**
  * @param {*} songPlace object
@@ -13,13 +12,13 @@ const ListedSongPlace = (props) => {
     const playlistId = props.playlistId;
     const isOwned = props.isOwned;
 
-    const context = useContext(UserContext);
-    const userId = context.userId;
+    const currUser = localStorage.getItem('user_id');
+
  
     const deleteSongplace = () => {
 
          //notice backticks ` 
-        const deleteUrl = `http://localhost:3001/library/${userId}/${playlistId}/${songplace.id}/delete-songplace`;
+        const deleteUrl = `http://localhost:3001/library/${currUser}/${playlistId}/${songplace.id}/delete-songplace`;
 
         Axios.delete(deleteUrl).then((response) => {
             console.log("songplace delete status: " + response.status);

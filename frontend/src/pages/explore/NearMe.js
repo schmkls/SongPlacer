@@ -1,5 +1,4 @@
-import {React, useState, useEffect, useContext} from 'react';
-import { UserContext } from '../../context';
+import {React, useState, useEffect} from 'react';
 import Axios from 'axios';
 import Globals from '../../globals/Globals.css';
 import ListedSongPlace from '../../components/common/ListedSongplace';
@@ -16,8 +15,8 @@ const NONALLOWED = 7;
 
 const NearMe = () => {
 
-    const userContext = useContext(UserContext);
-    const userId = userContext.userId;
+    const currUser = localStorage.getItem('user_id');
+
 
     //used to make page render
     const [updSwitch, setUpdSwitch] = useState(false);
@@ -41,8 +40,8 @@ const NearMe = () => {
      * Toggling play has the effect of making songplaces order by location 
      */
       useEffect(()=> {
-        console.log("useEffect of toggling play")
-        autoPlay();
+        /* console.log("useEffect of toggling play")
+        autoPlay(); */
     }, [play]);
 
 
