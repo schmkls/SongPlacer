@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 import Globals from '../../../globals/Globals.css';
 import ListedSongPlace from '../../../components/common/ListedSongplace/ListedSongplace';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -82,7 +82,7 @@ const NearMe = () => {
                 res(songplaces);
             }
     
-            Axios.get("http://localhost:3001/get-songplaces").then((response) => {
+            axios.get("http://localhost:3001/get-songplaces").then((response) => {
                 if (response.status != 200) {
                     console.log("get songplaces failed, response: " + response);
                     res(null);

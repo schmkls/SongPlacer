@@ -73,7 +73,7 @@ const Nav = () => {
                                 libraryAccess ? 
                                         <a href={libraryUrl}>Library</a>
                                     :
-                                        <a>Library (log in to access)</a>
+                                        <a href={pagesHelper.getURL(pages.login)}> Login to access library </a>
                             }
                             </li>
                             <li>
@@ -82,9 +82,15 @@ const Nav = () => {
                             <li>
                                 <a href={pagesHelper.getURL(pages.searchUser)}>Search</a>
                             </li>
-                            <li>
-                                <a href={pagesHelper.getURL(pages.logout)}>Logout</a>
-                            </li>
+                            {
+                                libraryAccess ? 
+                                        <li>
+                                            <a href={pagesHelper.getURL(pages.logout)}>Logout</a>
+                                        </li>
+                                    :
+                                        <></>
+                            }
+                            
                         </ul>
                     </div>
                 :
