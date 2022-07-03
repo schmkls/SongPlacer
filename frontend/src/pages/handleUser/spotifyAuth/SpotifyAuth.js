@@ -47,7 +47,8 @@ const SpotifyAuth = (props) => {
             (err) => console.log("get user id error: " + err)
         );
         
-        window.location.href = pages.getURL(pages.pages.nearMe);
+        //navigate to login page
+        window.location.href = pages.getURL(pages.pages.login);
     } else {
         console.log("spotify auth sees no accessToken");
     }
@@ -58,8 +59,9 @@ const SpotifyAuth = (props) => {
             <h2>Welcome to SongPlacer!</h2>
             <h6>(use at own risk)</h6>
             <hr/>
+            <h6>Connect with your Spotify to begin exploring songs through places!</h6>
             <div className="btn-group" role="group" aria-label="Basic example">
-                <button type='button' className='btn btn-secondary' onClick={() => window.location.href = AUTH_URL}>Login</button>
+                <button type='button' className='btn btn-secondary' onClick={() => window.location.href = AUTH_URL}>Connect with Spotify</button>
             </div>
         </div>
     )

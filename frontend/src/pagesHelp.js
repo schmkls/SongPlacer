@@ -2,12 +2,14 @@ import Library from './pages/library/library/Library';
 import PlaylistCreate from './pages/library/playlistCreate/PlaylistCreate';
 import Playlist from './pages/library/playlist/Playlist';
 import SongPlaceCreate from './pages/library/songplaceCreate/SongplaceCreate';
-import Logout from './pages/handleUser/logout/Logout';
 import SearchUser from './pages/explore/searchUser/SearchUser';
 import NoPage from './pages/noPage/NoPage';
 import Nav from './components/nav/Nav';
 import NearMe from './pages/explore/nearMe/NearMe';
 import SpotifyAuth from './pages/handleUser/spotifyAuth/SpotifyAuth';
+import Login from './pages/handleUser/login/Login';
+import Logout from './pages/handleUser/logout/Logout';
+
 
 /**
  * Knows urls and associated elements.
@@ -58,13 +60,18 @@ export default function pagesHelp() {
             name: 'Search', 
             element: <Playlist/>
         },
-        login: {
-            path: '/login', 
+        spotifyAuth: {
+            path: '/authorize-spotify', 
             name: 'Login', 
             element: <SpotifyAuth/>
         },
+        login: {
+            path: '/login', 
+            name: 'Login (optional)', 
+            element: <Login/>
+        },
         logout: {
-            path: '/logout-user', 
+            path: '/logout', 
             name: 'Logout', 
             element: <Logout/>
         },
