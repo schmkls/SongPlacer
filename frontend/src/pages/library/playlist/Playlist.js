@@ -1,23 +1,25 @@
 import React, { useEffect, useContext, useState} from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import '../../../globals/Globals.css';
 import '../Library.css'
-import usePages from '../../../pagesHelp';
 import ListedSongPlace from '../../../components/common/ListedSongplace/ListedSongplace';
 import EditPlaylist from '../../../components/common/EditPlaylist/EditPlaylist';
+import pagesHelp from '../../../pagesHelp';
+import accessHelp from '../../../accessHelp';
 
 const Playlist = () => {
 
-    const pagesHelp = usePages();
-    const pages = pagesHelp.pages;
+    const pagesHelper = pagesHelp();
+    const pages = pagesHelper.pages;
+
+    const accessHelper = accessHelp();
     
-    const currUser = localStorage.getItem('user_id');
+    const currUser = accessHelper.getCurrUserId();
 
     const currUrl = new URL(window.location.href);
     const playlistId = currUrl.searchParams.get('playlist-id');
-    console.log('pl id: ' + playlistId);
 
 
     const [songplaces, setSongplaces] = useState([]);
@@ -32,7 +34,7 @@ const Playlist = () => {
         //notice backticks ` 
         const getUrl = `http://localhost:3001/library/${currUser}/${playlistId}/songplaces`; 
 
-        Axios.get(getUrl)
+        axios.get(getUrl)
         .then((response) => {
             setSongplaces(response.data);
         }).catch((err) => {
@@ -48,7 +50,7 @@ const Playlist = () => {
         //notice backticks ` 
         const deleteUrl = `http://localhost:3001/library/${currUser}/delete-playlist/${playlistId}`; 
 
-        Axios.delete(deleteUrl).then((response) => {
+        axios.delete(deleteUrl).then((response) => {
             if (!response.status == 200) {
                 console.log('playlist could not be deleted, status = ' + response.status);
             } else {
@@ -66,7 +68,7 @@ const Playlist = () => {
     }
 
     const getAddClickLocation = () => {
-        let url = pagesHelp.getURL(pages.addsongplace);
+        let url = pagesHelper.getURL(pages.addSongplace);
         url.searchParams.set('playlist-id', playlistId);
         url.searchParams.set('playlist-name', plName);
         return url;
@@ -95,7 +97,7 @@ const Playlist = () => {
      * Sets playlist name and if playlist is owned
      */
      useEffect(()=> {
-        Axios.get(`http://localhost:3001/get-playlist/${playlistId}`).then((response) => {
+        axios.get(`http://localhost:3001/get-playlist/${playlistId}`).then((response) => {
             if (response.status == 200) {
                 console.log("get name data: " + JSON.stringify(response.data[0].name));
                 setPlaylistName(response.data[0].name);

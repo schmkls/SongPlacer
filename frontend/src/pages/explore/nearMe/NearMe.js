@@ -40,8 +40,8 @@ const NearMe = () => {
      * Toggling play has the effect of making songplaces order by location 
      */
       useEffect(()=> {
-        /* console.log("useEffect of toggling play")
-        autoPlay(); */
+        console.log("useEffect of toggling play");
+        autoPlay(); 
     }, [play]);
 
 

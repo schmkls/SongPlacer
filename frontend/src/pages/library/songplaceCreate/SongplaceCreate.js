@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import Globals from '../../../globals/Globals.css';
-import Axios from "axios";
-
+import axios from "axios";
+import accessHelp from "../../../accessHelp";
 
 const SUCCESS = 0;
 const FAIL = 1;
@@ -24,18 +24,48 @@ const SongPlaceCreate = () => {
   const playlistId = currUrl.searchParams.get('playlist-id');
   const playlistName = currUrl.searchParams.get('playlist-name');
 
+  const accessHelper = accessHelp();
+  const currUser = accessHelper.getCurrUserId();
 
+
+
+/**
+ * Posts songplace and returns id.
+ * @returns id of songplace that was posted (will be null if posting failed)
+ */
+const postSongPlace = async () => {
+    let songplacePosted = null;
+
+    console.log("posting songplace: " +
+        "\nplaylistId = " + playlistId +
+        "\nuserId = " + currUser +
+        "\nsongplace = " + song
+    );
+
+    //notice backticks ` 
+    const postUrl = `http://localhost:3001/library/${currUser}/${playlistId}/create-songplace`;
+
+    axios.post(postUrl, {
+            songplaceName: song,
+            latitude: lat,
+            longitude: long,
+        }
+    ).then((response) => {
+            //200 = OK, anything else indicates error
+            if (response.status === 200) {
+                setPostStatus(SUCCESS);
+            } else {
+                setPostStatus(FAIL);
+            }
+        }   
+    ).catch((err) => {
+            setPostStatus(FAIL);
+        }
+    );
+};
 
   /**
-   * Posts songplace and returns id.
-   * @returns id of songplace that was posted (will be null if posting failed)
-   */
-  const postSongPlace = async () => {
-    
-  };
-
-  /**
-   * Connects songplace that was posted to a playlis
+   * Connects songplace that was posted to a playlist
    * @param id id of songplace
    */
   const connectSongplaceToPlayList = async (songplaceId) => {
@@ -46,7 +76,7 @@ const SongPlaceCreate = () => {
    * Adds song
    */
   const addSongPlace = () => {
-
+    postSongPlace().then((id) => connectSongplaceToPlayList(id));
   };
 
   const handleSubmit = (e) => {

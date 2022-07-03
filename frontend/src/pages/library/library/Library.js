@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import pagesHelp from '../../../pagesHelp';
+import accessHelp from '../../../accessHelp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import Globals from '../../../globals/Globals.css';
@@ -22,6 +23,8 @@ const Library = () => {
     const pageHelper = pagesHelp();
     const pages = pageHelper.pages;
 
+    const accessHelper = accessHelp();
+
     const [username, setUsername] = useState();
     const [playlists, setPlaylists] = useState([]);
     const [isLoading, setLoading] = useState(true);
@@ -32,7 +35,16 @@ const Library = () => {
      * Fetches playlists after render 
      */
      useEffect(()=> {
-       
+        const userId = accessHelper.getCurrUserId();
+        axios.get(`http://localhost:3001/library/${userId}`).then((response) => {
+            if (response.status == 200) {
+                setPlaylists(response.data)
+            } else {
+                console.log("could not get playlists")
+            }
+        }).catch((err) => {
+            console.log("could not get playlists");
+        })
     }, []);
 
     /**
@@ -50,24 +62,25 @@ const Library = () => {
      */
      useEffect(() => {
         //todo: get by user id
+        const userId = accessHelper.getCurrUserId();
+        axios.get(`http://localhost:3001/get-username/${userId}`).then((response) => {
+            if (response.status == 200) {
+                setUsername(response.data[0].username)
+            } else {
+                console.log("could not get username")
+                setUsername('-');
+            }
+        }).catch((err) => {
+            console.log("could not get username");
+            setUsername('-');
+        })
     }, []);
 
-
-    const getUserInfo = () => {
-        axios.get('https://api.spotify.com/v1/me', {
-            headers: {
-                Authorization: 'Bearer ' + access_token,
-            }
-        }).then((response) => {
-            console.log("get user info response: " + JSON.stringify(response));
-        }).catch((err) => console.log("get user info error: " + err));
-    }
 
     return (
         <div className='library-outmost margin-top'>
             <h4>{username}'s library</h4>
             {console.log("returning my library")}
-            <button onClick={() => getUserInfo()}>Get user info</button>
             {
                 isLoading ? 
                         <h2>Loading...</h2>

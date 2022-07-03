@@ -32,12 +32,12 @@ const Login = (props) => {
 
             {option === LOGIN ?
                     <>
-                        <p>(login needed for adding songplacer and access your library)</p>
+                        <p>(login needed for adding/saving songplaces)</p>
                         <ActuallyLogin setToken={props.setToken}/>
                     </>
                 :   
                     <>
-                        <p>(user needed for adding songplacer and access your library)</p>
+                        <p>(user needed for adding/saving songplaces)</p>
                         <CreateUser/>
                     </>
             }
