@@ -1,15 +1,13 @@
-import Library from './library/Library';
-import PlaylistCreate from './library/PlaylistCreate';
-import Playlist from './library/Playlist';
-import SongPlaceCreate from './library/SongplaceCreate';
-import Logout from './handleUser/Logout';
-import SearchUser from './explore/SearchUser';
-import NoPage from './NoPage';
-import Nav from '../components/navigation/Nav';
-import NearMe from './explore/NearMe';
-import Login from './handleUser/Login';
-import useAuth from '../useAuth';
-
+import Library from './pages/library/library/Library';
+import PlaylistCreate from './pages/library/playlistCreate/PlaylistCreate';
+import Playlist from './pages/library/playlist/Playlist';
+import SongPlaceCreate from './pages/library/songplaceCreate/SongplaceCreate';
+import Logout from './pages/handleUser/logout/Logout';
+import SearchUser from './pages/explore/searchUser/SearchUser';
+import NoPage from './pages/noPage/NoPage';
+import Nav from './components/nav/Nav';
+import NearMe from './pages/explore/nearMe/NearMe';
+import SpotifyAuth from './pages/handleUser/spotifyAuth/SpotifyAuth';
 
 /**
  * Knows urls and associated elements.
@@ -63,7 +61,7 @@ export default function pagesHelp() {
         login: {
             path: '/login', 
             name: 'Login', 
-            element: <Login/>
+            element: <SpotifyAuth/>
         },
         logout: {
             path: '/logout-user', 
@@ -131,7 +129,7 @@ export default function pagesHelp() {
 
         if (result.length === 1) { //Nav is always found
             console.log("no elements found for: " + window.location.pathname);
-            result.push(pages.notfound.element);
+            result.push(pages.notFound.element);
         }
 
         return result;

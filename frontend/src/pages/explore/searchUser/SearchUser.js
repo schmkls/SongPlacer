@@ -1,7 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import Axios from 'axios';
-import Globals from '../../globals/Globals.css'
-import ListedUser from '../../components/common/ListedUser';
+import Globals from '../../../globals/Globals.css'
+import ListedUser from '../../../components/common/ListedUser/ListedUser';
 
 const ERROR = 1;
 

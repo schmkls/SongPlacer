@@ -1,7 +1,6 @@
 import React from "react";
-import Globals from '../globals/Globals.css';
-import usePages from './pagesHelp'
-import Axios from 'axios';
+import Globals from '../../globals/Globals.css';
+import pagesHelp from '../../pagesHelp';
 
 
 

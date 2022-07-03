@@ -1,5 +1,5 @@
-import { React, useContext, useState } from 'react';
-import Globals from '../../globals/Globals.css'
+import { React, useState } from 'react';
+import Globals from '../../../globals/Globals.css'
 import Axios from 'axios';
 
 const SUCCESS = 0;

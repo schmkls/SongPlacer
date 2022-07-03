@@ -3,7 +3,7 @@ import '../../globals/Globals.css';
 import { React, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faClose } from '@fortawesome/free-solid-svg-icons';
-import pagesHelp from '../../pages/pagesHelp';
+import pagesHelp from '../../pagesHelp';
 
 /**
  * Nav bar for app. Shows sidebar on click from < 2 steps in, else 

@@ -1,10 +1,10 @@
 import './index.css';
 
-import { React, useState, useEffect } from 'react';
+import { React } from 'react';
 import ReactDOM from 'react-dom/client';
-import pagesHelp from './pages/pagesHelp';
-import Login from './pages/handleUser/Login';
-import useAuth from './useAuth';
+import pagesHelp from './pagesHelp';
+import SpotifyAuth from './pages/handleUser/spotifyAuth/SpotifyAuth';
+
 /**
  * Has the Document root and routes defining what should be rendered
  * for each route. 
@@ -13,10 +13,10 @@ export default function App() {
 
     const accessToken = localStorage.getItem("access_token");
 
-    console.log("accessToken in localStorage: " + accessToken);
+    console.log("accessToken in localStorage: " + JSON.stringify(accessToken));
     
-    if (!accessToken) {        
-        return <Login/>
+    if (!accessToken || accessToken === "undefined") {        
+        return <SpotifyAuth/>
     }
 
     const pages = pagesHelp();

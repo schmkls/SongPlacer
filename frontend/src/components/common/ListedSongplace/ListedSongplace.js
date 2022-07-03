@@ -1,6 +1,6 @@
 import {React} from 'react';
 import Axios from 'axios';
-import Globals from '../../globals/Globals.css'
+import Globals from '../../../globals/Globals.css'
 
 /**
  * @param {*} songPlace object

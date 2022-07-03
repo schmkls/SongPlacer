@@ -1,4 +1,4 @@
-import Globals from '../../globals/Globals.css'
+import Globals from '../../../globals/Globals.css'
 
 
 const Logout = () => {
@@ -6,6 +6,7 @@ const Logout = () => {
 
     const logout = () => {
         localStorage.clear();
+        
         goBack();
     }
 

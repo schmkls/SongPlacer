@@ -1,7 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import Axios from 'axios';
-import Globals from '../../globals/Globals.css';
-import ListedSongPlace from '../../components/common/ListedSongplace';
+import Globals from '../../../globals/Globals.css';
+import ListedSongPlace from '../../../components/common/ListedSongplace/ListedSongplace';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons'
 

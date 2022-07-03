@@ -2,11 +2,11 @@ import React, { useEffect, useContext, useState} from 'react';
 import Axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
-import '../../globals/Globals.css';
-import './Library.css';
-import usePages from '../pagesHelp';
-import ListedSongPlace from '../../components/common/ListedSongplace';
-import EditPlaylist from '../../components/common/EditPlaylist';
+import '../../../globals/Globals.css';
+import '../Library.css'
+import usePages from '../../../pagesHelp';
+import ListedSongPlace from '../../../components/common/ListedSongplace/ListedSongplace';
+import EditPlaylist from '../../../components/common/EditPlaylist/EditPlaylist';
 
 const Playlist = () => {
 

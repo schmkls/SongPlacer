@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from 'react';
-import usePages from '../pagesHelp';
+import pagesHelp from '../../../pagesHelp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
-import Globals from '../../globals/Globals.css';
-import ListedPlaylist from '../../components/common/ListedPlaylist'
+import Globals from '../../../globals/Globals.css';
+import ListedPlaylist from '../../../components/common/ListedPlaylist/ListedPlaylist'
 import axios from 'axios';
 
 /**
@@ -19,7 +19,7 @@ const Library = () => {
     //owner of library
     const userId = new URL(window.location.href).searchParams.get('user-id');
 
-    const pagesHelp= usePages();
+    const pageHelper = pagesHelp();
     const pages = pagesHelp.pages;
 
     const [username, setUsername] = useState();

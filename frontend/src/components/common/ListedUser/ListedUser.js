@@ -1,7 +1,7 @@
 import {React} from 'react';
 import Axios from 'axios';
-import Globals from '../../globals/Globals.css'
-import usePages from '../../pages/pagesHelp';
+import Globals from '../../../globals/Globals.css'
+import usePages from '../../../pagesHelp';
 
 /**
  * @param {*} user object

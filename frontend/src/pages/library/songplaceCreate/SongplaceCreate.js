@@ -1,6 +1,7 @@
 import { React, useState } from "react";
-import Globals from "../../globals/Globals.css";
+import Globals from '../../../globals/Globals.css';
 import Axios from "axios";
+
 
 const SUCCESS = 0;
 const FAIL = 1;
