@@ -25,7 +25,7 @@ const ActuallyLogin = (props) => {
             password: password 
         }).then((response) => {
             if (response.status == 200) {
-                props.setToken({token: response.data});
+                localStorage.setItem('songplacer_token', response.token);
                 setLoginStatus(LOGIN_SUCCES);
             } else {
                 setLoginStatus(LOGIN_FAIL);
