@@ -69,6 +69,7 @@ Contributions are much appreciated! You can contribute by:
 - Writing your ideas in [ideas.MD](https://github.com/schmkls/GeoMusica/blob/dev/ideas.MD) followed by a parenthesis with your name, like: `My idea (Myname Mynamesson)`
 
 ## Todos
-* Connect to Spotify
+* Connect to Spotify -> in order to use near-me
+* Login -> in order to add songplaces and have library
 * Map
 * Safe login
