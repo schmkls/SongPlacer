@@ -4,32 +4,34 @@ import { React, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faClose } from '@fortawesome/free-solid-svg-icons';
 import pagesHelp from '../../pagesHelp';
+import accessHelp from '../../accessHelp';
 
 /**
  * Nav bar for app. Shows sidebar on click from < 2 steps in, else 
  * goes one step back. 
  */
-const Nav = (props) => {
-
-    const accessToken = props.accessToken;
+const Nav = () => {
 
     //name for and links to pages
-    const pagesObj = pagesHelp(accessToken);
-    const pages = pagesObj.pages;
+    const pagesHelper = pagesHelp();
+    const pages = pagesHelper.pages;
 
-    const currUser = localStorage.getItem('user_id');
+    const accessHelper = accessHelp();
+
+    //show library stuff if user is logged in
+    const libraryAccess = accessHelper.userIsLoggedIn();
 
 
     //library url with user-id param
-    let libraryUrl = pagesObj.getURL(pages.library);
-    libraryUrl.searchParams.set('user-id', currUser);
+    let libraryUrl = pagesHelper.getURL(pages.library);
+    libraryUrl.searchParams.set('user-id', accessHelper.getCurrUserId());
 
     const getDepth = () => {
         return window.location.href.split("/").length - 2;
     } 
 
     const getPageTitle = () => {
-        return pagesObj.getName(window.location.pathname);
+        return pagesHelper.getName(window.location.pathname);
     }
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -64,19 +66,24 @@ const Nav = (props) => {
             </button>
             
             {(menuOpen) ?
-                    <div className='side-menu'> 
+                    <div className='side-menu' > 
                         <ul>
                             <li>
-                                <a href={libraryUrl}>Library</a>
+                            {
+                                libraryAccess ? 
+                                        <a href={libraryUrl}>Library</a>
+                                    :
+                                        <a>Library (log in to access)</a>
+                            }
                             </li>
                             <li>
-                                <a href={pagesObj.getURL(pages.nearMe)}>Near me</a>
+                                <a href={pagesHelper.getURL(pages.nearMe)}>Near me</a>
                             </li>
                             <li>
-                                <a href={pagesObj.getURL(pages.searchUser)}>Search</a>
+                                <a href={pagesHelper.getURL(pages.searchUser)}>Search</a>
                             </li>
                             <li>
-                                <a href={pagesObj.getURL(pages.logout)}>Logout</a>
+                                <a href={pagesHelper.getURL(pages.logout)}>Logout</a>
                             </li>
                         </ul>
                     </div>

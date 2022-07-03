@@ -20,7 +20,7 @@ const Library = () => {
     const userId = new URL(window.location.href).searchParams.get('user-id');
 
     const pageHelper = pagesHelp();
-    const pages = pagesHelp.pages;
+    const pages = pageHelper.pages;
 
     const [username, setUsername] = useState();
     const [playlists, setPlaylists] = useState([]);
@@ -49,14 +49,7 @@ const Library = () => {
      * Sets username
      */
      useEffect(() => {
-        axios.get('https://api.spotify.com/v1/me', {
-            headers: {
-                Authorization: 'Bearer ' + access_token,
-            }
-        }).then((response) => {
-            console.log("get user info response: " + JSON.stringify(response));
-            setUsername(response.data.display_name);
-        }).catch((err) => console.log("get user info error: " + err)); 
+        //todo: get by user id
     }, []);
 
 
@@ -86,7 +79,7 @@ const Library = () => {
      
             {
                 isOwned ? 
-                    <a href={pagesHelp.getURL(pages.addplaylist)}>
+                    <a href={pageHelper.getURL(pages.addplaylist)}>
                         <FontAwesomeIcon icon={faCirclePlus} size='4x' className='icon add-button'/>
                     </a>
                 :

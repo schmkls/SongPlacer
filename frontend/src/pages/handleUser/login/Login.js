@@ -24,7 +24,7 @@ const Login = (props) => {
     return (
         <div className='margin-top'>
             <hr/>
-            <button onClick={() => skipLogin()}>Skip login -></button>
+            <button onClick={() => skipLogin()}>Skip login {"->"}</button>
             <div className="btn-group" role="group" aria-label="Basic example">
                 <button type='button' className='btn btn-secondary' onClick={() => setOption(LOGIN)}>Login</button>
                 <button type='button' className='btn btn-secondary' onClick={() => setOption(CREATE_USER)}>Create user</button>

@@ -51,10 +51,7 @@ app.listen(3001, () => {
                     });
                 }
                 
-                return res.status(200).json({
-                    token: "testtoken", 
-                    userId: result[0]?.id
-                });
+                return res.status(200);
             }
         });
 });

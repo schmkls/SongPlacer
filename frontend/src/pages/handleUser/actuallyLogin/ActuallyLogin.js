@@ -1,5 +1,6 @@
 import {React, useState} from "react";
 import axios from 'axios';
+import pagesHelp from "../../../pagesHelp";
 
 
 const NOT_LOGGED_IN = 1;
@@ -17,6 +18,11 @@ const ActuallyLogin = (props) => {
     const [password, setPassword] = useState('');
     const [loginStatus, setLoginStatus] = useState(NOT_LOGGED_IN);
 
+
+    const redirect = () => {
+        window.location.href = pagesHelp().getURL(pagesHelp().pages.nearMe);
+    }
+
     const loginUser = async() => {
         console.log("frontend logging in user: " + username + ", " + password);
 
@@ -25,8 +31,10 @@ const ActuallyLogin = (props) => {
             password: password 
         }).then((response) => {
             if (response.status == 200) {
-                localStorage.setItem('songplacer_token', response.token);
-                setLoginStatus(LOGIN_SUCCES);
+                console.log("setting userId to: " + response.data.userId);
+                localStorage.setItem('user_id', response.data.userId);
+                localStorage.setItem('songplacer_token', response.data.token);
+                redirect();
             } else {
                 setLoginStatus(LOGIN_FAIL);
             }           
