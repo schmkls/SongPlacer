@@ -6,7 +6,7 @@ Requierements:
 * node 
 * npm
 * MYSQL
-* correct environment variables
+* correct environment variables, see [documentation](https://github.com/schmkls/SongPlacer/blob/main/documentation.md)
 
 Start the server 
 <code>
