@@ -325,7 +325,7 @@ app.get('/get-playlist/:playlistId', (req, res) => {
 
     //post songplace to songplaces
     db.query(
-        'INSERT INTO songplaces (user_id, name, latitude, longitude) VALUES (?,?,?,?)', 
+        'INSERT INTO songplaces (user_id, track_id, latitude, longitude) VALUES (?,?,?,?)', 
         [userId, songplaceName, latitude, longitude], (err, result) => {
             if (err) {
                 return res.status(500).json({
@@ -336,7 +336,7 @@ app.get('/get-playlist/:playlistId', (req, res) => {
             
             if (result.insertId == null) {
                 return res.status(500).json({
-                    message: "Cannot add songplace to playlist"
+                    message: "Cannot add songplace to playlist, but songplace may have been added to database"
                 });
             }
 
