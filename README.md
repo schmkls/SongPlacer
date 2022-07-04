@@ -1,7 +1,7 @@
 # SongPlacer
 Explore songs through places
 
-## User guide
+## User/developer guide
 Requierements:
 * node 
 * npm
