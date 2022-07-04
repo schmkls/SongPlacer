@@ -23,15 +23,13 @@ const Library = () => {
     const [username, setUsername] = useState();
     const [playlists, setPlaylists] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const isOwned = (accessHelper.getCurrUserId() == userId);
+    const isOwned = (accessHelper.getCurrUserId() == userId); 
 
 
     /**
      * Fetches playlists after render 
      */
      useEffect(()=> {
-        const userId = accessHelper.getCurrUserId();
-
         axios.get(`http://localhost:3001/library/${userId}`).then((response) => {
             if (response.status == 200) {
                 setPlaylists(response.data)
@@ -58,7 +56,6 @@ const Library = () => {
      */
      useEffect(() => {
         //todo: get by user id
-        const userId = accessHelper.getCurrUserId();
         axios.get(`http://localhost:3001/get-username/${userId}`)
         .then((response) => {
             console.log("get-username response: " + JSON.stringify(response));
