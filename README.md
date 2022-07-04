@@ -69,7 +69,9 @@ Contributions are much appreciated! You can contribute by:
 - Writing your ideas in [ideas.MD](https://github.com/schmkls/GeoMusica/blob/dev/ideas.MD) followed by a parenthesis with your name, like: `My idea (Myname Mynamesson)`
 
 ## Todos
-* Connect to Spotify -> in order to use near-me
-* Login -> in order to add songplaces and have library
+* songplaces = Spotify-track + coordinates (or strings + coordinates if against Spotify TOS to store track-ids)
+* search and choose Spotify-track when adding songplace
+* songplace-click -> open in Spotify
+* read and make sure Spotify guidelines and TOS is followed
 * Map
 * Safe login
