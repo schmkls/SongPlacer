@@ -60,40 +60,6 @@ app.listen(3001, () => {
 });
 
 
-
-/**
- * Tell if user owns playlist with ownership: true/or false. 
- */
- app.post('/verify-playlist-ownership', (req, res) => {
-    
-    const userId = req.body.userId;
-    const playlistId = req.body.playlistId;
-
-    const checkQuery = "SELECT * FROM playlists " + 
-                        "WHERE user_id = ? AND id = ?";
-    db.query(checkQuery, 
-        [userId, playlistId], (err, result) => {
-            if (err) {
-                console.log("verify err: " + err);
-                return res.status(500).json({
-                    message: "Could not verify playlist ownership"
-                });
-            }
-
-            if (result.length > 0) {
-                return res.status(200).json({
-                    ownership: true
-                });
-            }
-
-            return res.status(200).json({
-                ownership: false
-            });
-        });
-});
-
-
-
 /**
  * Get all users
  */
@@ -291,7 +257,6 @@ app.put("/library/:userId/update-playlist/:playlistId", (req, res) => {
             });
         });
 });
-
 
 
 /**
