@@ -6,10 +6,17 @@ Requierements:
 * node 
 * npm
 * MYSQL
+* correct environment variables
 
 Start the server 
 <code>
     cd server
+    node index.js
+</code>
+
+Start the spotify_server 
+<code>
+    cd spotify_server
     node index.js
 </code>
 
