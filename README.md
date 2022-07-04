@@ -56,6 +56,8 @@ storing their song-places in playlists in their *Library*.
 songs to forests to represent the vibe of the forest. Other users might connect the skate-park in Umeå with Fricky, Råsunda with "Å vi e AIK", or a Paris 
 square with "Lobo-Hombre En Paris".  
 
+Read more user stories in: [exampleUsers.md](https://github.com/schmkls/SongPlacer/blob/main/exampleUsers.md)
+
 
 ## Similar apps + what they lack
 - [Roadtrip Mixtape](https://developer.spotify.com/community/showcase/roadtrip-mixtape/) Content is not user generated, does not seem to be maintained. 
