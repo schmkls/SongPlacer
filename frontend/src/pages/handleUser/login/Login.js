@@ -33,7 +33,7 @@ const Login = (props) => {
             {option === LOGIN ?
                     <>
                         <p>(login needed for adding/saving songplaces)</p>
-                        <ActuallyLogin setToken={props.setToken}/>
+                        <ActuallyLogin/>
                     </>
                 :   
                     <>

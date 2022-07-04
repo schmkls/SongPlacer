@@ -43,7 +43,6 @@ app.listen(3001, () => {
                     message: "Verify user error"
                 })
             } else {
-
                 //if no user with credentials found: return bad request
                 if (result.length == 0) {
                     return res.status(400).json({
@@ -51,7 +50,11 @@ app.listen(3001, () => {
                     });
                 }
                 
-                return res.status(200);
+                console.log("found result: " + JSON.stringify(result));
+                return res.status(200).json({
+                    'verifiedUserId' : result[0]['id'], 
+                    'token' : 'wtf what is a token wtf wihu WIHU WIIHUU'
+                });
             }
         });
 });
