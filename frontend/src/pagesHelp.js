@@ -24,7 +24,6 @@ export default function pagesHelp() {
 
     const urlBeginning = 'http://localhost:3000';
 
-    
     const pages = {
         navbar: {
             path: 'all', //indicator to display element on all routes

@@ -162,23 +162,21 @@ app.get('/get-users', (req, res) => {
                 return res.status(422).json({
                     message: "Username already taken"
                 });
-            }
-            
-        }); 
-    
+            } else {
+                //post the user
+                db.query('INSERT INTO users (username, password) VALUES (?,?)', 
+                [userName, password], (err, result) => {
+                    if (err) {
+                        console.log("create user error: " + err);
+                        return res.status(500).json({
+                            message: "Create user error"
+                        });
+                    } 
 
-    //post the user
-    db.query('INSERT INTO users (username, password) VALUES (?,?)', 
-        [userName, password], (err, result) => {
-            if (err) {
-                console.log("create user error: " + err);
-                return res.status(500).json({
-                    message: "Create user error"
+                    return res.status(200).json();
                 });
-            } 
-
-            return res.status(200).json();
-        });
+            }
+        });     
 });
 
 
