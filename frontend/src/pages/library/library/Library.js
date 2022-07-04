@@ -12,11 +12,6 @@ import axios from 'axios';
  */
 const Library = () => {
 
-    const access_token = localStorage.getItem('access_token');
-    const currUser = localStorage.getItem('user_id');
-    console.log("library sees current user-id: " + currUser);
-
-
     //owner of library
     const userId = new URL(window.location.href).searchParams.get('user-id');
 
@@ -28,7 +23,7 @@ const Library = () => {
     const [username, setUsername] = useState();
     const [playlists, setPlaylists] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const isOwned = (currUser == userId);
+    const isOwned = (accessHelper.getCurrUserId() == userId);
 
 
     /**
@@ -36,6 +31,7 @@ const Library = () => {
      */
      useEffect(()=> {
         const userId = accessHelper.getCurrUserId();
+
         axios.get(`http://localhost:3001/library/${userId}`).then((response) => {
             if (response.status == 200) {
                 setPlaylists(response.data)
@@ -63,7 +59,9 @@ const Library = () => {
      useEffect(() => {
         //todo: get by user id
         const userId = accessHelper.getCurrUserId();
-        axios.get(`http://localhost:3001/get-username/${userId}`).then((response) => {
+        axios.get(`http://localhost:3001/get-username/${userId}`)
+        .then((response) => {
+            console.log("get-username response: " + JSON.stringify(response));
             if (response.status == 200) {
                 setUsername(response.data[0].username)
             } else {

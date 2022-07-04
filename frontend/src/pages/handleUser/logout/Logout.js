@@ -1,12 +1,13 @@
 import Globals from '../../../globals/Globals.css'
+import accessHelp from '../../../accessHelp';
 
 
 const Logout = () => {
 
-
+    const accessHelper = accessHelp();
+    
     const logout = () => {
-        localStorage.clear();
-        
+        accessHelper.logout();        
         goBack();
     }
 
@@ -17,8 +18,8 @@ const Logout = () => {
     return (
         <div className='margin-top'>
             <h2>Log out?</h2>
-            <button onClick={logout}>Yes</button>
-            <button onClick={goBack}>No</button>
+            <button onClick={() => logout()}>Yes</button>
+            <button onClick={() => goBack()}>No</button>
         </div>
     );
 }

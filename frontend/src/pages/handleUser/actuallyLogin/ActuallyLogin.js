@@ -1,6 +1,7 @@
 import {React, useState} from "react";
 import axios from 'axios';
 import pagesHelp from "../../../pagesHelp";
+import accessHelp from "../../../accessHelp";
 
 
 const NOT_LOGGED_IN = 1;
@@ -19,6 +20,7 @@ const ActuallyLogin = () => {
     const [password, setPassword] = useState('');
     const [loginStatus, setLoginStatus] = useState(NOT_LOGGED_IN);
 
+    const accessHelper = accessHelp();
 
     const redirect = () => {
         window.location.href = pagesHelp().getURL(pagesHelp().pages.nearMe);
@@ -35,8 +37,8 @@ const ActuallyLogin = () => {
         }).then((response) => {
             console.log("verified, response = " + JSON.stringify(response));
             if (response.status == 200) {
-                localStorage.setItem('user_id', response.data.userId);
-                localStorage.setItem('songplacer_token', response.data.token);
+                accessHelper.setUserId(response.data.verifiedUserId);
+                accessHelper.setSongplacerToken(response.data.token);
                 redirect();
             } else {
                 console.log("verify user failed, response = " + JSON.stringify(response));

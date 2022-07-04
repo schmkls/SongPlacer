@@ -20,6 +20,7 @@ const Nav = () => {
 
     //show library stuff if user is logged in
     const libraryAccess = accessHelper.userIsLoggedIn();
+    console.log("nav sees user logged in = " + libraryAccess);
 
 
     //library url with user-id param
