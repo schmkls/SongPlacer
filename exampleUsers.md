@@ -21,7 +21,7 @@ He has added some songs to the default playlist *all* that are memories of his t
 # Example set of playlists
 | user                | playlist                             | sp1                                       | sp2                           | sp3                          |
 | ------              |----------                            |-----                                      |-----                          |-----                         |
-| Jao                 | De onde são minhas músicas favoritas | Baile de Favela (-23, -46)                | Já Sei Namorar (-23, -43)     | 22nd Century (25, 77)        |
+| Jao                 | De onde são minhas músicas favoritas | Baile de Favela (-23, -46)                | LONG SEASON (36, 140)         | 22nd Century (25, 77)        |
 | LastbilsJanne       | E4an klassiker                       | UÅ (63, 20)                               | En Husqvarna pige (57, 15)    | Välkommen hem (60, 18)       |
 | outdoorsGirl222     | Songs of forests                     | If Mountains Could Sing (36, 75)          | Myggsommer (64, 16)           | Kaini Industries (49, -113)  |
 | dalmasen            | DALARNA<3                            | I å Elvis (61, 14)                        | Koppången (61, 15)            | Rastastugan (61, 15)         |
