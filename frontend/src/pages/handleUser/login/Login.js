@@ -17,7 +17,7 @@ const Login = (props) => {
     const [option, setOption] = useState(LOGIN);
 
     const skipLogin = () => {
-        window.location.href = pagesHelp().getURL(pagesHelp().pages.nearMe);
+        window.location.href = pagesHelp().getURL(pagesHelp().pages.explore);
     }
 
     //todo, option skip login and nav to nearme

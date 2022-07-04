@@ -1,14 +1,15 @@
 import Globals from '../../../globals/Globals.css'
 import accessHelp from '../../../accessHelp';
-
+import pagesHelp from '../../../pagesHelp';
 
 const Logout = () => {
 
     const accessHelper = accessHelp();
+    const pagesHelper = pagesHelp();
     
     const logout = () => {
         accessHelper.logout();        
-        goBack();
+        window.location.href = pagesHelper.getURL(pagesHelper.pages.explore);    
     }
 
     const goBack = () => {

@@ -23,7 +23,7 @@ const ActuallyLogin = () => {
     const accessHelper = accessHelp();
 
     const redirect = () => {
-        window.location.href = pagesHelp().getURL(pagesHelp().pages.nearMe);
+        window.location.href = pagesHelp().getURL(pagesHelp().pages.explore);
     }
 
     const loginUser = async() => {

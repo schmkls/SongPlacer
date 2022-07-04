@@ -4,11 +4,12 @@ import Playlist from './pages/library/playlist/Playlist';
 import SongPlaceCreate from './pages/library/songplaceCreate/SongplaceCreate';
 import SearchUser from './pages/explore/searchUser/SearchUser';
 import NoPage from './pages/noPage/NoPage';
-import Nav from './components/nav/Nav';
+import SideMenu from './components/nav/sideMenu/SideMenu';
 import NearMe from './pages/explore/nearMe/NearMe';
 import SpotifyAuth from './pages/handleUser/spotifyAuth/SpotifyAuth';
 import Login from './pages/handleUser/login/Login';
 import Logout from './pages/handleUser/logout/Logout';
+import Explore from './pages/explore/explore/Explore';
 
 
 /**
@@ -27,12 +28,17 @@ export default function pagesHelp() {
     const pages = {
         navbar: {
             path: 'all', //indicator to display element on all routes
-            element: <Nav/>
+            element: <SideMenu/>
         },
         library: {
             path: '/library',
             name: 'Library',
             element: <Library/>
+        },
+        explore: {
+            path: '/explore',
+            name: 'Explore',
+            element: <Explore/>
         },
         searchedLibrary: {
             path: '/search/library',
@@ -70,17 +76,17 @@ export default function pagesHelp() {
             element: <Login/>
         },
         logout: {
-            path: '/logout', 
+            path: '/logout/confirm', 
             name: 'Logout', 
             element: <Logout/>
         },
         nearMe: {
-            path: '/near-me', 
+            path: '/explore/near-me', 
             name: 'Near me', 
             element: <NearMe/>
         },
         searchUser: {
-            path: '/search-user', 
+            path: '/explore/search-user', 
             name: 'Search', 
             element: <SearchUser/>
         },

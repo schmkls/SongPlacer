@@ -27,6 +27,7 @@
     margin-bottom: 2px;
     text-align: center;
     justify-content: center;
+    z-index: 2000;
 }
 
 .nav-bar-transparent {

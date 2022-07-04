@@ -1,16 +1,16 @@
-import './Nav.css';
-import '../../globals/Globals.css';
+import './SideMenu.css';
+import '../../../globals/Globals.css';
 import { React, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faClose } from '@fortawesome/free-solid-svg-icons';
-import pagesHelp from '../../pagesHelp';
-import accessHelp from '../../accessHelp';
+import pagesHelp from '../../../pagesHelp';
+import accessHelp from '../../../accessHelp';
 
 /**
- * Nav bar for app. Shows sidebar on click from < 2 steps in, else 
+ * Shows sidebar on click from < 2 steps in, else 
  * goes one step back. 
  */
-const Nav = () => {
+const SideMenu = () => {
 
     //name for and links to pages
     const pagesHelper = pagesHelp();
@@ -70,18 +70,15 @@ const Nav = () => {
                     <div className='side-menu' > 
                         <ul>
                             <li>
+                                <a href={pagesHelper.getURL(pages.explore)}>Explore</a>
+                            </li>
+                            <li>
                             {
                                 libraryAccess ? 
                                         <a href={libraryUrl}>Library</a>
                                     :
                                         <a href={pagesHelper.getURL(pages.login)}> Login to access library </a>
                             }
-                            </li>
-                            <li>
-                                <a href={pagesHelper.getURL(pages.nearMe)}>Near me</a>
-                            </li>
-                            <li>
-                                <a href={pagesHelper.getURL(pages.searchUser)}>Search</a>
                             </li>
                             {
                                 libraryAccess ? 
@@ -101,4 +98,4 @@ const Nav = () => {
     );
 }
 
-export default Nav;
+export default SideMenu;
