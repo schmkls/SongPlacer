@@ -75,7 +75,6 @@ exploring artists by city.
 Contributions are much appreciated! You can contribute by:
 - Giving feedback to mickels.martin@gmail.com
 - Creating feature branches and developing features
-- Writing your ideas in [ideas.MD](https://github.com/schmkls/GeoMusica/blob/dev/ideas.MD) followed by a parenthesis with your name, like: `My idea (Myname Mynamesson)`
 
 ## Todos
 * songplaces = Spotify-track + coordinates (or strings + coordinates if against Spotify TOS to store track-ids)
