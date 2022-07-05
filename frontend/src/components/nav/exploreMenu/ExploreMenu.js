@@ -2,7 +2,7 @@ import'./ExploreMenu.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faCirclePlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import pagesHelp from '../../../pagesHelp';
-
+import accessHelp from '../../../accessHelp';
 
 /**
  * Bottom bar for explore-page
@@ -10,13 +10,21 @@ import pagesHelp from '../../../pagesHelp';
 const ExploreMenu = () => {
 
     const pagesHelper = pagesHelp();
+    const accessHelper = accessHelp();
 
     const nearMeClick = () => {
         window.location.href = pagesHelper.getURL(pagesHelper.pages.nearMe);
     }
 
     const addClick = () => {
-        console.log("ADD SONGPLACE NOT TO LIBRARY NOT YET IMPLEMENTED");
+        if (accessHelper.userIsLoggedIn()) {
+            console.log("ADD SONGPLACE NOT TO LIBRARY NOT YET IMPLEMENTED");
+        } else {
+            if (window.confirm("Login requiered. Login?")) {
+                window.location.href = pagesHelper.getURL(pagesHelper.pages.login);
+            }
+        }
+        
     }
 
     const searchClick = () => {

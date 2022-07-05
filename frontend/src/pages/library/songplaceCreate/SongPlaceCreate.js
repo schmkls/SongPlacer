@@ -11,38 +11,22 @@ const UNKNOWN = 2;
  * @returns page for adding songplace to a playlist,
  * or info playlist doesn't belong to current user
  */
-const SongplaceCreateInPlaylist = () => {
+const SongPlaceCreate = () => {
     
     const [song, setSong] = useState();
     const [lat, setLatitude] = useState();
     const [long, setLongitude] = useState();
     const [isOwned, setIsOwned] = useState(false);
+    const [playlistName, setPlaylistName] = useState("the playlist");
 
     //success of songplace posting
     const [postStatus, setPostStatus] = useState(UNKNOWN);
 
     const currUrl = new URL(window.location.href);
     const playlistId = currUrl.searchParams.get('playlist-id');
-    const playlistName = currUrl.searchParams.get('playlist-name');
 
     const accessHelper = accessHelp();
     const currUser = accessHelper.getCurrUserId();
-
-    /**
-     * Returns true if playlist is owned by current user, else false.
-     */
-    const checkIfOwned = () => {
-        axios.get(`http://localhost:3001/get-playlist/${playlistId}`)
-        .then((result) => {
-            const userId = result.data[0].user_id;
-            console.log("pl owner = " + userId + " and currUser = " + currUser);
-            setIsOwned(userId == currUser);
-        })
-        .catch((err) => {
-            console.log("check if playlist owned error: " + err);
-            setIsOwned(false);
-        });
-    }
 
 
     /**
@@ -78,10 +62,21 @@ const SongplaceCreateInPlaylist = () => {
     };
 
     /**
-     * Set isOwned variable indicating if current user owns playlist6
+     * Set isOwned to true if current user owns playlist
+     * Sets playlist name
      */
     useEffect(()=> {
-        checkIfOwned();
+        axios.get(`http://localhost:3001/get-playlist/${playlistId}`)
+        .then((result) => {
+            const userId = result.data[0].user_id;
+            setPlaylistName(result.data[0].name);
+            console.log("pl owner = " + userId + " and currUser = " + currUser);
+            setIsOwned(userId == currUser);
+        })
+        .catch((err) => {
+            console.log("check if playlist owned error: " + err);
+            setIsOwned(false);
+        });
     }, []);
 
 
@@ -145,4 +140,4 @@ const SongplaceCreateInPlaylist = () => {
     );
 };
 
-export default SongplaceCreateInPlaylist;
+export default SongPlaceCreate;

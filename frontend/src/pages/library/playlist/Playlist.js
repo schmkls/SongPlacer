@@ -70,7 +70,6 @@ const Playlist = () => {
     const getAddClickLocation = () => {
         let url = pagesHelper.getURL(pages.addSongplace);
         url.searchParams.set('playlist-id', playlistId);
-        url.searchParams.set('playlist-name', plName);
         return url;
     }
 

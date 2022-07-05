@@ -1,7 +1,7 @@
 import Library from './pages/library/library/Library';
 import PlaylistCreate from './pages/library/playlistCreate/PlaylistCreate';
 import Playlist from './pages/library/playlist/Playlist';
-import SongPlaceCreateInPlaylist from './pages/library/songplaceCreateInPlaylist/SongplaceCreateInPlaylist';
+import SongPlaceCreate from './pages/library/songplaceCreate/SongPlaceCreate';
 import SearchUser from './pages/explore/searchUser/SearchUser';
 import NoPage from './pages/noPage/NoPage';
 import SideMenu from './components/nav/sideMenu/SideMenu';
@@ -48,7 +48,7 @@ export default function pagesHelp() {
         addSongplace: {
             path: '/library/add-songplace',
             name: 'Add a songplace', 
-            element: <SongPlaceCreateInPlaylist/>
+            element: <SongPlaceCreate/>
         }, 
         addplaylist: {
             path: '/library/add-playlist',  
