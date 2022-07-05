@@ -81,5 +81,6 @@ Contributions are much appreciated! You can contribute by:
 * search and choose Spotify-track when adding songplace
 * songplace-click -> open in Spotify
 * read and make sure Spotify guidelines and TOS is followed
-* Map
-* Safe login
+* map
+* safe login
+* verify user when editing library
