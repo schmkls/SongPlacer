@@ -1,7 +1,6 @@
-import {React} from 'react';
-import Axios from 'axios';
 import Globals from '../../../globals/Globals.css'
 import usePages from '../../../pagesHelp';
+import accessHelp from '../../../accessHelp';
 
 /**
  * @param {*} user object
@@ -9,11 +8,10 @@ import usePages from '../../../pagesHelp';
  */
 const ListedUser = (props) => {
 
+    const accessHelper = accessHelp();
     const user = props.user;
-    const currUser = localStorage.getItem('user_id');
 
-
-    const isCurrentUser = (currUser === user.id);
+    const isCurrentUser = accessHelper.isCurrUser(user.id);
 
     const pagesHelp = usePages();
     const pages = pagesHelp.pages;

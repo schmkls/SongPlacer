@@ -11,20 +11,20 @@ import SpotifyAuth from './pages/handleUser/spotifyAuth/SpotifyAuth';
  */
 export default function App() {
 
+    const pagesHelper = pagesHelp();
     const accessToken = localStorage.getItem("access_token");
-
+    
     console.log("accessToken in localStorage: " + JSON.stringify(accessToken));
     
     if (!accessToken || accessToken === "undefined") {        
         return <SpotifyAuth/>
     }
 
-    const pages = pagesHelp();
 
     return (
         <>
                 {
-                    pages.getElements().map((elem, index) => (
+                    pagesHelper.getElements().map((elem, index) => (
                         <div key={index}>
                             {elem}
                         </div>

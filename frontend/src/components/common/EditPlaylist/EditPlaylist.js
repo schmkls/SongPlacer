@@ -1,5 +1,5 @@
-import { React, useState, useContext } from "react";
-import Axios from "axios";
+import { React, useState } from "react";
+import axios from "axios";
 
 
 /**
@@ -20,7 +20,7 @@ const EditPlaylist = (props) => {
 
         const putUrl = `http://localhost:3001/library/${currUser}/update-playlist/${playlistId}`;
 
-        Axios.put(putUrl, {
+        axios.put(putUrl, {
             playlistId: playlistId, 
             playlistName: newName
         }).then((response) => {

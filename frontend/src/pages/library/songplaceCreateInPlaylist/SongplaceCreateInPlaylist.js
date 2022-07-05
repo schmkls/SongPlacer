@@ -8,7 +8,8 @@ const FAIL = 1;
 const UNKNOWN = 2;
 
 /**
- * @returns page for adding songplace to a playlist 
+ * @returns page for adding songplace to a playlist,
+ * or info playlist doesn't belong to current user
  */
 const SongplaceCreateInPlaylist = () => {
     
@@ -19,9 +20,6 @@ const SongplaceCreateInPlaylist = () => {
 
     //success of songplace posting
     const [postStatus, setPostStatus] = useState(UNKNOWN);
-
-    //success of connecting songplace to playlist
-    const [connectStatus, setConnectStatus] = useState(UNKNOWN);
 
     const currUrl = new URL(window.location.href);
     const playlistId = currUrl.searchParams.get('playlist-id');
@@ -46,18 +44,12 @@ const SongplaceCreateInPlaylist = () => {
         });
     }
 
+
     /**
      * Posts songplace and returns id.
      * @returns id of songplace that was posted (will be null if posting failed)
      */
     const postSongPlace = async () => {
-        let songplacePosted = null;
-
-        console.log("posting songplace: " +
-            "\nplaylistId = " + playlistId +
-            "\nuserId = " + currUser +
-            "\nsongplace = " + song
-        );
 
         //notice backticks ` 
         const postUrl = `http://localhost:3001/library/${currUser}/${playlistId}/create-songplace`;
@@ -80,24 +72,9 @@ const SongplaceCreateInPlaylist = () => {
         });
     };
 
-    /**
-     * Connects songplace that was posted to a playlist
-     * @param id id of songplace
-     */
-    const connectSongplaceToPlayList = async (songplaceId) => {
-
-    };
-
-    /**
-     * Adds song
-     */
-    const addSongPlace = () => {
-        postSongPlace().then((id) => connectSongplaceToPlayList(id));
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        addSongPlace();
+        postSongPlace();
     };
 
     /**
@@ -163,12 +140,6 @@ const SongplaceCreateInPlaylist = () => {
                         <h2>Error, songplace could not be added</h2>
                         :
                         <></>
-            }
-            {
-                connectStatus === FAIL ?
-                    <h2>Songplace could not be added to playlist {playlistName}</h2>
-                    :
-                    <></>
             }
         </div>
     );

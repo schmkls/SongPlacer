@@ -6,11 +6,12 @@ import pagesHelp from '../../pagesHelp';
 
 const NoPage = () => {
 
+    const pagesHelper = pagesHelp();
 
     return (
         <div className='margin-top'>
             <h2>Not a page</h2>
-            <p>nå länk gå tillbaka</p>
+            <button onClick={() => window.history.go(-1)}>Go back</button>
         </div>
     );
 }

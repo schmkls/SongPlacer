@@ -17,10 +17,6 @@ const NearMe = () => {
 
     const currUser = localStorage.getItem('user_id');
 
-
-    //used to make page render
-    const [updSwitch, setUpdSwitch] = useState(false);
-
     //used to store/set user position
     const [lat, setLat] = useState();
     const [long, setLong] = useState();
@@ -35,7 +31,6 @@ const NearMe = () => {
     const [displaySongplaces, setDisplaySongplaces] = useState([]);
 
 
-  
     /**
      * Toggling play has the effect of making songplaces order by location 
      */

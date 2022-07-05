@@ -26,9 +26,9 @@ const SpotifyAuth = (props) => {
     const getUserId = async() => {
         return new Promise((res, rej) => {
             axios.get('https://api.spotify.com/v1/me', {
-            headers: {
-                Authorization: 'Bearer ' + accessToken,
-            }
+                headers: {
+                    Authorization: 'Bearer ' + accessToken,
+                }
             }).then((response) => {
                 res(response.data.id);
             }).catch((err) => {

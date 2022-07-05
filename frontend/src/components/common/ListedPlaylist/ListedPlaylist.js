@@ -1,4 +1,4 @@
-import usePages from "../../../pagesHelp";
+import pagesHelp from "../../../pagesHelp";
 import { React } from "react";
 
 
@@ -10,8 +10,8 @@ import { React } from "react";
 
     const playlist = props.playlist;
 
-    const pagesHelp = usePages();
-    const pages = pagesHelp.pages;
+    const pagesHelper = pagesHelp();
+    const pages = pagesHelper.pages;
 
     const currUser = localStorage.getItem('user_id');
 
@@ -20,11 +20,11 @@ import { React } from "react";
     
     const openPlaylist = () => {
         if (isOwned) {
-            let url = pagesHelp.getURL(pages.playlist);
+            let url = pagesHelper.getURL(pages.playlist);
             url.searchParams.set('playlist-id', playlist.id);
             window.location.href = url;
         } else {
-            let url = pagesHelp.getURL(pages.searchedPlaylist);
+            let url = pagesHelper.getURL(pages.searchedPlaylist);
             url.searchParams.set('playlist-id', playlist.id);
             window.location.href = url;
         }

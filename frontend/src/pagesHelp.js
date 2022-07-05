@@ -67,7 +67,7 @@ export default function pagesHelp() {
         },
         spotifyAuth: {
             path: '/authorize-spotify', 
-            name: 'Login', 
+            name: 'Authorize Spotify', 
             element: <SpotifyAuth/>
         },
         login: {

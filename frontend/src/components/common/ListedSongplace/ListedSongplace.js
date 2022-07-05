@@ -1,5 +1,5 @@
 import {React} from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 import Globals from '../../../globals/Globals.css'
 
 /**
@@ -20,7 +20,7 @@ const ListedSongPlace = (props) => {
          //notice backticks ` 
         const deleteUrl = `http://localhost:3001/library/${currUser}/${playlistId}/${songplace.id}/delete-songplace`;
 
-        Axios.delete(deleteUrl).then((response) => {
+        axios.delete(deleteUrl).then((response) => {
             console.log("songplace delete status: " + response.status);
             if (response.status == 200) {
                 window.location.reload(true);

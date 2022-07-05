@@ -6,7 +6,6 @@ import accessHelp from "../../../accessHelp";
 
 const NOT_LOGGED_IN = 1;
 const FAIL = 2;
-const SUCCESS = 3;
 const WAITING = 4;
 
 /**
