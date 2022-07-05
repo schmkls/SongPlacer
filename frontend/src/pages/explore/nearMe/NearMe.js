@@ -77,7 +77,7 @@ const NearMe = () => {
                 res(songplaces);
             }
     
-            axios.get("http://localhost:3001/get-songplaces").then((response) => {
+            axios.get("http://localhost:3001/v1/get-songplaces").then((response) => {
                 if (response.status != 200) {
                     console.log("get songplaces failed, response: " + response);
                     res(null);

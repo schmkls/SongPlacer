@@ -42,7 +42,7 @@ const SearchUser = (props) => {
      * Fetch all users
      */
     useEffect(() => {
-        Axios.get("http://localhost:3001/get-users")
+        Axios.get("http://localhost:3001/v1/get-users")
         .then((response) => {
             setAllUsers(response.data);
         }).catch((err) => {

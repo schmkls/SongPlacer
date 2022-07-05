@@ -24,7 +24,7 @@ const CreateUser = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); //in order not to reload page
 
-        axios.post("http://localhost:3001/create-user", {
+        axios.post("http://localhost:3001/v1/create-user", {
             userName: username,
             password: password
         }).then((response) => {

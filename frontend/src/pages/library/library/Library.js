@@ -30,7 +30,7 @@ const Library = () => {
      * Fetches playlists after render 
      */
      useEffect(()=> {
-        axios.get(`http://localhost:3001/library/${userId}`).then((response) => {
+        axios.get(`http://localhost:3001/v1/library/${userId}`).then((response) => {
             if (response.status == 200) {
                 setPlaylists(response.data)
             } else {
@@ -56,7 +56,7 @@ const Library = () => {
      */
      useEffect(() => {
         //todo: get by user id
-        axios.get(`http://localhost:3001/get-username/${userId}`)
+        axios.get(`http://localhost:3001/v1/get-username/${userId}`)
         .then((response) => {
             console.log("get-username response: " + JSON.stringify(response));
             if (response.status == 200) {

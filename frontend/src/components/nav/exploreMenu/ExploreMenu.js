@@ -28,7 +28,7 @@ const ExploreMenu = () => {
 
     //Creates default playlist and navigates to add songplace to it
     const createDefaultPlaylist = () => {
-        axios.post(`http://localhost:3001/create-default-playlist/${userId}`).then((res) => {
+        axios.post(`http://localhost:3001/v1/create-default-playlist/${userId}`).then((res) => {
             navigateToPlaylist(res.data.insertId);
         }).catch((err) => {
             alert("Could not create default playlist");
@@ -37,7 +37,7 @@ const ExploreMenu = () => {
 
     //Goes to adding page for default playlist
     const goToDefaultSongplaceAdd = () => {
-        axios.get(`http://localhost:3001/get-default-playlist/${userId}`).then((res) => {
+        axios.get(`http://localhost:3001/v1/get-default-playlist/${userId}`).then((res) => {
             if (res.data.length == 0) {
                 console.log("no default playlist, creating default playlist");
                 createDefaultPlaylist();

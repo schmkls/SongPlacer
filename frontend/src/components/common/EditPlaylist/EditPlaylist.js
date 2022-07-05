@@ -18,7 +18,7 @@ const EditPlaylist = (props) => {
     const changeName = (e) => {
         e.preventDefault();     //in order not to reload
 
-        const putUrl = `http://localhost:3001/library/${currUser}/update-playlist/${playlistId}`;
+        const putUrl = `http://localhost:3001/v1/library/${currUser}/update-playlist/${playlistId}`;
 
         axios.put(putUrl, {
             playlistId: playlistId, 

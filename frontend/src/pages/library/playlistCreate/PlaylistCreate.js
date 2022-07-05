@@ -20,7 +20,7 @@ const PlaylistCreate = () => {
     const addPlaylist = async () => {
 
         //notice backticks ` 
-        const postUrl = `http://localhost:3001/library/${currUser}/create-playlist`;
+        const postUrl = `http://localhost:3001/v1/library/${currUser}/create-playlist`;
 
         Axios.post(postUrl, {
             playlistName: playlist

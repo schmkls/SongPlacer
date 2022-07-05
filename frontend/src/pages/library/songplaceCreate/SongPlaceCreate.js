@@ -36,7 +36,7 @@ const SongPlaceCreate = () => {
     const postSongPlace = async () => {
 
         //notice backticks ` 
-        const postUrl = `http://localhost:3001/library/${currUser}/${playlistId}/create-songplace`;
+        const postUrl = `http://localhost:3001/v1/library/${currUser}/${playlistId}/create-songplace`;
 
         axios.post(postUrl, {
             songplaceName: song,
@@ -66,7 +66,7 @@ const SongPlaceCreate = () => {
      * Sets playlist name
      */
     useEffect(()=> {
-        axios.get(`http://localhost:3001/get-playlist/${playlistId}`)
+        axios.get(`http://localhost:3001/v1/get-playlist/${playlistId}`)
         .then((result) => {
             const userId = result.data[0].user_id;
             setPlaylistName(result.data[0].name);

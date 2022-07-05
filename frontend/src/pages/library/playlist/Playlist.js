@@ -32,7 +32,7 @@ const Playlist = () => {
    
     const getSongPlaces = () => {
         //notice backticks ` 
-        const getUrl = `http://localhost:3001/library/${currUser}/${playlistId}/songplaces`; 
+        const getUrl = `http://localhost:3001/v1/library/${currUser}/${playlistId}/songplaces`; 
 
         axios.get(getUrl)
         .then((response) => {
@@ -48,7 +48,7 @@ const Playlist = () => {
      */
     const deletePlaylist = () => {
         //notice backticks ` 
-        const deleteUrl = `http://localhost:3001/library/${currUser}/delete-playlist/${playlistId}`; 
+        const deleteUrl = `http://localhost:3001/v1/library/${currUser}/delete-playlist/${playlistId}`; 
 
         axios.delete(deleteUrl).then((response) => {
             if (!response.status == 200) {
@@ -96,7 +96,7 @@ const Playlist = () => {
      * Sets playlist name and if playlist is owned
      */
      useEffect(()=> {
-        axios.get(`http://localhost:3001/get-playlist/${playlistId}`).then((response) => {
+        axios.get(`http://localhost:3001/v1/get-playlist/${playlistId}`).then((response) => {
             if (response.status == 200) {
                 console.log("get name data: " + JSON.stringify(response.data[0].name));
                 setPlaylistName(response.data[0].name);

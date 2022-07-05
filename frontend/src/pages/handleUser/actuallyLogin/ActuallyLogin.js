@@ -30,7 +30,7 @@ const ActuallyLogin = () => {
 
         console.log("frontend logging in user: " + username + ", " + password);
 
-        axios.post("http://localhost:3001/verify-user", {
+        axios.post("http://localhost:3001/v1/verify-user", {
             userName: username, 
             password: password 
         }).then((response) => {

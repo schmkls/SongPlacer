@@ -31,7 +31,7 @@ app.listen(3001, () => {
  * Verify user and return token. 
  * (For some reason get-routing request body could not be read when doing get-routing) 
  */
- app.post('/verify-user', (req, res) => {
+ app.post('/v1/verify-user', (req, res) => {
     
     const userName = req.body.userName;
     const password = req.body.password;
@@ -63,7 +63,7 @@ app.listen(3001, () => {
 /**
  * Get all users
  */
-app.get('/get-users', (req, res) => {
+app.get('/v1/get-users', (req, res) => {
     db.query("SELECT * FROM users", (err, result) => {
         if (err) {
             return res.status(500).json({
@@ -79,7 +79,7 @@ app.get('/get-users', (req, res) => {
 /**
  * Get username by id
  */
- app.get('/get-username/:userId', (req, res) => {
+ app.get('/v1/get-username/:userId', (req, res) => {
 
     const userId = req.params.userId;
 
@@ -105,7 +105,7 @@ app.get('/get-users', (req, res) => {
 /**
  * Post a new user, or fails to do so and returns a response indicating why. 
  */
- app.post('/create-user', (req, res) => {
+ app.post('/v1/create-user', (req, res) => {
     
     const userName = req.body.userName;
     const password = req.body.password;
@@ -159,7 +159,7 @@ app.get('/get-users', (req, res) => {
 /**
  * Post a new playlist. 
  */
- app.post('/library/:userId/create-playlist', (req, res) => {
+ app.post('/v1/library/:userId/create-playlist', (req, res) => {
     
     const userId = req.params.userId;
     const playlistName = req.body.playlistName;
@@ -262,7 +262,7 @@ app.put("/library/:userId/update-playlist/:playlistId", (req, res) => {
 /**
  * Get playlists for a user.   
  */
- app.get('/library/:userId', (req, res) => {
+ app.get('/v1/library/:userId', (req, res) => {
     
     const userId = req.params.userId;
 
@@ -281,7 +281,7 @@ app.put("/library/:userId/update-playlist/:playlistId", (req, res) => {
 /**
  * Return the default playlist 'all' of given user
  */
-app.get('/get-default-playlist/:userId', (req, result) => {
+app.get('/v1/get-default-playlist/:userId', (req, result) => {
     const userId = req.params.userId;
 
     db.query('SELECT * FROM playlists WHERE user_id = ? AND name = "default"', 
@@ -298,7 +298,7 @@ app.get('/get-default-playlist/:userId', (req, result) => {
 });
 
 
-app.post('/create-default-playlist/:userId', (req, result) => {
+app.post('/v1/create-default-playlist/:userId', (req, result) => {
     const userId = req.params.userId;
 
     db.query('INSERT INTO playlists (name, user_id) '  + 
@@ -319,7 +319,7 @@ app.post('/create-default-playlist/:userId', (req, result) => {
 /**
  * Get playlist by id. 
  */
-app.get('/get-playlist/:playlistId', (req, res) => {
+app.get('/v1/get-playlist/:playlistId', (req, res) => {
     const playlistId = req.params.playlistId;
 
     db.query('SELECT * FROM playlists WHERE id = ?', 
@@ -338,7 +338,7 @@ app.get('/get-playlist/:playlistId', (req, res) => {
 /**
  * Post a new songplace to a playlist. 
  */
- app.post('/library/:userId/:playlistId/create-songplace', (req, res) => {
+ app.post('/v1/library/:userId/:playlistId/create-songplace', (req, res) => {
     
 
     const userId = req.params.userId;
@@ -393,7 +393,7 @@ app.get('/get-playlist/:playlistId', (req, res) => {
 /**
  * Get songplaces for playlist. 
  */
-app.get('/library/:userId/:playlistId/songplaces', (req, res) => {
+app.get('/v1/library/:userId/:playlistId/songplaces', (req, res) => {
 
     const playlistId = req.params.playlistId;
     
@@ -417,7 +417,7 @@ app.get('/library/:userId/:playlistId/songplaces', (req, res) => {
 /**
  * Delete songplace.
  */
-app.delete('/library/:userId/:playlistId/:songplaceId/delete-songplace', (req, res) => {
+app.delete('/v1/library/:userId/:playlistId/:songplaceId/delete-songplace', (req, res) => {
 
     const songplaceId = req.params.songplaceId;
 
@@ -440,7 +440,7 @@ app.delete('/library/:userId/:playlistId/:songplaceId/delete-songplace', (req, r
 /**
  * Get all songplaces
  */
- app.get('/get-songplaces', (req, res) => {
+ app.get('/v1/get-songplaces', (req, res) => {
 
     db.query("SELECT * FROM songplaces", 
         (err, result) => {
