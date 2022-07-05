@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faCirclePlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import pagesHelp from '../../../pagesHelp';
 import accessHelp from '../../../accessHelp';
+import axios from 'axios';
 
 /**
  * Bottom bar for explore-page
@@ -11,14 +12,47 @@ const ExploreMenu = () => {
 
     const pagesHelper = pagesHelp();
     const accessHelper = accessHelp();
+    const userId = accessHelper.getCurrUserId();
+
 
     const nearMeClick = () => {
         window.location.href = pagesHelper.getURL(pagesHelper.pages.nearMe);
     }
 
+
+    const navigateToPlaylist = (playlistId) => {
+        const url = pagesHelper.getURL(pagesHelper.pages.addSongplace);
+        url.searchParams.set('playlist-id', playlistId);
+        window.location.href = url;
+    }
+
+    //Creates default playlist and navigates to add songplace to it
+    const createDefaultPlaylist = () => {
+        axios.post(`http://localhost:3001/create-default-playlist/${userId}`).then((res) => {
+            navigateToPlaylist(res.data.insertId);
+        }).catch((err) => {
+            alert("Could not create default playlist");
+        });
+    }
+
+    //Goes to adding page for default playlist
+    const goToDefaultSongplaceAdd = () => {
+        axios.get(`http://localhost:3001/get-default-playlist/${userId}`).then((res) => {
+            if (res.data.length == 0) {
+                console.log("no default playlist, creating default playlist");
+                createDefaultPlaylist();
+            } else {
+                navigateToPlaylist(res.data[0].id);
+            }
+            console.log("def pl resp: " + JSON.stringify(res));
+        }).catch((err) => {
+            alert("Could not go to add songplace");
+        });
+    }
+
     const addClick = () => {
         if (accessHelper.userIsLoggedIn()) {
-            console.log("ADD SONGPLACE NOT TO LIBRARY NOT YET IMPLEMENTED");
+            goToDefaultSongplaceAdd();
         } else {
             if (window.confirm("Login requiered. Login?")) {
                 window.location.href = pagesHelper.getURL(pagesHelper.pages.login);

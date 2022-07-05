@@ -278,6 +278,43 @@ app.put("/library/:userId/update-playlist/:playlistId", (req, res) => {
         });
 });
 
+/**
+ * Return the default playlist 'all' of given user
+ */
+app.get('/get-default-playlist/:userId', (req, result) => {
+    const userId = req.params.userId;
+
+    db.query('SELECT * FROM playlists WHERE user_id = ? AND name = "default"', 
+        [userId], (err, res) => {
+            if (err) {
+                return res.status(500).json({
+                    message: "Could not get default playlist"
+                });
+            } 
+
+            return result.status(200).json(res);
+        }
+    );
+});
+
+
+app.post('/create-default-playlist/:userId', (req, result) => {
+    const userId = req.params.userId;
+
+    db.query('INSERT INTO playlists (name, user_id) '  + 
+            'VALUES ("default", ?)',  
+        [userId], (err, res) => {
+            if (err) {
+                return result.status(500).json({
+                    message: "Could not create default playlist"
+                });
+            } 
+
+            return result.status(200).json(res);
+        }
+    );
+}), 
+
 
 /**
  * Get playlist by id. 
@@ -303,7 +340,6 @@ app.get('/get-playlist/:playlistId', (req, res) => {
  */
  app.post('/library/:userId/:playlistId/create-songplace', (req, res) => {
     
-    let songplaceId;    //get from songplace post
 
     const userId = req.params.userId;
     const playlistId = req.params.playlistId;

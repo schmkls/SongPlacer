@@ -8,5 +8,11 @@
 - <code>SONGPLACER_CLIENT_ID</code> Spotify client id
 - <code>SONGPLACER_CLIENT_SECRET</code> Spotify client secret
 
+
 ## Database
 See database/DATABASE.md
+
+## Other
+If no playlist is not given when adding songplace, it is added to users default playlist 'default'. 
+The default playlists should be created if user adds songplace to no specific playlist and has no default
+playlist. 
