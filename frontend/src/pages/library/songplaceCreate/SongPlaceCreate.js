@@ -82,7 +82,7 @@ const SongPlaceCreate = () => {
             if (response.status !== 200) {
                 alert("Could not add songplace");
             } else {
-                console.log("POSTED!")
+                alert("Songplace added!");
             }
         })
         .catch((err) => {

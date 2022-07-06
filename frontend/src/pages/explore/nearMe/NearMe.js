@@ -4,6 +4,7 @@ import Globals from '../../../globals/Globals.css';
 import ListedSongPlace from '../../../components/common/ListedSongplace/ListedSongplace';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons'
+import accessHelp from '../../../accessHelp';
 
 const FAIL = 1;
 const PLAYING = 4;
@@ -12,10 +13,11 @@ const UNSUPPORTED = 6;
 const NONALLOWED = 7;
 
 
-
 const NearMe = () => {
 
-    const currUser = localStorage.getItem('user_id');
+    const accessHelper = accessHelp();
+
+    const currUser = accessHelper.getCurrUserId();
 
     //used to store/set user position
     const [lat, setLat] = useState();
