@@ -76,8 +76,6 @@ const SongPlaceCreate = () => {
             userId: currUser
         })
         .then((response) => {
-            console.log("post response: " + JSON.stringify(response));
-
             //200 = OK, anything else indicates error
             if (response.status !== 200) {
                 alert("Could not add songplace");

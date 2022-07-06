@@ -16,7 +16,6 @@ const NONALLOWED = 7;
 const NearMe = () => {
 
     const accessHelper = accessHelp();
-
     const currUser = accessHelper.getCurrUserId();
 
     //used to store/set user position
@@ -223,7 +222,7 @@ const NearMe = () => {
              {
                 play === PLAYING ?
                         displaySongplaces.map((songplace, index) => (
-                            <ListedSongPlace songplace={songplace} key={index} isOwned={false} playlistId={-1}/>
+                            <ListedSongPlace id={songplace.id} trackId={songplace.track_id} isOwned={false} key={index}/>
                         ))
                     :
                         <h5>Press play to get songplaces from nearby</h5>
