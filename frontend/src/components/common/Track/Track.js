@@ -27,7 +27,7 @@ const Track = (props) => {
     }
 
     return (
-        <div onClick={() => props.chooseSong(track)}>
+        <div onClick={props.onClick}>
             <hr/>
             <p>
                 {name} ({makeArtistsString()})

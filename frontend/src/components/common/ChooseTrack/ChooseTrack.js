@@ -71,10 +71,13 @@ const ChooseTrack = (props) => {
             <button onClick={() => search()}>Search</button>
             {
                 chosen ? 
-                    <Track chooseSong={chooseSong} track={chosen}/>
+                    <Track onClick={() => chooseSong(chosen)} track={chosen}/>
                 :
                     tracks?.map((track, index) => (
-                        <Track chooseSong={chooseSong} chooseTrack={props.chooseTrack} track={track} key={index}/>
+                        <Track onClick={() => {
+                            chooseSong(track);
+                            console.log("choosing: " + track.name);
+                        }} track={track} key={index}/>
                     ))
             }
             {
