@@ -30,6 +30,16 @@ const SongPlaceCreate = () => {
     const currUser = accessHelper.getCurrUserId();
 
 
+    const chooseTrack = (id) => {
+        console.log("ADD PAGE CHOSE TRACK WITH ID: " + id);
+        if (track == id) {
+            setTrack(); //unchoose
+        } else {
+            setTrack(id);   //choose track 
+        }
+    }
+
+
     /**
      * Posts songplace and returns id.
      * @returns id of songplace that was posted (will be null if posting failed)
@@ -97,7 +107,7 @@ const SongPlaceCreate = () => {
     return (
         <div className="margin-top">
             <h2>Add songplace to {playlistName}</h2>
-            <ChooseTrack setTrack={setTrack}></ChooseTrack>
+            <ChooseTrack chooseTrack={chooseTrack}></ChooseTrack>
             <button onClick={() => postSongPlace()}>
                 <h3>
                     Add songplace

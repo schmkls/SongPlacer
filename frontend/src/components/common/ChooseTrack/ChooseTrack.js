@@ -3,6 +3,10 @@ import {React, useState} from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 import Track from "../Track/Track";
 
+
+const SEARCHING = 1;
+const NOT_SEARCHING = 2;
+
 const spotifyApi = new SpotifyWebApi({
     clientId: process.env.SONGPLACER_CLIENT_ID, 
     clientSecret: process.env.SONGPLACER_CLIENT_SECRET
@@ -16,20 +20,23 @@ spotifyApi.setAccessToken(localStorage.getItem('access_token'));
  */
 const ChooseTrack = (props) => {
 
-    const setChosen = props.setTrack;
     const [searchStr, setSearchStr] = useState();
-    const [tracks, setTracks] = useState([]);
+    const [tracks, setTracks] = useState();
+    const [state, setState] = useState(NOT_SEARCHING);
 
 
     const search = () => {
+        setState(SEARCHING);
         spotifyApi.searchTracks(searchStr)
         .then((data) => {
             console.log("data fr sökning: " + JSON.stringify(data));
             console.log("setting tracks");
             setTracks(data.body.tracks.items);
+            setState(NOT_SEARCHING);
         })
         .catch((err) => {
             console.log("sökningserror: " + JSON.stringify(err));
+            setState(NOT_SEARCHING);
             alert("Could not search");
         });
     }
@@ -41,8 +48,15 @@ const ChooseTrack = (props) => {
             <button onClick={() => search()}>Search</button>
             {
                 tracks?.map((track, index) => (
-                    <Track setChosen={setChosen} track={track} key={index}/>
+                    <Track chooseTrack={props.chooseTrack} track={track} key={index}/>
                 ))
+            }
+            {
+                state === SEARCHING ? 
+                        <h3>Searching...</h3>
+                    :
+                        <></>
+
             }
             <hr/>
             <h2>placeholder for map</h2>

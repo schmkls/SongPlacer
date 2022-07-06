@@ -18,7 +18,6 @@ export default function accessHelp() {
     }
 
     const getCurrUserId = () => {
-        console.log("accessHelper says currUserId = " + localStorage.getItem(SONGPLACER_ID_STR));
         return localStorage.getItem(SONGPLACER_ID_STR);
     }
 
