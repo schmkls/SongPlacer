@@ -16,19 +16,24 @@ spotifyApi.setAccessToken(localStorage.getItem('access_token'));
  */
 const ChooseTrack = (props) => {
 
-    const setTrack = props.setTrack;
+    const setChosen = props.setTrack;
     const [searchStr, setSearchStr] = useState();
     const [tracks, setTracks] = useState([]);
 
 
     const search = () => {
-        spotifyApi.searchTracks('ballin')
+        spotifyApi.searchTracks(searchStr)
         .then((data) => {
             console.log("data fr sökning: " + JSON.stringify(data));
+            console.log("setting tracks");
+            setTracks(data.body.tracks.items);
+            data.body.tracks.items.map((track) => {
+                console.log("track name: " + track.name);
+                console.log("track id: " + track.id);
+                console.log("track album cover: " + JSON.stringify(track.album.images[0].url)); 
+            });
         })
         .catch((err) => console.log("sökningserror: " + JSON.stringify(err)));
-
-        console.log("searching for " + searchStr);
     }
 
 
@@ -37,9 +42,9 @@ const ChooseTrack = (props) => {
             <input placeholder='Search track' onChange={(e) => setSearchStr(e.target.value)}/>
             <button onClick={() => search()}>Search</button>
             {
-                tracks.map((track) => {
-                    <Track/>
-                })
+                tracks?.map((track, index) => (
+                    <Track setChosen={setChosen} id={track.id} name={track.name} image={track.album?.images[0].url} key={index}/>
+                ))
             }
             <hr/>
             <h2>placeholder for map</h2>
