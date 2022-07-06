@@ -47,15 +47,18 @@ CREATE TABLE `songplacer`.`playlists` (
 <br />
 <br />
 
+
 Stores songplaces. A songplace is a place (latitude + longitude) with a song that some user has added. 
 <code>
-CREATE TABLE `songplacer`.`songplaces` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` TEXT(255) NOT NULL,
-  `user_id` INT NOT NULL,
-  `longitude` FLOAT NOT NULL,
-  `latitude` FLOAT NOT NULL,
-  PRIMARY KEY (`id`));
+CREATE TABLE `songplaces` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `track_id` varchar(45) NOT NULL,
+  `user_id` int NOT NULL,
+  `longitude` float NOT NULL,
+  `latitude` float NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 </code>
 <br />
 <br />
