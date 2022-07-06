@@ -77,10 +77,12 @@ Contributions are much appreciated! You can contribute by:
 - Creating feature branches and developing features
 
 ## Todos
-* songplaces = Spotify-track + coordinates (or strings + coordinates if against Spotify TOS to store track-ids)
+* songplaces = Spotify-track + coordinates
 * search and choose Spotify-track when adding songplace
 * songplace-click -> open in Spotify
 * read and make sure Spotify guidelines and TOS is followed
 * map
 * safe login
-* verify user when editing library
+* fix spotify token refresh
+* API: verify user when editing library
+* db: trigger so delete user deletes users playlists

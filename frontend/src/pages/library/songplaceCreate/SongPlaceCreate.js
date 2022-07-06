@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Globals from '../../../globals/Globals.css';
+import ChooseTrack from "../../../components/common/ChooseTrack/ChooseTrack";
 import axios from "axios";
 import accessHelp from "../../../accessHelp";
 
@@ -13,7 +14,7 @@ const UNKNOWN = 2;
  */
 const SongPlaceCreate = () => {
     
-    const [song, setSong] = useState();
+    const [track, setTrack] = useState();
     const [lat, setLatitude] = useState();
     const [long, setLongitude] = useState();
     const [isOwned, setIsOwned] = useState(false);
@@ -39,7 +40,7 @@ const SongPlaceCreate = () => {
         const postUrl = `http://localhost:3001/v1/library/${currUser}/${playlistId}/create-songplace`;
 
         axios.post(postUrl, {
-            songplaceName: song,
+            songplaceName: track,
             latitude: lat,
             longitude: long,
         }
@@ -79,6 +80,10 @@ const SongPlaceCreate = () => {
         });
     }, []);
 
+    useEffect(() => {
+        console.log("track was set to: " + track);
+    }, [track])
+
 
     if (!isOwned) {
         return (
@@ -92,47 +97,18 @@ const SongPlaceCreate = () => {
     return (
         <div className="margin-top">
             <h2>Add songplace to {playlistName}</h2>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <label>
-                    <p>Song</p>
-                    <input
-                        required
-                        type="text"
-                        onChange={(e) => setSong(e.target.value)}
-                    />
-                </label>
-                <label>
-                    <p>Latitude</p>
-                    <input
-                        required
-                        type="number"
-                        min="-90"
-                        max="90"
-                        step="0.01"
-                        onChange={(e) => setLatitude(e.target.value)}
-                    />
-                </label>
-                <label>
-                    <p>Longitude</p>
-                    <input
-                        required
-                        type="number"
-                        min="-180"
-                        max="180"
-                        step="0.01"
-                        onChange={(e) => setLongitude(e.target.value)}
-                    />
-                </label>
-                <div>
-                    <button type="submit">Add songplace</button>
-                </div>
-            </form>
+            <ChooseTrack setTrack={setTrack}></ChooseTrack>
+            <button onClick={() => postSongPlace()}>
+                <h3>
+                    Add songplace
+                </h3>
+            </button>
             {
                 postStatus === SUCCESS ?
-                    <h2>Songplace added!</h2>
+                    <p>Songplace added!</p>
                     :
                     postStatus === FAIL ?
-                        <h2>Error, songplace could not be added</h2>
+                        <p>Error, songplace could not be added</p>
                         :
                         <></>
             }
