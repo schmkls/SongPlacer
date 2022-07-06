@@ -120,7 +120,7 @@ const Playlist = () => {
                     <h2>Loading...</h2>
                 :
                 songplaces.map((songplace, index) => (
-                    <ListedSongPlace trackId={songplace.track_id} key={index} playlistId={playlistId} isOwned={isOwned}></ListedSongPlace>
+                    <ListedSongPlace id={songplace.id} trackId={songplace.track_id} playlistId={playlistId} isOwned={isOwned} key={index}/>
                 ))
             }
             {

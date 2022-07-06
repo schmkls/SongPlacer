@@ -24,10 +24,8 @@ const ListedSongPlace = (props) => {
 
     const [track, setTrack] = useState();
 
+    const id = props.id;
     const trackId = props.trackId;
-
-    console.log("listed track id = " + trackId);
-
     const playlistId = props.playlistId;
     const isOwned = props.isOwned;
 
@@ -39,7 +37,7 @@ const ListedSongPlace = (props) => {
  
     const deleteSongplace = () => {
          //notice backticks ` 
-        const deleteUrl = `http://localhost:3001/library/${currUser}/${playlistId}/${trackId}/delete-songplace`;
+        const deleteUrl = `http://localhost:3001/v1/library/${currUser}/${playlistId}/${id}/delete-songplace`;
 
         axios.delete(deleteUrl).then((response) => {
             console.log("songplace delete status: " + response.status);
@@ -58,7 +56,6 @@ const ListedSongPlace = (props) => {
     useEffect(() => {
         spotifyApi.getTrack(trackId)
         .then((track) => {
-            console.log("set track to: " + JSON.stringify(track));
             setTrack(track.body);
         });
     }, []);
