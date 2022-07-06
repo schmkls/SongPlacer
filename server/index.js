@@ -339,13 +339,14 @@ app.get('/v1/get-playlist/:playlistId', (req, res) => {
  * Post a new songplace to a playlist. 
  */
  app.post('/v1/library/:userId/:playlistId/create-songplace', (req, res) => {
-    console.log("creating songplace: " + req.body.songplaceName);
     
     const userId = req.params.userId;
     const playlistId = req.params.playlistId;
-    const songplaceName = req.body.songplaceName;
+    const trackId = req.body.trackId;
     const longitude = req.body.longitude;
     const latitude = req.body.latitude;
+
+    console.log("creating sp with id: " + trackId);
 
     if (userId == null) {
         return res.status(400).json({
@@ -360,10 +361,17 @@ app.get('/v1/get-playlist/:playlistId', (req, res) => {
         });
     }
 
+    if (trackId == null) {
+        console.log("track id null");
+        return res.status(400).json({
+            message: "Track id must not be null"
+        });
+    }
+
     //post songplace to songplaces
     db.query(
         'INSERT INTO songplaces (user_id, track_id, latitude, longitude) VALUES (?,?,?,?)', 
-        [userId, songplaceName, latitude, longitude], (err, result) => {
+        [userId, trackId, latitude, longitude], (err, result) => {
             if (err) {
                 console.log("post sp error: " + err);
                 return res.status(500).json({

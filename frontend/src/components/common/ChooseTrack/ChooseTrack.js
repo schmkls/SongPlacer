@@ -2,6 +2,7 @@
 import {React, useState} from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 import Track from "../Track/Track";
+import accessHelp from "../../../accessHelp";
 
 
 const SEARCHING = 1;
@@ -12,7 +13,7 @@ const spotifyApi = new SpotifyWebApi({
     clientSecret: process.env.SONGPLACER_CLIENT_SECRET
 })
 
-spotifyApi.setAccessToken(localStorage.getItem('access_token'));
+spotifyApi.setAccessToken(accessHelp().getSpotifyAccessToken());
 
 /**
  * @param {*} props should contain useState setTrack to set the track that is chosen

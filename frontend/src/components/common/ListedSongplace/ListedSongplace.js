@@ -1,41 +1,81 @@
-import {React} from 'react';
+import {React, useState, useEffect} from 'react';
+import SpotifyWebApi from "spotify-web-api-node";
 import axios from 'axios';
 import Globals from '../../../globals/Globals.css'
+import Track from '../Track/Track';
+import accessHelp from '../../../accessHelp';
+import pagesHelp from '../../../pagesHelp';
+
+const spotifyApi = new SpotifyWebApi({
+    clientId: process.env.SONGPLACER_CLIENT_ID, 
+    clientSecret: process.env.SONGPLACER_CLIENT_SECRET
+})
+
+spotifyApi.setAccessToken(accessHelp().getSpotifyAccessToken());
 
 /**
- * @param {*} songPlace object
- * @returns item to represent a songplace in a list
+ * @param trackId spotify track id
+ * @param playlistId if songplace is in playlist: id of playlist
+ * 
+ * @returns item to represent a songplace in a list. If playlistId given
+ * in url-params: songplace is deleteable. 
  */
 const ListedSongPlace = (props) => {
 
-    const songplace = props.songplace;
+    const [track, setTrack] = useState();
+
+    const trackId = props.trackId;
+
+    console.log("listed track id = " + trackId);
+
     const playlistId = props.playlistId;
     const isOwned = props.isOwned;
 
-    const currUser = localStorage.getItem('user_id');
+    const accessHelper = accessHelp();
+    const pagesHelper = pagesHelp();
+
+    const currUser = accessHelper.getCurrUserId();
 
  
     const deleteSongplace = () => {
-
          //notice backticks ` 
-        const deleteUrl = `http://localhost:3001/library/${currUser}/${playlistId}/${songplace.id}/delete-songplace`;
+        const deleteUrl = `http://localhost:3001/library/${currUser}/${playlistId}/${trackId}/delete-songplace`;
 
         axios.delete(deleteUrl).then((response) => {
             console.log("songplace delete status: " + response.status);
             if (response.status == 200) {
-                window.location.reload(true);
+                window.location.reload();
             }
         }).catch((err) => {
             console.log("delete songplace error")
         });
     }
 
+
+    /**
+     * Gets the track from Spotify API
+     */
+    useEffect(() => {
+        spotifyApi.getTrack(trackId)
+        .then((track) => {
+            console.log("set track to: " + JSON.stringify(track));
+            setTrack(track.body);
+        });
+    }, []);
+
+
+    if (!track) {
+        return (
+            <div>
+                <h3>loading...</h3>
+            </div>
+        )
+    }
+
     return (
         <div>
             <hr/>
-            <h5>
-                {songplace.name} ({songplace.latitude}, {songplace.longitude})
-            </h5>
+            <Track track={track}></Track>
             {
                 isOwned ?
                         <button onClick={() => deleteSongplace()}> Delete </button>

@@ -62,13 +62,15 @@ const SongPlaceCreate = () => {
             return;
         }
 
+        console.log("posting sp with id: " + track.id);
+
 
         //notice backticks ` 
         const postUrl = `http://localhost:3001/v1/library/${currUser}/${playlistId}/create-songplace`;
         console.log("posting to url: " + postUrl);
 
         axios.post(postUrl, {
-            songplaceName: track.name,
+            trackId: track.id,
             latitude: lat,
             longitude: long,
             userId: currUser

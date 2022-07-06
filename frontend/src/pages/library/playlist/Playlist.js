@@ -9,6 +9,8 @@ import EditPlaylist from '../../../components/common/EditPlaylist/EditPlaylist';
 import pagesHelp from '../../../pagesHelp';
 import accessHelp from '../../../accessHelp';
 
+
+
 const Playlist = () => {
 
     const pagesHelper = pagesHelp();
@@ -36,6 +38,7 @@ const Playlist = () => {
 
         axios.get(getUrl)
         .then((response) => {
+            console.log("songplaces response: " + JSON.stringify(response));
             setSongplaces(response.data);
         }).catch((err) => {
             console.log('get songplaces error');
@@ -98,12 +101,8 @@ const Playlist = () => {
      useEffect(()=> {
         axios.get(`http://localhost:3001/v1/get-playlist/${playlistId}`).then((response) => {
             if (response.status == 200) {
-                console.log("get name data: " + JSON.stringify(response.data[0].name));
                 setPlaylistName(response.data[0].name);
                 setIsOwned(response.data[0].user_id == currUser);
-                console.log(JSON.stringify(response));
-                console.log("currUser = " + currUser + ", user_id = " + response.data[0].user_id);
-                console.log("setting is owned to " + (response.data[0].user_id == currUser));
             } else {
                 console.log("get playlist name error: ");
             }
@@ -121,7 +120,7 @@ const Playlist = () => {
                     <h2>Loading...</h2>
                 :
                 songplaces.map((songplace, index) => (
-                    <ListedSongPlace songplace={songplace} key={index} playlistId={playlistId} isOwned={isOwned}></ListedSongPlace>
+                    <ListedSongPlace trackId={songplace.track_id} key={index} playlistId={playlistId} isOwned={isOwned}></ListedSongPlace>
                 ))
             }
             {
