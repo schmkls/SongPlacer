@@ -339,8 +339,8 @@ app.get('/v1/get-playlist/:playlistId', (req, res) => {
  * Post a new songplace to a playlist. 
  */
  app.post('/v1/library/:userId/:playlistId/create-songplace', (req, res) => {
+    console.log("creating songplace: " + req.body.songplaceName);
     
-
     const userId = req.params.userId;
     const playlistId = req.params.playlistId;
     const songplaceName = req.body.songplaceName;
@@ -354,6 +354,7 @@ app.get('/v1/get-playlist/:playlistId', (req, res) => {
     }
 
     if (playlistId == null) {
+        console.log("user id null");
         return res.status(400).json({
             message: "Playlist id must not be null"
         });
@@ -364,6 +365,7 @@ app.get('/v1/get-playlist/:playlistId', (req, res) => {
         'INSERT INTO songplaces (user_id, track_id, latitude, longitude) VALUES (?,?,?,?)', 
         [userId, songplaceName, latitude, longitude], (err, result) => {
             if (err) {
+                console.log("post sp error: " + err);
                 return res.status(500).json({
                     message: "Create songplace error"
                 });
@@ -379,6 +381,7 @@ app.get('/v1/get-playlist/:playlistId', (req, res) => {
             db.query('INSERT INTO playlist_details (playlist_id, songplace_id) VALUES (?,?)', 
                 [playlistId, result.insertId], (err, result) => {
                 if (err) {
+                    console.log("connnect to playlist error: " + err);
                     return res.status(500).json({
                         message: "Add songplace to playlist error"
                     });

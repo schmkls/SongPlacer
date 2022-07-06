@@ -24,7 +24,7 @@ const Playlist = () => {
 
     const [songplaces, setSongplaces] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [plName, setPlaylistName] = useState('spellistenamn wihu');
+    const [plName, setPlaylistName] = useState();
     const [showEdit, setShowEdit] = useState(false);
 
     const [isOwned, setIsOwned] = useState(false);

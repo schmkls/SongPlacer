@@ -24,15 +24,21 @@ const ChooseTrack = (props) => {
     const [tracks, setTracks] = useState();
     const [state, setState] = useState(NOT_SEARCHING);
     const [chosen, setChosen] = useState();
+    const [lat, setLat] = useState();
+    const [long, setLong] = useState();
 
     const chooseSong = (track) => {
         if (chosen?.id === track.id) {
-            setChosen();            //unchoose if choice the same
-            props.setTrack();
+            unChoose();
         } else {
             setChosen(track);
             props.setTrack(track);  //choose new track
         }
+    }
+
+    const unChoose = () => {
+        setChosen();
+        props.setTrack();
     }
 
 
@@ -46,7 +52,6 @@ const ChooseTrack = (props) => {
             setState(NOT_SEARCHING);
         })
         .catch((err) => {
-            console.log("sökningserror: " + JSON.stringify(err));
             setState(NOT_SEARCHING);
             alert("Could not search");
         });
@@ -55,7 +60,14 @@ const ChooseTrack = (props) => {
 
     return (
         <div>            
-            <input placeholder='Search track' onChange={(e) => setSearchStr(e.target.value)}/>
+            <input placeholder='Search track' onChange={(e) => {
+                setSearchStr(e.target.value)
+                if (e.target.value.length == 0) {
+                    console.log("empty str!!!!");
+                    unChoose();
+                    setTracks();
+                }
+            }}/>
             <button onClick={() => search()}>Search</button>
             {
                 chosen ? 

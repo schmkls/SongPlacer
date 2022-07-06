@@ -14,14 +14,11 @@ const UNKNOWN = 2;
  */
 const SongPlaceCreate = () => {
     
+    const [isOwned, setIsOwned] = useState();
     const [track, setTrack] = useState();
     const [lat, setLatitude] = useState();
     const [long, setLongitude] = useState();
-    const [isOwned, setIsOwned] = useState(false);
     const [playlistName, setPlaylistName] = useState("the playlist");
-
-    //success of songplace posting
-    const [postStatus, setPostStatus] = useState(UNKNOWN);
 
     const currUrl = new URL(window.location.href);
     const playlistId = currUrl.searchParams.get('playlist-id');
@@ -29,68 +26,96 @@ const SongPlaceCreate = () => {
     const accessHelper = accessHelp();
     const currUser = accessHelper.getCurrUserId();
 
+    const checkIfOwned = () => {
+        return new Promise((res, rej) => {
+            axios.get(`http://localhost:3001/v1/get-playlist/${playlistId}`)
+            .then((result) => {
+                if (result.status != 200) {
+                    console.log("Could not check name and ownership")
+                    res(false);
+                }
+                const userId = result.data[0].user_id;
+                setPlaylistName(result.data[0].name);
+                console.log("pl owner = " + userId + " and currUser = " + currUser);
+                res(userId == currUser);
+            })
+            .catch((err) => {
+                res(false);
+            });
+        });
+        
+    }
+    
+
     /**
      * Posts songplace and returns id.
      * @returns id of songplace that was posted (will be null if posting failed)
      */
-    const postSongPlace = async () => {
+    const postSongPlace = () => {
+        if (!track) {
+            alert("No track chosen!");
+            return;
+        }
+
+        if (!lat || !long) {
+            alert("Position not chosen!");
+            return;
+        }
+
 
         //notice backticks ` 
         const postUrl = `http://localhost:3001/v1/library/${currUser}/${playlistId}/create-songplace`;
+        console.log("posting to url: " + postUrl);
 
         axios.post(postUrl, {
-            songplaceName: track,
+            songplaceName: track.name,
             latitude: lat,
             longitude: long,
-        }
-        ).then((response) => {
+            userId: currUser
+        })
+        .then((response) => {
+            console.log("post response: " + JSON.stringify(response));
+
             //200 = OK, anything else indicates error
-            if (response.status === 200) {
-                setPostStatus(SUCCESS);
+            if (response.status !== 200) {
+                alert("Could not add songplace");
             } else {
-                setPostStatus(FAIL);
+                console.log("POSTED!")
             }
-        }
-        ).catch((err) => {
-            setPostStatus(FAIL);
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        postSongPlace();
-    };
-
-    /**
-     * Set isOwned to true if current user owns playlist
-     * Sets playlist name
-     */
-    useEffect(()=> {
-        axios.get(`http://localhost:3001/v1/get-playlist/${playlistId}`)
-        .then((result) => {
-            const userId = result.data[0].user_id;
-            setPlaylistName(result.data[0].name);
-            console.log("pl owner = " + userId + " and currUser = " + currUser);
-            setIsOwned(userId == currUser);
         })
         .catch((err) => {
-            console.log("check if playlist owned error: " + err);
-            setIsOwned(false);
+            alert("Could not add songplace");
+            window.location.reload();
         });
-    }, []);
 
+    };
+
+
+    useEffect(() => {
+        checkIfOwned().then((response) => {
+            setIsOwned(response);
+            console.log("useEffect set isOwned to: " + response);
+        });
+    }, [])
 
     useEffect(() => {
         console.log("track was set to: " + track?.name);
     }, [track])
 
 
-    if (!isOwned) {
+    if (isOwned === undefined || isOwned == 'undefined' || isOwned == null) {
         return (
+            <div className='margin-top'>
+                <h2>Wait...</h2>
+            </div>
+        )
+    }
+
+    if (isOwned === false) {
+        return ( 
             <div className='margin-top'>
                 <h2>Cannot add songplace, not your playlist</h2>
             </div>
-            
         )
     }
 
@@ -98,20 +123,35 @@ const SongPlaceCreate = () => {
         <div className="margin-top">
             <h2>Add songplace to {playlistName}</h2>
             <ChooseTrack setTrack={setTrack}></ChooseTrack>
-            <button onClick={() => postSongPlace()}>
+            <form>
+                <label>
+                    <p>Latitude</p>
+                    <input
+                        required
+                        type="number"
+                        min="-90"
+                        max="90"
+                        step="0.01"
+                        onChange={(e) => setLatitude(e.target.value)}
+                    />
+                </label>
+                <label>
+                    <p>Longitude</p>
+                    <input
+                        required
+                        type="number"
+                        min="-180"
+                        max="180"
+                        step="0.01"
+                        onChange={(e) => setLongitude(e.target.value)}
+                    />
+                </label>
+                </form>
+                <button onClick={() => postSongPlace()}>
                 <h3>
                     Add songplace
                 </h3>
             </button>
-            {
-                postStatus === SUCCESS ?
-                    <p>Songplace added!</p>
-                    :
-                    postStatus === FAIL ?
-                        <p>Error, songplace could not be added</p>
-                        :
-                        <></>
-            }
         </div>
     );
 };
