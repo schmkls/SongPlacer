@@ -23,9 +23,21 @@ const ChooseTrack = (props) => {
     const [searchStr, setSearchStr] = useState();
     const [tracks, setTracks] = useState();
     const [state, setState] = useState(NOT_SEARCHING);
+    const [chosen, setChosen] = useState();
+
+    const chooseSong = (track) => {
+        if (chosen?.id === track.id) {
+            setChosen();            //unchoose if choice the same
+            props.setTrack();
+        } else {
+            setChosen(track);
+            props.setTrack(track);  //choose new track
+        }
+    }
 
 
     const search = () => {
+        setChosen();
         setTracks();
         setState(SEARCHING);
         spotifyApi.searchTracks(searchStr)
@@ -46,9 +58,12 @@ const ChooseTrack = (props) => {
             <input placeholder='Search track' onChange={(e) => setSearchStr(e.target.value)}/>
             <button onClick={() => search()}>Search</button>
             {
-                tracks?.map((track, index) => (
-                    <Track chooseTrack={props.chooseTrack} track={track} key={index}/>
-                ))
+                chosen ? 
+                    <Track chooseSong={chooseSong} track={chosen}/>
+                :
+                    tracks?.map((track, index) => (
+                        <Track chooseSong={chooseSong} chooseTrack={props.chooseTrack} track={track} key={index}/>
+                    ))
             }
             {
                 state === SEARCHING ? 

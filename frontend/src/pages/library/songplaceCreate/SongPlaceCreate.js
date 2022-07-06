@@ -29,17 +29,6 @@ const SongPlaceCreate = () => {
     const accessHelper = accessHelp();
     const currUser = accessHelper.getCurrUserId();
 
-
-    const chooseTrack = (id) => {
-        console.log("ADD PAGE CHOSE TRACK WITH ID: " + id);
-        if (track == id) {
-            setTrack(); //unchoose
-        } else {
-            setTrack(id);   //choose track 
-        }
-    }
-
-
     /**
      * Posts songplace and returns id.
      * @returns id of songplace that was posted (will be null if posting failed)
@@ -90,8 +79,9 @@ const SongPlaceCreate = () => {
         });
     }, []);
 
+
     useEffect(() => {
-        console.log("track was set to: " + track);
+        console.log("track was set to: " + track?.name);
     }, [track])
 
 
@@ -107,7 +97,7 @@ const SongPlaceCreate = () => {
     return (
         <div className="margin-top">
             <h2>Add songplace to {playlistName}</h2>
-            <ChooseTrack chooseTrack={chooseTrack}></ChooseTrack>
+            <ChooseTrack setTrack={setTrack}></ChooseTrack>
             <button onClick={() => postSongPlace()}>
                 <h3>
                     Add songplace
