@@ -27,13 +27,11 @@ const ChooseTrack = (props) => {
             console.log("data fr sökning: " + JSON.stringify(data));
             console.log("setting tracks");
             setTracks(data.body.tracks.items);
-            data.body.tracks.items.map((track) => {
-                console.log("track name: " + track.name);
-                console.log("track id: " + track.id);
-                console.log("track album cover: " + JSON.stringify(track.album.images[0].url)); 
-            });
         })
-        .catch((err) => console.log("sökningserror: " + JSON.stringify(err)));
+        .catch((err) => {
+            console.log("sökningserror: " + JSON.stringify(err));
+            alert("Could not search");
+        });
     }
 
 
@@ -43,7 +41,7 @@ const ChooseTrack = (props) => {
             <button onClick={() => search()}>Search</button>
             {
                 tracks?.map((track, index) => (
-                    <Track setChosen={setChosen} id={track.id} name={track.name} image={track.album?.images[0].url} key={index}/>
+                    <Track setChosen={setChosen} track={track} key={index}/>
                 ))
             }
             <hr/>

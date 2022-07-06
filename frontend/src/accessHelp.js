@@ -47,6 +47,7 @@ export default function accessHelp() {
     const logout = () => {    
         localStorage.removeItem(SONGPLACER_ID_STR);
         localStorage.removeItem(SONGPLACER_TOKEN_STR);
+        localStorage.removeItem(SPOTIFY_ACCESSTOKEN_STR);
     }
 
 
