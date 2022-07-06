@@ -26,11 +26,10 @@ const ChooseTrack = (props) => {
 
 
     const search = () => {
+        setTracks();
         setState(SEARCHING);
         spotifyApi.searchTracks(searchStr)
         .then((data) => {
-            console.log("data fr sökning: " + JSON.stringify(data));
-            console.log("setting tracks");
             setTracks(data.body.tracks.items);
             setState(NOT_SEARCHING);
         })
