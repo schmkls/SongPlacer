@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import axios from 'axios';
+import accessHelp from "../../../accessHelp";
 
 const NOT_CREATED = 1;
 const CREATION_FAILED = 2;
@@ -10,7 +11,10 @@ const CREATION_SUCCESS = 3;
  */
 const CreateUser = () => {
 
-    const accessToken = localStorage.getItem('access_token');
+    const accessHelper = accessHelp();
+
+    /* const accessToken = localStorage.getItem('access_token'); */
+    const accessToken = accessHelper.getSpotifyAccessToken();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

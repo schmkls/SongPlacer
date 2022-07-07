@@ -18,6 +18,7 @@ export default function App() {
     
     console.log("accessToken in localStorage: " + JSON.stringify(accessToken));
     
+    //if Spotify not authorized: return page to authorize Spotify and receive accessToken
     if (!accessToken || accessToken === "undefined") {        
         return <SpotifyAuth/>
     }

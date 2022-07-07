@@ -30,6 +30,7 @@ app.listen(3002, () => {
 
 app.post('/login', (req, res) => {
     const code = req.body.code;
+    console.log("trying to authorize with code: " + code);
 
     const spotifyApi = new SpotifyWebApi({
         redirectUri: 'http://localhost:3000/login',
@@ -47,9 +48,8 @@ app.post('/login', (req, res) => {
             })
         })
         .catch(err => {
-            console.log('login error: ' + err);
-            console.log(JSON.stringify(err));
-            res.sendStatus(400)
+            console.log("authorize error: " + JSON.stringify(err));
+            res.sendStatus(400);
         })
 })
 

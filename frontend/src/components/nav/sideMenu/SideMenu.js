@@ -86,7 +86,9 @@ const SideMenu = () => {
                                             <a href={pagesHelper.getURL(pages.logout)}>Logout</a>
                                         </li>
                                     :
-                                        <></>
+                                    <li>
+                                        <a href={pagesHelper.getURL(pages.logout)}>Forget my Spotify</a>
+                                    </li>
                             }
                             
                         </ul>

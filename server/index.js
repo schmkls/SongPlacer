@@ -368,6 +368,12 @@ app.get('/v1/get-playlist/:playlistId', (req, res) => {
         });
     }
 
+    if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+        return res.status(400).json({
+            message: "Invalid position"
+        });
+    }
+
     //post songplace to songplaces
     db.query(
         'INSERT INTO songplaces (user_id, track_id, latitude, longitude) VALUES (?,?,?,?)', 
