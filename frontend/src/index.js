@@ -14,9 +14,9 @@ export default function App() {
 
     const pagesHelper = pagesHelp();
     const accessHelper = accessHelp();
-    const accessToken = accessHelper.getSpotifyAccessToken();
-    
-    console.log("accessToken in localStorage: " + JSON.stringify(accessToken));
+    const accessToken = localStorage.getItem('spotify_access_token');
+
+    console.log("index sees accessToken: " + accessToken);
     
     //if Spotify not authorized: return page to authorize Spotify and receive accessToken
     if (!accessToken || accessToken === "undefined") {        
@@ -26,13 +26,13 @@ export default function App() {
 
     return (
         <>
-                {
-                    pagesHelper.getElements().map((elem, index) => (
-                        <div key={index}>
-                            {elem}
-                        </div>
-                    ))
-                }
+            {
+                pagesHelper.getElements().map((elem, index) => (
+                    <div key={index}>
+                        {elem}
+                    </div>
+                ))
+            }
         </>
     );
 }

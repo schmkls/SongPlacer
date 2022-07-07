@@ -3,6 +3,7 @@ import pagesHelp from "../../../pagesHelp";
 import axios from 'axios';
 import accessHelp from "../../../accessHelp";
 
+const FAIL = -1;
 
 /**
  * @returns page with alternative to login and create new user
@@ -11,6 +12,7 @@ const SpotifyAuth = (props) => {
 
     const pagesHelper = pagesHelp();
     const accessHelper = accessHelp();
+    var authorizing = false;
 
     //where to direct after login 
     const redirectUrl = pagesHelper.getURL(pagesHelper.pages.login);
@@ -20,22 +22,37 @@ const SpotifyAuth = (props) => {
     const code = new URLSearchParams(window.location.search).get("code");
 
     if (code && code !== 'undefined') {
+        authorizing = true;
         accessHelper.authorizeSpotify(code)
         .then((accessToken) => {
             accessHelper.storeUserSpotifyId(accessToken);
             //navigate to login page
             window.location.href = pagesHelper.getURL(pagesHelper.pages.login);
         })
-        .catch((err) => console.log("authorizeError: " + err));
+        .catch((err) => {
+            console.log("authorizeError: " + err);
+            authorizing = FAIL;
+        });
+    }
+
+    if (authorizing === true) {
+        return (
+            <div>
+                <h2>Authorizing...</h2>
+            </div>
+        )
+    }
+
+    if (authorizing === FAIL) {
+        return (
+            <div>
+                <h2>Authorizing failed</h2>
+            </div>
+        )
     }
 
     return (
-        
         <div>
-
-            {
-                console.log("code when returning: " + code)
-            }
             <h2>Welcome to SongPlacer!</h2>
             <h6>(use at own risk)</h6>
             <hr/>
