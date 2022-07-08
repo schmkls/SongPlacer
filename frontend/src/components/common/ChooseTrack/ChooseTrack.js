@@ -73,12 +73,12 @@ const ChooseTrack = (props) => {
             {
                 chosen ? 
                     <div onClick={() => chooseSong(chosen)}>
-                        <Track track={chosen}/>
+                        <Track track={chosen} openable={false}/>
                     </div>
                 :
                     tracks?.map((track, index) => (
                         <div onClick={() => chooseSong(track)}>
-                            <Track track={track} key={index}/>
+                            <Track track={track} key={index} openable={false}/>
                         </div>
                         
                     ))

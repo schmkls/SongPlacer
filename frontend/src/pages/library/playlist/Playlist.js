@@ -38,7 +38,6 @@ const Playlist = () => {
 
         axios.get(getUrl)
         .then((response) => {
-            console.log("songplaces response: " + JSON.stringify(response));
             setSongplaces(response.data);
         }).catch((err) => {
             console.log('get songplaces error');

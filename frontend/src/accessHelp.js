@@ -139,9 +139,10 @@ export default function accessHelp() {
             .catch((err) => {
                 console.log("Could not refresh Spotify access token");
             });
+        } else {
+            return localStorage.getItem(SPOTIFY_ACCESSTOKEN);            
         }
 
-        return localStorage.getItem(SPOTIFY_ACCESSTOKEN);            
         
     }
 

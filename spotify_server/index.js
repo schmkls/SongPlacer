@@ -9,7 +9,7 @@ app.use(cors());
 const querystring = require('querystring');
 var SpotifyWebApi = require('spotify-web-api-node');
 
-const spotifyApi = new SpotifyWebApi({
+var spotifyApi = new SpotifyWebApi({
     redirectUri: 'http://localhost:3000/login',
     clientId: process.env.SONGPLACER_CLIENT_ID,
     clientSecret: process.env.SONGPLACER_CLIENT_SECRET
@@ -40,6 +40,7 @@ app.post('/login', (req, res) => {
     spotifyApi
         .authorizationCodeGrant(code)
         .then(data => {
+            spotifyApi.setAccessToken(data.body.access_token);
             spotifyApi.setRefreshToken(data.body.refresh_token);
             res.json({
                 accessToken: data.body.access_token,
@@ -52,13 +53,12 @@ app.post('/login', (req, res) => {
         })
 });
 
-  /*  accessToken: result.body.access_token, 
-            expiresIn: result.expires_in */
 
 app.post("/refresh", (req, res) => {
     spotifyApi
       .refreshAccessToken()
       .then((result) => {
+
         console.log("expiresIn = " + result.body.expires_in);
         res.json({
             accessToken: result.body.access_token, 
@@ -71,18 +71,13 @@ app.post("/refresh", (req, res) => {
         console.log("refresh error: " + err);
         res.sendStatus(400);
       });
-  })
+  });
 
 
-
-app.get('/get-user-data', (req, res) => {
-    
-})
-
-
-app.get('get-track-url', (req, res) => {
-    const trackId = req.trackId;
+app.get('/get-track-url/:trackId', (req, res) => {
+    const trackId = req.params.trackId;
     console.log("getting track with id: " + trackId);
+    console.log("request params: " + JSON.stringify(req.params));
 
     spotifyApi.getTrack(trackId)
     .then((result) => {
@@ -90,5 +85,12 @@ app.get('get-track-url', (req, res) => {
     })
     .catch((err) => {
         console.log("get track err: " + err)
-    })
-})
+    }) 
+});
+
+
+app.get('/get-user-data', (req, res) => {
+    
+});
+
+

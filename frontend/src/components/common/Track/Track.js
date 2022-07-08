@@ -1,10 +1,12 @@
+import axios from 'axios';
+
 /**
  * 
- * @param {} props track data 
+ * @param props track data 
  * @returns component displaying track that can choose track on click 
  */
 const Track = (props) => {
-
+    const openable = props.openable;
     const track = props.track;
     const id = track.id;
     const name = track.name;
@@ -25,10 +27,27 @@ const Track = (props) => {
 
         return str;
     }
+
+
+    const open = () => {
+        if (!openable) {
+            return;
+        }
+
+        console.log("opening: " + name + "with id: " + id);
+
+        const getUrl = `http://localhost:3002/get-track-url/${id}`;
+
+        axios.get(getUrl)
+        .then((res) => {
+            window.location.assign(res.data.body.album.external_urls.spotify);
+        })
+        .catch((err) => console.log(err));
+    }
     
 
     return (
-        <div>
+        <div onClick={() => open()}>
             <hr/>
             <p>
                 {name} ({makeArtistsString()})
