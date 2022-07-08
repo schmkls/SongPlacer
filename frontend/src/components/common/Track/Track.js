@@ -34,13 +34,11 @@ const Track = (props) => {
             return;
         }
 
-        console.log("opening: " + name + "with id: " + id);
-
         const getUrl = `http://localhost:3002/get-track-url/${id}`;
 
         axios.get(getUrl)
         .then((res) => {
-            window.location.assign(res.data.body.album.external_urls.spotify);
+            window.location.href = res.data.body.album.external_urls.spotify;
         })
         .catch((err) => console.log(err));
     }
