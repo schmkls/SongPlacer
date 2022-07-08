@@ -78,3 +78,17 @@ app.post("/refresh", (req, res) => {
 app.get('/get-user-data', (req, res) => {
     
 })
+
+
+app.get('get-track-url', (req, res) => {
+    const trackId = req.trackId;
+    console.log("getting track with id: " + trackId);
+
+    spotifyApi.getTrack(trackId)
+    .then((result) => {
+        res.json(result);
+    })
+    .catch((err) => {
+        console.log("get track err: " + err)
+    })
+})

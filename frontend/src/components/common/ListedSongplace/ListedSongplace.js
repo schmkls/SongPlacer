@@ -50,6 +50,15 @@ const ListedSongPlace = (props) => {
     }
 
 
+    const openTrack = () => {
+        axios.get('http://localhost:3002/get-track-url', {
+            trackId: trackId
+        })
+        .then((res) => console.log("get track res: " + JSON.stringify(res)))
+        .catch((err) => console.log(err));
+    }
+
+
     /**
      * Gets the track from Spotify API
      */
@@ -72,7 +81,10 @@ const ListedSongPlace = (props) => {
     return (
         <div>
             <hr/>
-            <Track track={track}></Track>
+            <div onClick={() => openTrack()}>
+                <Track track={track}></Track>
+            </div>
+            
             {
                 isOwned ?
                         <button onClick={() => deleteSongplace()}> Delete </button>
