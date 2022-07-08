@@ -11,7 +11,7 @@ const spotifyApi = new SpotifyWebApi({
     clientSecret: process.env.SONGPLACER_CLIENT_SECRET
 })
 
-spotifyApi.setAccessToken(accessHelp().getSpotifyAccessToken());
+spotifyApi.setAccessToken(accessHelp().getSpotifyAccessToken(5));
 
 /**
  * @param trackId spotify track id

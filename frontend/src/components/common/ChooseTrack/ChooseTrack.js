@@ -13,7 +13,7 @@ const spotifyApi = new SpotifyWebApi({
     clientSecret: process.env.SONGPLACER_CLIENT_SECRET
 })
 
-spotifyApi.setAccessToken(accessHelp().getSpotifyAccessToken());
+spotifyApi.setAccessToken(accessHelp().getSpotifyAccessToken(5));
 
 /**
  * @param {*} props should contain useState setTrack to set the track that is chosen

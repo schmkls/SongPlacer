@@ -14,7 +14,7 @@ const CreateUser = () => {
     const accessHelper = accessHelp();
 
     /* const accessToken = localStorage.getItem('access_token'); */
-    const accessToken = accessHelper.getSpotifyAccessToken();
+    const accessToken = accessHelper.getSpotifyAccessToken(5);
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

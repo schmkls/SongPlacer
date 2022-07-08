@@ -108,11 +108,16 @@ export default function accessHelp() {
     /**
      * @returns the Spotify access token, refreshed if 
      * it would get invalid in lass than five minutes
+     * @param minimumValidMins minimum minutes the token must be valid 
      */
-    const getSpotifyAccessToken = () => {
-        const expirationTime = localStorage.getItem(SPOTIFY_TOKEN_TIMEOUT);        
+    const getSpotifyAccessToken = (minimumValidMins) => {
+        const expirationTime = localStorage.getItem(SPOTIFY_TOKEN_TIMEOUT);
+        if (!expirationTime || expirationTime == 'undefined') {
+            
+        }  
+
         const nowInSeconds = new Date().getTime() / 1000;
-        const inFiveMinutes = nowInSeconds + 5 * 60;
+        const minTimeout = nowInSeconds + minimumValidMins * 60;
 
 
         const accessToken = localStorage.getItem(SPOTIFY_ACCESSTOKEN);
@@ -121,15 +126,13 @@ export default function accessHelp() {
             console.log("no access token stored");
             return null;
         }
-
-        console.log("expiration time: " + expirationTime);
-        console.log("in five minutes: " + inFiveMinutes);
         
 
         //refresh access-token if it is invalid in less than five minutes
-        if (true) {
+        if (expirationTime < minTimeout) {
             axios.post('http://localhost:3002/refresh')
             .then((res) => {
+                console.log("refreshed token: " + res.data.accessToken);
                 setTimeOut(SPOTIFY_TOKEN_TIMEOUT, res.data.expiresIn);
                 localStorage.setItem(SPOTIFY_ACCESSTOKEN, res.data.accessToken);
             })
