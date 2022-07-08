@@ -25,9 +25,10 @@ const Track = (props) => {
 
         return str;
     }
+    
 
     return (
-        <div onClick={props.onClick}>
+        <div>
             <hr/>
             <p>
                 {name} ({makeArtistsString()})
@@ -37,4 +38,4 @@ const Track = (props) => {
     )
 }
 
-export default Track
+export default Track;
