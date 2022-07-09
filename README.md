@@ -77,12 +77,12 @@ Contributions are much appreciated! You can contribute by:
 - Creating feature branches and developing features
 
 ## Todos
-* track-click -> open in Spotify
-* show track album cover
-* play from Near me
 * queue from Near me
-* read and make sure Spotify guidelines and TOS is followed
+* play from Near me
+* db: trigger so delete user deletes users playlists'
+* fix spotify token refresh
 * map
 * safe login
 * API: verify user when editing library
-* db: trigger so delete user deletes users playlists
+* read and make sure Spotify guidelines and TOS is followed
+
