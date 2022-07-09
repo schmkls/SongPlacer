@@ -50,7 +50,7 @@ const Track = (props) => {
             <p>
                 {name} ({makeArtistsString()})
             </p>
-            <a href={image}>{image}</a>
+            <img src={image} width="50" height="50"/>
         </div>
     )
 }
