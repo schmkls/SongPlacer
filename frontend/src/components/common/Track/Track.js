@@ -32,15 +32,17 @@ const Track = (props) => {
     const open = () => {
         if (!openable) {
             return;
+        } else {
+                
+            const getUrl = `http://localhost:3002/get-track-url/${id}`;
+
+            axios.get(getUrl)
+            .then((res) => {
+                window.location.assign(res.data.body.album.external_urls.spotify);
+            })
+            .catch((err) => console.log(err));
         }
-
-        const getUrl = `http://localhost:3002/get-track-url/${id}`;
-
-        axios.get(getUrl)
-        .then((res) => {
-            window.location.href = res.data.body.album.external_urls.spotify;
-        })
-        .catch((err) => console.log(err));
+        
     }
     
 
