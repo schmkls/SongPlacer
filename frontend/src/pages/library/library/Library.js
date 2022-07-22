@@ -4,7 +4,7 @@ import accessHelp from '../../../accessHelp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import Globals from '../../../globals/Globals.css';
-import ListedPlaylist from '../../../components/common/ListedPlaylist/ListedPlaylist'
+import ListedPlaylist from '../../../components/common/listedPlaylist/ListedPlaylist'
 import axios from 'axios';
 
 /**

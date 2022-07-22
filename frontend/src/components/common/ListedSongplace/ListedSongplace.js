@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react';
 import SpotifyWebApi from "spotify-web-api-node";
 import axios from 'axios';
 import Globals from '../../../globals/Globals.css'
-import Track from '../Track/Track';
+import Track from '../track/Track';
 import accessHelp from '../../../accessHelp';
 import pagesHelp from '../../../pagesHelp';
 

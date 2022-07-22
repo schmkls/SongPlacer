@@ -1,7 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
 import Globals from '../../../globals/Globals.css';
-import ListedSongPlace from '../../../components/common/ListedSongplace/ListedSongplace';
+import ListedSongPlace from '../../../components/common/listedSongplace/ListedSongplace';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons'
 import accessHelp from '../../../accessHelp';
@@ -12,6 +12,11 @@ const PAUSED = 5;
 const UNSUPPORTED = 6;
 const NONALLOWED = 7;
 
+
+/**
+ * Page to show/play/queue songplaces ordered by current (updating) position. 
+ * @returns a page
+ */
 
 const NearMe = () => {
 

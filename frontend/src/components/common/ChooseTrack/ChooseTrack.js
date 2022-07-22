@@ -1,7 +1,7 @@
 
 import {React, useState} from "react";
 import SpotifyWebApi from "spotify-web-api-node";
-import Track from "../Track/Track";
+import Track from "../track/Track";
 import accessHelp from "../../../accessHelp";
 
 

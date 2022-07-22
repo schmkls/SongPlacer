@@ -9,6 +9,7 @@ app.use(cors());
 const querystring = require('querystring');
 var SpotifyWebApi = require('spotify-web-api-node');
 
+
 var spotifyApi = new SpotifyWebApi({
     redirectUri: 'http://localhost:3000/login',
     clientId: process.env.SONGPLACER_CLIENT_ID,
@@ -56,22 +57,23 @@ app.post('/login', (req, res) => {
 
 app.post("/refresh", (req, res) => {
     spotifyApi
-      .refreshAccessToken()
-      .then((result) => {
+    .refreshAccessToken()
+    .then((result) => {
 
         console.log("expiresIn = " + result.body.expires_in);
         res.json({
             accessToken: result.body.access_token, 
             expiresIn: result.body.expires_in
         });
-      })
-      .catch((err) => {
+    })
+        .catch((err) => {
         console.log("------------------------------------------------------------");
         console.log("------------------------------------------------------------");
         console.log("refresh error: " + err);
         res.sendStatus(400);
-      });
-  });
+    });
+});
+
 
 
 app.get('/get-track-url/:trackId', (req, res) => {

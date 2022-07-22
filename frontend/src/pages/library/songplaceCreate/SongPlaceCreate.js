@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Globals from '../../../globals/Globals.css';
-import ChooseTrack from "../../../components/common/ChooseTrack/ChooseTrack";
+import ChooseTrack from "../../../components/common/chooseTrack/ChooseTrack";
 import axios from "axios";
 import accessHelp from "../../../accessHelp";
 

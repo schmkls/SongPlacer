@@ -1,4 +1,5 @@
 import axios from 'axios';
+import QueueBtn from '../queueBtn/QueueBtn';
 
 /**
  * 
@@ -47,12 +48,13 @@ const Track = (props) => {
     
 
     return (
-        <div onClick={() => open()}>
+        <div>
             <hr/>
-            <p>
+            <p onClick={() => open()}>
                 {name} ({makeArtistsString()})
             </p>
             <img src={image} width="50" height="50"/>
+            <QueueBtn track={track}/>
         </div>
     )
 }

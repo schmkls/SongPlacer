@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import '../../../globals/Globals.css';
 import '../Library.css'
-import ListedSongPlace from '../../../components/common/ListedSongplace/ListedSongplace';
-import EditPlaylist from '../../../components/common/EditPlaylist/EditPlaylist';
+import ListedSongPlace from '../../../components/common/listedSongplace/ListedSongplace';
+import EditPlaylist from '../../../components/common/editPlaylist/EditPlaylist';
 import pagesHelp from '../../../pagesHelp';
 import accessHelp from '../../../accessHelp';
 
