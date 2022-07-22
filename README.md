@@ -77,7 +77,6 @@ Contributions are much appreciated! You can contribute by:
 - Creating feature branches and developing features
 
 ## Todos
-* queue from Near me
 * play from Near me
 * db: trigger so delete user deletes users playlists'
 * fix spotify token refresh
@@ -85,4 +84,9 @@ Contributions are much appreciated! You can contribute by:
 * safe login
 * API: verify user when editing library
 * read and make sure Spotify guidelines and TOS is followed
+
+## Ideas
+* Some type of automatic retrieving/adding of songplaces from users listening history or currently playing song
+
+
 
