@@ -9,7 +9,7 @@ const QueueBtn = (props) => {
     const track = props.track;
     const accessHelper = accessHelp();
 
-    /**
+    /** 
      * Queues the track in players Spotify. 
      */
     const queueTrack = () => {

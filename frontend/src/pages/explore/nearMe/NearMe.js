@@ -2,6 +2,7 @@ import {React, useState, useEffect} from 'react';
 import axios from 'axios';
 import Globals from '../../../globals/Globals.css';
 import ListedSongPlace from '../../../components/common/listedSongplace/ListedSongplace';
+import PlayBtn from '../../../components/common/playBtn/PlayBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons'
 import accessHelp from '../../../accessHelp';
@@ -20,31 +21,23 @@ const NONALLOWED = 7;
 
 const NearMe = () => {
 
+    //songplaces that are retrieved once 
+    var allSongplaces;
+
     const accessHelper = accessHelp();
     const currUser = accessHelper.getCurrUserId();
 
     //used to store/set user position
     const [lat, setLat] = useState();
     const [long, setLong] = useState();
-
-    //play, paused, or failed
-    const [play, setPlay] = useState(PAUSED);
+    const [statuz, setstatuz] = useState();
+    const [position, setPosition] = useState();
 
     //the songplaces that are retrieved once
     var songplaces = null;
 
     //the songplaces to display, sorted by proximity
     const [displaySongplaces, setDisplaySongplaces] = useState([]);
-
-
-    /**
-     * Toggling play has the effect of making songplaces order by location 
-     */
-      useEffect(()=> {
-        console.log("useEffect of toggling play");
-        autoPlay(); 
-    }, [play]);
-
 
     
     /**
@@ -79,43 +72,39 @@ const NearMe = () => {
      */
      const getSongplaces = async() => {
         return new Promise((res, rej) => {
-            if (songplaces != null) {
-                res(songplaces);
+            if (allSongplaces != null) {
+                res(allSongplaces);
             }
-    
+
             axios.get("http://localhost:3001/v1/get-songplaces").then((response) => {
                 if (response.status != 200) {
-                    console.log("get songplaces failed, response: " + response);
-                    res(null);
+                    rej();
                 }   
-                songplaces = response.data;
+                
+                allSongplaces = response.data;
                 res(response.data);
             }).catch((err) => {
-                res(null);
+                rej();
             });
         });
+           
     }
 
     const handleGeolocationFail = (error) => {
+        console.log("geoloc fail");
         if (error.code == error.PERMISSION_DENIED) {
-            setPlay(NONALLOWED);
+            setstatuz(UNSUPPORTED);
         } else {
-            setPlay(FAIL);
+            setstatuz(FAIL);
         }
     }
 
     /**
      * Gets users current position and then calls function to order songplaces by position
      */
-    const getUserPosition = () => {
-        console.log("getting user pos");
-        if (!navigator.geolocation) {
-            console.log("setting play to UNSUPPORTED")
-            setPlay(UNSUPPORTED);
-            return new Promise();
-        }
-
-        navigator.geolocation.getCurrentPosition(orderByPosition, handleGeolocationFail);
+    const updatePosition = () => {
+        console.log("updating position");
+        navigator.geolocation.getCurrentPosition(handlePositionChange, handleGeolocationFail);
     }
 
 
@@ -123,29 +112,30 @@ const NearMe = () => {
      * Orders songplaces by proximity to given position 
      * @param position GeoLocationPosition (from navigator.geolocation.getCurrentPosition)
      */
-     const orderByPosition = (position) => {
+     const handlePositionChange = (position) => {
         const lat = position.coords.latitude;
         const long = position.coords.longitude;
 
         setLat(lat);
         setLong(long);
 
-        console.log("ordering by current position");
-
-        getSongplaces().then((sps) => {
-            if (sps == null) {
-                setPlay(FAIL);
-                return;
-            }
-
-            sps.sort(function(songplaceA, songplaceB) {
+        getSongplaces()
+        .then((songplaces) => {
+            //sorts the songplaces according
+            songplaces.sort(function(songplaceA, songplaceB) {
                 let aDistance = calcDistance(songplaceA.latitude, songplaceA.longitude, lat, long);
                 let bDistance = calcDistance(songplaceB.latitude, songplaceB.longitude, lat, long);
                 return aDistance - bDistance;
-            });
+            });     
 
-            setDisplaySongplaces(sps);
-        }).catch((err) => setPlay(FAIL));
+            setDisplaySongplaces(songplaces);
+        })
+        .catch((error) => {
+            console.log("get sps err");
+            setstatuz(FAIL);
+        });
+
+        
     }
 
     /**
@@ -153,32 +143,35 @@ const NearMe = () => {
      * 
      * Gets user position. 
      */
-    const autoPlay = () => {
-        if (play === UNSUPPORTED || play === FAIL) {
-            console.log("cannot autoplay")
+    const trackPosition = () => {
+        if (statuz === UNSUPPORTED || statuz === FAIL) {
+            console.log("stops tracking pos");
             return;
         }
 
-        getUserPosition();  //function calls function to order songplaces
-        
-        if (PLAYING) {
-            setTimeout(autoPlay, 20000);  //20 seconds
-        }
+        updatePosition();  //function calls function to order songplaces
+
+        setTimeout(trackPosition, 5000);  //calls this function again in 20 seconds
     }
 
     const tryAgain = () => {
         window.location.reload();
     }
 
-    const toggleAutoPlay = () => {
-        if (play === PLAYING) {
-            setPlay(PAUSED);
-        } else {
-            setPlay(PLAYING);
-        }
+    const autoPlay = () => {
+        
     }
 
-    if (play === NONALLOWED){
+    const stopAutoPlay = () => {
+        
+    }
+
+    //starts position tracking
+    useEffect(() => {
+        trackPosition();
+    }, []);
+    
+    if (statuz === NONALLOWED) {
         return (
             <div className="margin-top">
                 <h2>Location access must be allowed in browser</h2>
@@ -187,7 +180,7 @@ const NearMe = () => {
         )
     }
 
-    if (play === UNSUPPORTED) {
+    if (statuz === UNSUPPORTED) {
         return (
             <div className="margin-top">
                 <h2>Browser does not support location</h2>
@@ -195,47 +188,29 @@ const NearMe = () => {
         )
     } 
 
-    if (play === FAIL) {
+    if (statuz === FAIL) {
         return (
             <div className="margin-top">
                 <h2>Sorry, could not get music by location.</h2>
                 <button onClick={() => tryAgain()}> Try again </button>
             </div>
         )
-    }
+    } 
 
     return (
         <div className="margin-top">
-            {
-                play === PLAYING ? 
-                        <div>
-                            <h5>Playing music from: (  {lat}, {long} )</h5>
-                            <button onClick={() => toggleAutoPlay()}>
-                                <FontAwesomeIcon icon={faCirclePause} size='2x'/>
-                            </button>
-                        </div>
-                    :
-                        <div>
-                            <h5>Play local music</h5>
-                            <button onClick={() => toggleAutoPlay()}>
-                                <FontAwesomeIcon icon={faCirclePlay} size='2x'/>
-                            </button>
-                        </div>
-                    
-            }
+            <div>
+                <h5>Music from: (  {lat}, {long} )</h5>
+            </div>   
             <hr/>
-             {
-                play === PLAYING ?
-                        displaySongplaces.map((songplace, index) => (
-                            <ListedSongPlace id={songplace.id} trackId={songplace.track_id} isOwned={false} key={index}/>
-                        ))
-                    :
-                        <h5>Press play to get songplaces from nearby</h5>
-             }         
+            {
+                displaySongplaces.map((songplace, index) => (
+                    <ListedSongPlace id={songplace.id} trackId={songplace.track_id} isOwned={false} key={index}/>
+                ))
+            }
+            <PlayBtn playFunction={autoPlay} pauseFunction={stopAutoPlay}/>
         </div>
     )
-    
-
     
 }
 

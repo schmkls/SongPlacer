@@ -6,6 +6,7 @@ import Track from '../track/Track';
 import accessHelp from '../../../accessHelp';
 import pagesHelp from '../../../pagesHelp';
 
+//todo: flytta detta till spotify_server
 const spotifyApi = new SpotifyWebApi({
     clientId: process.env.SONGPLACER_CLIENT_ID, 
     clientSecret: process.env.SONGPLACER_CLIENT_SECRET
