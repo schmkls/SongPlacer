@@ -17,7 +17,7 @@ NorthFaceNinja visits suburbs of Sweden.
 **Bob Bobsson** used Songplacer when he went on a trip through Asia, in order to get a better experience of local culture. 
 He has added some songs to the default playlist *all* that are memories of his trip. 
 
-**Inga Ingesson** uses Songplacer to see what schools in other areas listen to, or what songs they have made, during their russefeiring. 
+**Inga Ingesson** uses Songplacer to see what schools in other areas listen to, or what songs they have made, during the russefeiring. 
 
 
 # Example set of playlists
